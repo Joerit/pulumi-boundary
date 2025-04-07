@@ -15,13 +15,18 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfgen"
+	_ "embed"
 
-	xyz "github.com/pulumi/pulumi-xyz/provider"
-	"github.com/pulumi/pulumi-xyz/provider/pkg/version"
+	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
+
+	boundary "github.com/joerit/pulumi-boundary/provider"
+	"github.com/joerit/pulumi-boundary/provider/pkg/version"
 )
+
+//go:embed schema.json
+var pulumiSchema []byte
 
 func main() {
 	// Modify the path to point to the new provider
-	tfgen.Main("xyz", version.Version, xyz.Provider())
+	tfbridge.Main("boundary", version.Version, boundary.Provider(), pulumiSchema)
 }

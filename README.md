@@ -1,6 +1,6 @@
 # Boundary Resource Provider
 
-The Boundary Resource Provider lets you manage [Boundary](http://example.com) resources.
+The Boundary Resource Provider lets you manage [Boundary](https://www.hashicorp.com/en/products/boundary).
 
 ## Installing
 

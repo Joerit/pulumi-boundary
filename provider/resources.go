@@ -38,7 +38,7 @@ const (
 	mainMod = "index" // the boundary module
 )
 
-//go:embed cmd/pulumi-resource-boundary/bridge-metadata.json
+//go:embed cmd/pulumi-resource-boundary/schema.json
 var metadata []byte
 
 // Provider returns additional overlaid schema and metadata associated with the provider.
@@ -105,16 +105,16 @@ func Provider() tfbridge.ProviderInfo {
 		// - "github.com/hashicorp/terraform-plugin-framework/provider".Provider (for plugin-framework)
 		//
 		//nolint:lll
-		P: shimv2.NewProvider(boundary.New(version.Version)()),
+		P: shimv2.NewProvider(boundary.New()),
 
 		Name:    "boundary",
 		Version: version.Version,
 		// DisplayName is a way to be able to change the casing of the provider name when being
 		// displayed on the Pulumi registry
-		DisplayName: "",
+		DisplayName: "Boundary",
 		// Change this to your personal name (or a company name) that you would like to be shown in
 		// the Pulumi Registry if this package is published there.
-		Publisher: "Pulumi",
+		Publisher: "WEWIS Terminator",
 		// LogoURL is optional but useful to help identify your package in the Pulumi Registry
 		// if this package is published there.
 		//
@@ -125,7 +125,7 @@ func Provider() tfbridge.ProviderInfo {
 		// for use in Pulumi programs
 		// e.g. https://github.com/org/pulumi-provider-name/releases/download/v${VERSION}/
 		PluginDownloadURL: "",
-		Description:       "A Pulumi package for creating and managing boundary cloud resources.",
+		Description:       "A Pulumi package for creating and managing boundary resources.",
 		// category/cloud tag helps with categorizing the package in the Pulumi Registry.
 		// For all available categories, see `Keywords` in
 		// https://www.pulumi.com/docs/guides/pulumi-packages/schema/#package.

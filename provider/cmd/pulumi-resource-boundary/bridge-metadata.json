@@ -1,0 +1,435 @@
+{
+    "attribution": "This Pulumi package is based on the [`xyz` Terraform Provider](https://github.com/terraform-providers/terraform-provider-xyz).",
+    "auto-aliasing": {
+        "resources": {
+            "boundary_account": {
+                "current": "boundary:index/account:Account",
+                "majorVersion": 1
+            },
+            "boundary_account_ldap": {
+                "current": "boundary:index/accountLdap:AccountLdap",
+                "majorVersion": 1
+            },
+            "boundary_account_oidc": {
+                "current": "boundary:index/accountOidc:AccountOidc",
+                "majorVersion": 1
+            },
+            "boundary_account_password": {
+                "current": "boundary:index/accountPassword:AccountPassword",
+                "majorVersion": 1
+            },
+            "boundary_alias_target": {
+                "current": "boundary:index/aliasTarget:AliasTarget",
+                "majorVersion": 1
+            },
+            "boundary_auth_method": {
+                "current": "boundary:index/authMethod:AuthMethod",
+                "majorVersion": 1
+            },
+            "boundary_auth_method_ldap": {
+                "current": "boundary:index/authMethodLdap:AuthMethodLdap",
+                "majorVersion": 1,
+                "fields": {
+                    "account_attribute_maps": {
+                        "maxItemsOne": false
+                    },
+                    "certificates": {
+                        "maxItemsOne": false
+                    },
+                    "urls": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_auth_method_oidc": {
+                "current": "boundary:index/authMethodOidc:AuthMethodOidc",
+                "majorVersion": 1,
+                "fields": {
+                    "account_claim_maps": {
+                        "maxItemsOne": false
+                    },
+                    "allowed_audiences": {
+                        "maxItemsOne": false
+                    },
+                    "claims_scopes": {
+                        "maxItemsOne": false
+                    },
+                    "idp_ca_certs": {
+                        "maxItemsOne": false
+                    },
+                    "prompts": {
+                        "maxItemsOne": false
+                    },
+                    "signing_algorithms": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_auth_method_password": {
+                "current": "boundary:index/authMethodPassword:AuthMethodPassword",
+                "majorVersion": 1
+            },
+            "boundary_credential_json": {
+                "current": "boundary:index/credentialJson:CredentialJson",
+                "majorVersion": 1
+            },
+            "boundary_credential_library_vault": {
+                "current": "boundary:index/credentialLibraryVault:CredentialLibraryVault",
+                "majorVersion": 1
+            },
+            "boundary_credential_library_vault_ssh_certificate": {
+                "current": "boundary:index/credentialLibraryVaultSshCertificate:CredentialLibraryVaultSshCertificate",
+                "majorVersion": 1,
+                "fields": {
+                    "additional_valid_principals": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_credential_ssh_private_key": {
+                "current": "boundary:index/credentialSshPrivateKey:CredentialSshPrivateKey",
+                "majorVersion": 1
+            },
+            "boundary_credential_store_static": {
+                "current": "boundary:index/credentialStoreStatic:CredentialStoreStatic",
+                "majorVersion": 1
+            },
+            "boundary_credential_store_vault": {
+                "current": "boundary:index/credentialStoreVault:CredentialStoreVault",
+                "majorVersion": 1
+            },
+            "boundary_credential_username_password": {
+                "current": "boundary:index/credentialUsernamePassword:CredentialUsernamePassword",
+                "majorVersion": 1
+            },
+            "boundary_group": {
+                "current": "boundary:index/group:Group",
+                "majorVersion": 1,
+                "fields": {
+                    "member_ids": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_host": {
+                "current": "boundary:index/host:Host",
+                "majorVersion": 1
+            },
+            "boundary_host_catalog": {
+                "current": "boundary:index/hostCatalog:HostCatalog",
+                "majorVersion": 1
+            },
+            "boundary_host_catalog_plugin": {
+                "current": "boundary:index/hostCatalogPlugin:HostCatalogPlugin",
+                "majorVersion": 1
+            },
+            "boundary_host_catalog_static": {
+                "current": "boundary:index/hostCatalogStatic:HostCatalogStatic",
+                "majorVersion": 1
+            },
+            "boundary_host_set": {
+                "current": "boundary:index/hostSet:HostSet",
+                "majorVersion": 1,
+                "fields": {
+                    "host_ids": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_host_set_plugin": {
+                "current": "boundary:index/hostSetPlugin:HostSetPlugin",
+                "majorVersion": 1,
+                "fields": {
+                    "preferred_endpoints": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_host_set_static": {
+                "current": "boundary:index/hostSetStatic:HostSetStatic",
+                "majorVersion": 1,
+                "fields": {
+                    "host_ids": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_host_static": {
+                "current": "boundary:index/hostStatic:HostStatic",
+                "majorVersion": 1
+            },
+            "boundary_managed_group": {
+                "current": "boundary:index/managedGroup:ManagedGroup",
+                "majorVersion": 1
+            },
+            "boundary_managed_group_ldap": {
+                "current": "boundary:index/managedGroupLdap:ManagedGroupLdap",
+                "majorVersion": 1,
+                "fields": {
+                    "group_names": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_policy_storage": {
+                "current": "boundary:index/policyStorage:PolicyStorage",
+                "majorVersion": 1
+            },
+            "boundary_role": {
+                "current": "boundary:index/role:Role",
+                "majorVersion": 1,
+                "fields": {
+                    "grant_scope_ids": {
+                        "maxItemsOne": false
+                    },
+                    "grant_strings": {
+                        "maxItemsOne": false
+                    },
+                    "principal_ids": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_scope": {
+                "current": "boundary:index/scope:Scope",
+                "majorVersion": 1
+            },
+            "boundary_scope_policy_attachment": {
+                "current": "boundary:index/scopePolicyAttachment:ScopePolicyAttachment",
+                "majorVersion": 1
+            },
+            "boundary_storage_bucket": {
+                "current": "boundary:index/storageBucket:StorageBucket",
+                "majorVersion": 1
+            },
+            "boundary_target": {
+                "current": "boundary:index/target:Target",
+                "majorVersion": 1,
+                "fields": {
+                    "brokered_credential_source_ids": {
+                        "maxItemsOne": false
+                    },
+                    "host_source_ids": {
+                        "maxItemsOne": false
+                    },
+                    "injected_application_credential_source_ids": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_user": {
+                "current": "boundary:index/user:User",
+                "majorVersion": 1,
+                "fields": {
+                    "account_ids": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_worker": {
+                "current": "boundary:index/worker:Worker",
+                "majorVersion": 1,
+                "fields": {
+                    "authorized_actions": {
+                        "maxItemsOne": false
+                    }
+                }
+            }
+        },
+        "datasources": {
+            "boundary_account": {
+                "current": "boundary:index/getAccount:getAccount",
+                "majorVersion": 1,
+                "fields": {
+                    "scope": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_auth_method": {
+                "current": "boundary:index/getAuthMethod:getAuthMethod",
+                "majorVersion": 1,
+                "fields": {
+                    "scope": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_group": {
+                "current": "boundary:index/getGroup:getGroup",
+                "majorVersion": 1,
+                "fields": {
+                    "member_ids": {
+                        "maxItemsOne": false
+                    },
+                    "scope": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "boundary_scope": {
+                "current": "boundary:index/getScope:getScope",
+                "majorVersion": 1
+            },
+            "boundary_user": {
+                "current": "boundary:index/getUser:getUser",
+                "majorVersion": 1,
+                "fields": {
+                    "account_ids": {
+                        "maxItemsOne": false
+                    },
+                    "authorized_actions": {
+                        "maxItemsOne": false
+                    },
+                    "scope": {
+                        "maxItemsOne": false
+                    }
+                }
+            }
+        }
+    },
+    "auto-settings": {},
+    "config": {
+        "variables": {
+            "region": {
+                "type": "string",
+                "$ref": "#/types/xyz:region/region:Region",
+                "description": "A region which should be used.\n"
+            }
+        }
+    },
+    "description": "A Pulumi package for creating and managing xyz cloud resources.",
+    "functions": {
+        "xyz:index/getDataSource:getDataSource": {
+            "inputs": {
+                "description": "A collection of arguments for invoking getDataSource.\n",
+                "properties": {
+                    "sampleAttribute": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "sampleAttribute"
+                ]
+            },
+            "outputs": {
+                "description": "A collection of values returned by getDataSource.\n",
+                "properties": {
+                    "id": {
+                        "description": "The provider-assigned unique ID for this managed resource.\n",
+                        "type": "string"
+                    },
+                    "sampleAttribute": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "sampleAttribute",
+                    "id"
+                ],
+                "type": "object"
+            }
+        }
+    },
+    "homepage": "https://www.pulumi.com",
+    "keywords": [
+        "xyz",
+        "category/cloud"
+    ],
+    "language": {
+        "csharp": {
+            "packageReferences": {
+                "Pulumi": "3.*"
+            },
+            "compatibility": "tfbridge20",
+            "respectSchemaVersion": true
+        },
+        "go": {
+            "importBasePath": "github.com/pulumi/pulumi-xyz/sdk/go/xyz",
+            "generateResourceContainerTypes": true,
+            "generateExtraInputTypes": true,
+            "respectSchemaVersion": true
+        },
+        "nodejs": {
+            "packageDescription": "A Pulumi package for creating and managing xyz cloud resources.",
+            "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/terraform-providers/terraform-provider-xyz)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-xyz` repo](https://github.com/pulumi/pulumi-xyz/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-xyz` repo](https://github.com/terraform-providers/terraform-provider-xyz/issues).",
+            "compatibility": "tfbridge20",
+            "disableUnionOutputTypes": true,
+            "respectSchemaVersion": true
+        },
+        "python": {
+            "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/terraform-providers/terraform-provider-xyz)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-xyz` repo](https://github.com/pulumi/pulumi-xyz/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-xyz` repo](https://github.com/terraform-providers/terraform-provider-xyz/issues).",
+            "compatibility": "tfbridge20",
+            "respectSchemaVersion": true,
+            "pyproject": {
+                "enabled": true
+            }
+        }
+    },
+    "license": "Apache-2.0",
+    "meta": {
+        "moduleFormat": "(.*)(?:/[^/]*)"
+    },
+    "name": "xyz",
+    "provider": {
+        "description": "The provider type for the xyz package. By default, resources use package-wide configuration\nsettings, however an explicit `Provider` instance may be created and passed during resource\nconstruction to achieve fine-grained programmatic control over provider settings. See the\n[documentation](https://www.pulumi.com/docs/reference/programming-model/#providers) for more information.\n",
+        "properties": {
+            "region": {
+                "type": "string",
+                "$ref": "#/types/xyz:region/region:Region",
+                "description": "A region which should be used.\n"
+            }
+        },
+        "inputProperties": {
+            "region": {
+                "type": "string",
+                "$ref": "#/types/xyz:region/region:Region",
+                "description": "A region which should be used.\n"
+            }
+        }
+    },
+    "publisher": "Pulumi",
+    "repository": "https://github.com/pulumi/pulumi-xyz",
+    "resources": {
+        "xyz:index/resource:Resource": {
+            "properties": {
+                "sampleAttribute": {
+                    "type": "string",
+                    "description": "Sample attribute.\n"
+                }
+            },
+            "inputProperties": {
+                "sampleAttribute": {
+                    "type": "string",
+                    "description": "Sample attribute.\n"
+                }
+            },
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Resource resources.\n",
+                "properties": {
+                    "sampleAttribute": {
+                        "type": "string",
+                        "description": "Sample attribute.\n"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "types": {
+        "xyz:region/region:Region": {
+            "type": "string",
+            "enum": [
+                {
+                    "name": "here",
+                    "value": "HERE"
+                },
+                {
+                    "name": "overThere",
+                    "value": "OVER_THERE"
+                }
+            ]
+        }
+    }
+}

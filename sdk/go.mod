@@ -1,4 +1,4 @@
-module github.com/pulumi/pulumi-boundary/sdk
+module github.com/joerit/pulumi-boundary/sdk
 
 go 1.22
 

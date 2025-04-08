@@ -1,0 +1,2 @@
+@Library('wse') _
+wseBuildPulumiPlugin()

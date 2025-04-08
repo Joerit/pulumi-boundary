@@ -5,20 +5,210 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
 // Export members:
-export { GetDataSourceArgs, GetDataSourceResult, GetDataSourceOutputArgs } from "./getDataSource";
-export const getDataSource: typeof import("./getDataSource").getDataSource = null as any;
-export const getDataSourceOutput: typeof import("./getDataSource").getDataSourceOutput = null as any;
-utilities.lazyLoad(exports, ["getDataSource","getDataSourceOutput"], () => require("./getDataSource"));
+export { AccountArgs, AccountState } from "./account";
+export type Account = import("./account").Account;
+export const Account: typeof import("./account").Account = null as any;
+utilities.lazyLoad(exports, ["Account"], () => require("./account"));
+
+export { AccountLdapArgs, AccountLdapState } from "./accountLdap";
+export type AccountLdap = import("./accountLdap").AccountLdap;
+export const AccountLdap: typeof import("./accountLdap").AccountLdap = null as any;
+utilities.lazyLoad(exports, ["AccountLdap"], () => require("./accountLdap"));
+
+export { AccountOidcArgs, AccountOidcState } from "./accountOidc";
+export type AccountOidc = import("./accountOidc").AccountOidc;
+export const AccountOidc: typeof import("./accountOidc").AccountOidc = null as any;
+utilities.lazyLoad(exports, ["AccountOidc"], () => require("./accountOidc"));
+
+export { AccountPasswordArgs, AccountPasswordState } from "./accountPassword";
+export type AccountPassword = import("./accountPassword").AccountPassword;
+export const AccountPassword: typeof import("./accountPassword").AccountPassword = null as any;
+utilities.lazyLoad(exports, ["AccountPassword"], () => require("./accountPassword"));
+
+export { AliasTargetArgs, AliasTargetState } from "./aliasTarget";
+export type AliasTarget = import("./aliasTarget").AliasTarget;
+export const AliasTarget: typeof import("./aliasTarget").AliasTarget = null as any;
+utilities.lazyLoad(exports, ["AliasTarget"], () => require("./aliasTarget"));
+
+export { AuthMethodArgs, AuthMethodState } from "./authMethod";
+export type AuthMethod = import("./authMethod").AuthMethod;
+export const AuthMethod: typeof import("./authMethod").AuthMethod = null as any;
+utilities.lazyLoad(exports, ["AuthMethod"], () => require("./authMethod"));
+
+export { AuthMethodLdapArgs, AuthMethodLdapState } from "./authMethodLdap";
+export type AuthMethodLdap = import("./authMethodLdap").AuthMethodLdap;
+export const AuthMethodLdap: typeof import("./authMethodLdap").AuthMethodLdap = null as any;
+utilities.lazyLoad(exports, ["AuthMethodLdap"], () => require("./authMethodLdap"));
+
+export { AuthMethodOidcArgs, AuthMethodOidcState } from "./authMethodOidc";
+export type AuthMethodOidc = import("./authMethodOidc").AuthMethodOidc;
+export const AuthMethodOidc: typeof import("./authMethodOidc").AuthMethodOidc = null as any;
+utilities.lazyLoad(exports, ["AuthMethodOidc"], () => require("./authMethodOidc"));
+
+export { AuthMethodPasswordArgs, AuthMethodPasswordState } from "./authMethodPassword";
+export type AuthMethodPassword = import("./authMethodPassword").AuthMethodPassword;
+export const AuthMethodPassword: typeof import("./authMethodPassword").AuthMethodPassword = null as any;
+utilities.lazyLoad(exports, ["AuthMethodPassword"], () => require("./authMethodPassword"));
+
+export { CredentialJsonArgs, CredentialJsonState } from "./credentialJson";
+export type CredentialJson = import("./credentialJson").CredentialJson;
+export const CredentialJson: typeof import("./credentialJson").CredentialJson = null as any;
+utilities.lazyLoad(exports, ["CredentialJson"], () => require("./credentialJson"));
+
+export { CredentialLibraryVaultArgs, CredentialLibraryVaultState } from "./credentialLibraryVault";
+export type CredentialLibraryVault = import("./credentialLibraryVault").CredentialLibraryVault;
+export const CredentialLibraryVault: typeof import("./credentialLibraryVault").CredentialLibraryVault = null as any;
+utilities.lazyLoad(exports, ["CredentialLibraryVault"], () => require("./credentialLibraryVault"));
+
+export { CredentialLibraryVaultSshCertificateArgs, CredentialLibraryVaultSshCertificateState } from "./credentialLibraryVaultSshCertificate";
+export type CredentialLibraryVaultSshCertificate = import("./credentialLibraryVaultSshCertificate").CredentialLibraryVaultSshCertificate;
+export const CredentialLibraryVaultSshCertificate: typeof import("./credentialLibraryVaultSshCertificate").CredentialLibraryVaultSshCertificate = null as any;
+utilities.lazyLoad(exports, ["CredentialLibraryVaultSshCertificate"], () => require("./credentialLibraryVaultSshCertificate"));
+
+export { CredentialSshPrivateKeyArgs, CredentialSshPrivateKeyState } from "./credentialSshPrivateKey";
+export type CredentialSshPrivateKey = import("./credentialSshPrivateKey").CredentialSshPrivateKey;
+export const CredentialSshPrivateKey: typeof import("./credentialSshPrivateKey").CredentialSshPrivateKey = null as any;
+utilities.lazyLoad(exports, ["CredentialSshPrivateKey"], () => require("./credentialSshPrivateKey"));
+
+export { CredentialStoreStaticArgs, CredentialStoreStaticState } from "./credentialStoreStatic";
+export type CredentialStoreStatic = import("./credentialStoreStatic").CredentialStoreStatic;
+export const CredentialStoreStatic: typeof import("./credentialStoreStatic").CredentialStoreStatic = null as any;
+utilities.lazyLoad(exports, ["CredentialStoreStatic"], () => require("./credentialStoreStatic"));
+
+export { CredentialStoreVaultArgs, CredentialStoreVaultState } from "./credentialStoreVault";
+export type CredentialStoreVault = import("./credentialStoreVault").CredentialStoreVault;
+export const CredentialStoreVault: typeof import("./credentialStoreVault").CredentialStoreVault = null as any;
+utilities.lazyLoad(exports, ["CredentialStoreVault"], () => require("./credentialStoreVault"));
+
+export { CredentialUsernamePasswordArgs, CredentialUsernamePasswordState } from "./credentialUsernamePassword";
+export type CredentialUsernamePassword = import("./credentialUsernamePassword").CredentialUsernamePassword;
+export const CredentialUsernamePassword: typeof import("./credentialUsernamePassword").CredentialUsernamePassword = null as any;
+utilities.lazyLoad(exports, ["CredentialUsernamePassword"], () => require("./credentialUsernamePassword"));
+
+export { GetAccountArgs, GetAccountResult, GetAccountOutputArgs } from "./getAccount";
+export const getAccount: typeof import("./getAccount").getAccount = null as any;
+export const getAccountOutput: typeof import("./getAccount").getAccountOutput = null as any;
+utilities.lazyLoad(exports, ["getAccount","getAccountOutput"], () => require("./getAccount"));
+
+export { GetAuthMethodArgs, GetAuthMethodResult, GetAuthMethodOutputArgs } from "./getAuthMethod";
+export const getAuthMethod: typeof import("./getAuthMethod").getAuthMethod = null as any;
+export const getAuthMethodOutput: typeof import("./getAuthMethod").getAuthMethodOutput = null as any;
+utilities.lazyLoad(exports, ["getAuthMethod","getAuthMethodOutput"], () => require("./getAuthMethod"));
+
+export { GetGroupArgs, GetGroupResult, GetGroupOutputArgs } from "./getGroup";
+export const getGroup: typeof import("./getGroup").getGroup = null as any;
+export const getGroupOutput: typeof import("./getGroup").getGroupOutput = null as any;
+utilities.lazyLoad(exports, ["getGroup","getGroupOutput"], () => require("./getGroup"));
+
+export { GetScopeArgs, GetScopeResult, GetScopeOutputArgs } from "./getScope";
+export const getScope: typeof import("./getScope").getScope = null as any;
+export const getScopeOutput: typeof import("./getScope").getScopeOutput = null as any;
+utilities.lazyLoad(exports, ["getScope","getScopeOutput"], () => require("./getScope"));
+
+export { GetUserArgs, GetUserResult, GetUserOutputArgs } from "./getUser";
+export const getUser: typeof import("./getUser").getUser = null as any;
+export const getUserOutput: typeof import("./getUser").getUserOutput = null as any;
+utilities.lazyLoad(exports, ["getUser","getUserOutput"], () => require("./getUser"));
+
+export { GroupArgs, GroupState } from "./group";
+export type Group = import("./group").Group;
+export const Group: typeof import("./group").Group = null as any;
+utilities.lazyLoad(exports, ["Group"], () => require("./group"));
+
+export { HostArgs, HostState } from "./host";
+export type Host = import("./host").Host;
+export const Host: typeof import("./host").Host = null as any;
+utilities.lazyLoad(exports, ["Host"], () => require("./host"));
+
+export { HostCatalogArgs, HostCatalogState } from "./hostCatalog";
+export type HostCatalog = import("./hostCatalog").HostCatalog;
+export const HostCatalog: typeof import("./hostCatalog").HostCatalog = null as any;
+utilities.lazyLoad(exports, ["HostCatalog"], () => require("./hostCatalog"));
+
+export { HostCatalogPluginArgs, HostCatalogPluginState } from "./hostCatalogPlugin";
+export type HostCatalogPlugin = import("./hostCatalogPlugin").HostCatalogPlugin;
+export const HostCatalogPlugin: typeof import("./hostCatalogPlugin").HostCatalogPlugin = null as any;
+utilities.lazyLoad(exports, ["HostCatalogPlugin"], () => require("./hostCatalogPlugin"));
+
+export { HostCatalogStaticArgs, HostCatalogStaticState } from "./hostCatalogStatic";
+export type HostCatalogStatic = import("./hostCatalogStatic").HostCatalogStatic;
+export const HostCatalogStatic: typeof import("./hostCatalogStatic").HostCatalogStatic = null as any;
+utilities.lazyLoad(exports, ["HostCatalogStatic"], () => require("./hostCatalogStatic"));
+
+export { HostSetArgs, HostSetState } from "./hostSet";
+export type HostSet = import("./hostSet").HostSet;
+export const HostSet: typeof import("./hostSet").HostSet = null as any;
+utilities.lazyLoad(exports, ["HostSet"], () => require("./hostSet"));
+
+export { HostSetPluginArgs, HostSetPluginState } from "./hostSetPlugin";
+export type HostSetPlugin = import("./hostSetPlugin").HostSetPlugin;
+export const HostSetPlugin: typeof import("./hostSetPlugin").HostSetPlugin = null as any;
+utilities.lazyLoad(exports, ["HostSetPlugin"], () => require("./hostSetPlugin"));
+
+export { HostSetStaticArgs, HostSetStaticState } from "./hostSetStatic";
+export type HostSetStatic = import("./hostSetStatic").HostSetStatic;
+export const HostSetStatic: typeof import("./hostSetStatic").HostSetStatic = null as any;
+utilities.lazyLoad(exports, ["HostSetStatic"], () => require("./hostSetStatic"));
+
+export { HostStaticArgs, HostStaticState } from "./hostStatic";
+export type HostStatic = import("./hostStatic").HostStatic;
+export const HostStatic: typeof import("./hostStatic").HostStatic = null as any;
+utilities.lazyLoad(exports, ["HostStatic"], () => require("./hostStatic"));
+
+export { ManagedGroupArgs, ManagedGroupState } from "./managedGroup";
+export type ManagedGroup = import("./managedGroup").ManagedGroup;
+export const ManagedGroup: typeof import("./managedGroup").ManagedGroup = null as any;
+utilities.lazyLoad(exports, ["ManagedGroup"], () => require("./managedGroup"));
+
+export { ManagedGroupLdapArgs, ManagedGroupLdapState } from "./managedGroupLdap";
+export type ManagedGroupLdap = import("./managedGroupLdap").ManagedGroupLdap;
+export const ManagedGroupLdap: typeof import("./managedGroupLdap").ManagedGroupLdap = null as any;
+utilities.lazyLoad(exports, ["ManagedGroupLdap"], () => require("./managedGroupLdap"));
+
+export { PolicyStorageArgs, PolicyStorageState } from "./policyStorage";
+export type PolicyStorage = import("./policyStorage").PolicyStorage;
+export const PolicyStorage: typeof import("./policyStorage").PolicyStorage = null as any;
+utilities.lazyLoad(exports, ["PolicyStorage"], () => require("./policyStorage"));
 
 export { ProviderArgs } from "./provider";
 export type Provider = import("./provider").Provider;
 export const Provider: typeof import("./provider").Provider = null as any;
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
-export { ResourceArgs, ResourceState } from "./resource";
-export type Resource = import("./resource").Resource;
-export const Resource: typeof import("./resource").Resource = null as any;
-utilities.lazyLoad(exports, ["Resource"], () => require("./resource"));
+export { RoleArgs, RoleState } from "./role";
+export type Role = import("./role").Role;
+export const Role: typeof import("./role").Role = null as any;
+utilities.lazyLoad(exports, ["Role"], () => require("./role"));
+
+export { ScopeArgs, ScopeState } from "./scope";
+export type Scope = import("./scope").Scope;
+export const Scope: typeof import("./scope").Scope = null as any;
+utilities.lazyLoad(exports, ["Scope"], () => require("./scope"));
+
+export { ScopePolicyAttachmentArgs, ScopePolicyAttachmentState } from "./scopePolicyAttachment";
+export type ScopePolicyAttachment = import("./scopePolicyAttachment").ScopePolicyAttachment;
+export const ScopePolicyAttachment: typeof import("./scopePolicyAttachment").ScopePolicyAttachment = null as any;
+utilities.lazyLoad(exports, ["ScopePolicyAttachment"], () => require("./scopePolicyAttachment"));
+
+export { StorageBucketArgs, StorageBucketState } from "./storageBucket";
+export type StorageBucket = import("./storageBucket").StorageBucket;
+export const StorageBucket: typeof import("./storageBucket").StorageBucket = null as any;
+utilities.lazyLoad(exports, ["StorageBucket"], () => require("./storageBucket"));
+
+export { TargetArgs, TargetState } from "./target";
+export type Target = import("./target").Target;
+export const Target: typeof import("./target").Target = null as any;
+utilities.lazyLoad(exports, ["Target"], () => require("./target"));
+
+export { UserArgs, UserState } from "./user";
+export type User = import("./user").User;
+export const User: typeof import("./user").User = null as any;
+utilities.lazyLoad(exports, ["User"], () => require("./user"));
+
+export { WorkerArgs, WorkerState } from "./worker";
+export type Worker = import("./worker").Worker;
+export const Worker: typeof import("./worker").Worker = null as any;
+utilities.lazyLoad(exports, ["Worker"], () => require("./worker"));
 
 
 // Export sub-modules:
@@ -36,18 +226,120 @@ const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
-            case "xyz:index/resource:Resource":
-                return new Resource(name, <any>undefined, { urn })
+            case "boundary:index/account:Account":
+                return new Account(name, <any>undefined, { urn })
+            case "boundary:index/accountLdap:AccountLdap":
+                return new AccountLdap(name, <any>undefined, { urn })
+            case "boundary:index/accountOidc:AccountOidc":
+                return new AccountOidc(name, <any>undefined, { urn })
+            case "boundary:index/accountPassword:AccountPassword":
+                return new AccountPassword(name, <any>undefined, { urn })
+            case "boundary:index/aliasTarget:AliasTarget":
+                return new AliasTarget(name, <any>undefined, { urn })
+            case "boundary:index/authMethod:AuthMethod":
+                return new AuthMethod(name, <any>undefined, { urn })
+            case "boundary:index/authMethodLdap:AuthMethodLdap":
+                return new AuthMethodLdap(name, <any>undefined, { urn })
+            case "boundary:index/authMethodOidc:AuthMethodOidc":
+                return new AuthMethodOidc(name, <any>undefined, { urn })
+            case "boundary:index/authMethodPassword:AuthMethodPassword":
+                return new AuthMethodPassword(name, <any>undefined, { urn })
+            case "boundary:index/credentialJson:CredentialJson":
+                return new CredentialJson(name, <any>undefined, { urn })
+            case "boundary:index/credentialLibraryVault:CredentialLibraryVault":
+                return new CredentialLibraryVault(name, <any>undefined, { urn })
+            case "boundary:index/credentialLibraryVaultSshCertificate:CredentialLibraryVaultSshCertificate":
+                return new CredentialLibraryVaultSshCertificate(name, <any>undefined, { urn })
+            case "boundary:index/credentialSshPrivateKey:CredentialSshPrivateKey":
+                return new CredentialSshPrivateKey(name, <any>undefined, { urn })
+            case "boundary:index/credentialStoreStatic:CredentialStoreStatic":
+                return new CredentialStoreStatic(name, <any>undefined, { urn })
+            case "boundary:index/credentialStoreVault:CredentialStoreVault":
+                return new CredentialStoreVault(name, <any>undefined, { urn })
+            case "boundary:index/credentialUsernamePassword:CredentialUsernamePassword":
+                return new CredentialUsernamePassword(name, <any>undefined, { urn })
+            case "boundary:index/group:Group":
+                return new Group(name, <any>undefined, { urn })
+            case "boundary:index/host:Host":
+                return new Host(name, <any>undefined, { urn })
+            case "boundary:index/hostCatalog:HostCatalog":
+                return new HostCatalog(name, <any>undefined, { urn })
+            case "boundary:index/hostCatalogPlugin:HostCatalogPlugin":
+                return new HostCatalogPlugin(name, <any>undefined, { urn })
+            case "boundary:index/hostCatalogStatic:HostCatalogStatic":
+                return new HostCatalogStatic(name, <any>undefined, { urn })
+            case "boundary:index/hostSet:HostSet":
+                return new HostSet(name, <any>undefined, { urn })
+            case "boundary:index/hostSetPlugin:HostSetPlugin":
+                return new HostSetPlugin(name, <any>undefined, { urn })
+            case "boundary:index/hostSetStatic:HostSetStatic":
+                return new HostSetStatic(name, <any>undefined, { urn })
+            case "boundary:index/hostStatic:HostStatic":
+                return new HostStatic(name, <any>undefined, { urn })
+            case "boundary:index/managedGroup:ManagedGroup":
+                return new ManagedGroup(name, <any>undefined, { urn })
+            case "boundary:index/managedGroupLdap:ManagedGroupLdap":
+                return new ManagedGroupLdap(name, <any>undefined, { urn })
+            case "boundary:index/policyStorage:PolicyStorage":
+                return new PolicyStorage(name, <any>undefined, { urn })
+            case "boundary:index/role:Role":
+                return new Role(name, <any>undefined, { urn })
+            case "boundary:index/scope:Scope":
+                return new Scope(name, <any>undefined, { urn })
+            case "boundary:index/scopePolicyAttachment:ScopePolicyAttachment":
+                return new ScopePolicyAttachment(name, <any>undefined, { urn })
+            case "boundary:index/storageBucket:StorageBucket":
+                return new StorageBucket(name, <any>undefined, { urn })
+            case "boundary:index/target:Target":
+                return new Target(name, <any>undefined, { urn })
+            case "boundary:index/user:User":
+                return new User(name, <any>undefined, { urn })
+            case "boundary:index/worker:Worker":
+                return new Worker(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }
     },
 };
-pulumi.runtime.registerResourceModule("xyz", "index/resource", _module)
-pulumi.runtime.registerResourcePackage("xyz", {
+pulumi.runtime.registerResourceModule("boundary", "index/account", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/accountLdap", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/accountOidc", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/accountPassword", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/aliasTarget", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/authMethod", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/authMethodLdap", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/authMethodOidc", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/authMethodPassword", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/credentialJson", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/credentialLibraryVault", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/credentialLibraryVaultSshCertificate", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/credentialSshPrivateKey", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/credentialStoreStatic", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/credentialStoreVault", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/credentialUsernamePassword", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/group", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/host", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/hostCatalog", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/hostCatalogPlugin", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/hostCatalogStatic", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/hostSet", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/hostSetPlugin", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/hostSetStatic", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/hostStatic", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/managedGroup", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/managedGroupLdap", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/policyStorage", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/role", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/scope", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/scopePolicyAttachment", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/storageBucket", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/target", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/user", _module)
+pulumi.runtime.registerResourceModule("boundary", "index/worker", _module)
+pulumi.runtime.registerResourcePackage("boundary", {
     version: utilities.getVersion(),
     constructProvider: (name: string, type: string, urn: string): pulumi.ProviderResource => {
-        if (type !== "pulumi:providers:xyz") {
+        if (type !== "pulumi:providers:boundary") {
             throw new Error(`unknown provider type ${type}`);
         }
         return new Provider(name, <any>undefined, { urn });

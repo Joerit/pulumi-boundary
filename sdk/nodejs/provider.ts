@@ -2,20 +2,17 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
-import * as inputs from "./types/input";
-import * as outputs from "./types/output";
-import * as enums from "./types/enums";
 import * as utilities from "./utilities";
 
 /**
- * The provider type for the xyz package. By default, resources use package-wide configuration
+ * The provider type for the boundary package. By default, resources use package-wide configuration
  * settings, however an explicit `Provider` instance may be created and passed during resource
  * construction to achieve fine-grained programmatic control over provider settings. See the
  * [documentation](https://www.pulumi.com/docs/reference/programming-model/#providers) for more information.
  */
 export class Provider extends pulumi.ProviderResource {
     /** @internal */
-    public static readonly __pulumiType = 'xyz';
+    public static readonly __pulumiType = 'boundary';
 
     /**
      * Returns true if the given object is an instance of Provider.  This is designed to work even
@@ -28,6 +25,55 @@ export class Provider extends pulumi.ProviderResource {
         return obj['__pulumiType'] === "pulumi:providers:" + Provider.__pulumiType;
     }
 
+    /**
+     * The base url of the Boundary API, e.g. "http://127.0.0.1:9200". If not set, it will be read from the "BOUNDARY_ADDR" env
+     * var.
+     */
+    public readonly addr!: pulumi.Output<string>;
+    /**
+     * The auth method ID e.g. ampw_1234567890. If not set, the default auth method for the given scope ID will be used.
+     */
+    public readonly authMethodId!: pulumi.Output<string | undefined>;
+    /**
+     * The auth method login name for password-style or ldap-style auth methods
+     */
+    public readonly authMethodLoginName!: pulumi.Output<string | undefined>;
+    /**
+     * The auth method password for password-style or ldap-style auth methods
+     */
+    public readonly authMethodPassword!: pulumi.Output<string | undefined>;
+    /**
+     * The auth method login name for password-style auth methods
+     *
+     * @deprecated Use authMethodLoginName instead
+     */
+    public readonly passwordAuthMethodLoginName!: pulumi.Output<string | undefined>;
+    /**
+     * The auth method password for password-style auth methods
+     *
+     * @deprecated Use authMethodPassword instead
+     */
+    public readonly passwordAuthMethodPassword!: pulumi.Output<string | undefined>;
+    /**
+     * Specifies a directory that the Boundary provider can use to write and execute its built-in plugins.
+     */
+    public readonly pluginExecutionDir!: pulumi.Output<string | undefined>;
+    /**
+     * Can be a heredoc string or a path on disk. If set, the string/file will be parsed as HCL and used with the recovery KMS
+     * mechanism. While this is set, it will override any other authentication information; the KMS mechanism will always be
+     * used. See Boundary's KMS docs for examples: https://boundaryproject.io/docs/configuration/kms
+     */
+    public readonly recoveryKmsHcl!: pulumi.Output<string | undefined>;
+    /**
+     * The scope ID for the default auth method.
+     */
+    public readonly scopeId!: pulumi.Output<string | undefined>;
+    /**
+     * The Boundary token to use, as a string or path on disk containing just the string. If set, the token read here will be
+     * used in place of authenticating with the auth method specified in "authMethodId", although the recovery KMS mechanism
+     * will still override this. Can also be set with the BOUNDARY_TOKEN environment variable.
+     */
+    public readonly token!: pulumi.Output<string | undefined>;
 
     /**
      * Create a Provider resource with the given unique name, arguments, and options.
@@ -36,11 +82,24 @@ export class Provider extends pulumi.ProviderResource {
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args?: ProviderArgs, opts?: pulumi.ResourceOptions) {
+    constructor(name: string, args: ProviderArgs, opts?: pulumi.ResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         {
-            resourceInputs["region"] = args ? args.region : undefined;
+            if ((!args || args.addr === undefined) && !opts.urn) {
+                throw new Error("Missing required property 'addr'");
+            }
+            resourceInputs["addr"] = args ? args.addr : undefined;
+            resourceInputs["authMethodId"] = args ? args.authMethodId : undefined;
+            resourceInputs["authMethodLoginName"] = args ? args.authMethodLoginName : undefined;
+            resourceInputs["authMethodPassword"] = args ? args.authMethodPassword : undefined;
+            resourceInputs["passwordAuthMethodLoginName"] = args ? args.passwordAuthMethodLoginName : undefined;
+            resourceInputs["passwordAuthMethodPassword"] = args ? args.passwordAuthMethodPassword : undefined;
+            resourceInputs["pluginExecutionDir"] = args ? args.pluginExecutionDir : undefined;
+            resourceInputs["recoveryKmsHcl"] = args ? args.recoveryKmsHcl : undefined;
+            resourceInputs["scopeId"] = args ? args.scopeId : undefined;
+            resourceInputs["tlsInsecure"] = pulumi.output(args ? args.tlsInsecure : undefined).apply(JSON.stringify);
+            resourceInputs["token"] = args ? args.token : undefined;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(Provider.__pulumiType, name, resourceInputs, opts);
@@ -52,7 +111,56 @@ export class Provider extends pulumi.ProviderResource {
  */
 export interface ProviderArgs {
     /**
-     * A region which should be used.
+     * The base url of the Boundary API, e.g. "http://127.0.0.1:9200". If not set, it will be read from the "BOUNDARY_ADDR" env
+     * var.
      */
-    region?: pulumi.Input<enums.region.Region>;
+    addr: pulumi.Input<string>;
+    /**
+     * The auth method ID e.g. ampw_1234567890. If not set, the default auth method for the given scope ID will be used.
+     */
+    authMethodId?: pulumi.Input<string>;
+    /**
+     * The auth method login name for password-style or ldap-style auth methods
+     */
+    authMethodLoginName?: pulumi.Input<string>;
+    /**
+     * The auth method password for password-style or ldap-style auth methods
+     */
+    authMethodPassword?: pulumi.Input<string>;
+    /**
+     * The auth method login name for password-style auth methods
+     *
+     * @deprecated Use authMethodLoginName instead
+     */
+    passwordAuthMethodLoginName?: pulumi.Input<string>;
+    /**
+     * The auth method password for password-style auth methods
+     *
+     * @deprecated Use authMethodPassword instead
+     */
+    passwordAuthMethodPassword?: pulumi.Input<string>;
+    /**
+     * Specifies a directory that the Boundary provider can use to write and execute its built-in plugins.
+     */
+    pluginExecutionDir?: pulumi.Input<string>;
+    /**
+     * Can be a heredoc string or a path on disk. If set, the string/file will be parsed as HCL and used with the recovery KMS
+     * mechanism. While this is set, it will override any other authentication information; the KMS mechanism will always be
+     * used. See Boundary's KMS docs for examples: https://boundaryproject.io/docs/configuration/kms
+     */
+    recoveryKmsHcl?: pulumi.Input<string>;
+    /**
+     * The scope ID for the default auth method.
+     */
+    scopeId?: pulumi.Input<string>;
+    /**
+     * When set to true, does not validate the Boundary API endpoint certificate
+     */
+    tlsInsecure?: pulumi.Input<boolean>;
+    /**
+     * The Boundary token to use, as a string or path on disk containing just the string. If set, the token read here will be
+     * used in place of authenticating with the auth method specified in "authMethodId", although the recovery KMS mechanism
+     * will still override this. Can also be set with the BOUNDARY_TOKEN environment variable.
+     */
+    token?: pulumi.Input<string>;
 }

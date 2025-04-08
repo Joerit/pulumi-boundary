@@ -6,3 +6,35 @@ import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 import * as enums from "../types/enums";
 
+export interface GetAccountScope {
+    description: string;
+    id: string;
+    name: string;
+    parentScopeId: string;
+    type: string;
+}
+
+export interface GetAuthMethodScope {
+    description: string;
+    id: string;
+    name: string;
+    parentScopeId: string;
+    type: string;
+}
+
+export interface GetGroupScope {
+    description: string;
+    id: string;
+    name: string;
+    parentScopeId: string;
+    type: string;
+}
+
+export interface GetUserScope {
+    description: string;
+    id: string;
+    name: string;
+    parentScopeId: string;
+    type: string;
+}
+

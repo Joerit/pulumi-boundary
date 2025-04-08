@@ -7,17 +7,83 @@ using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
 
-namespace Pulumi.Xyz
+namespace Pulumi.Boundary
 {
     /// <summary>
-    /// The provider type for the xyz package. By default, resources use package-wide configuration
+    /// The provider type for the boundary package. By default, resources use package-wide configuration
     /// settings, however an explicit `Provider` instance may be created and passed during resource
     /// construction to achieve fine-grained programmatic control over provider settings. See the
     /// [documentation](https://www.pulumi.com/docs/reference/programming-model/#providers) for more information.
     /// </summary>
-    [XyzResourceType("pulumi:providers:xyz")]
+    [BoundaryResourceType("pulumi:providers:boundary")]
     public partial class Provider : global::Pulumi.ProviderResource
     {
+        /// <summary>
+        /// The base url of the Boundary API, e.g. "http://127.0.0.1:9200". If not set, it will be read from the "BOUNDARY_ADDR" env
+        /// var.
+        /// </summary>
+        [Output("addr")]
+        public Output<string> Addr { get; private set; } = null!;
+
+        /// <summary>
+        /// The auth method ID e.g. ampw_1234567890. If not set, the default auth method for the given scope ID will be used.
+        /// </summary>
+        [Output("authMethodId")]
+        public Output<string?> AuthMethodId { get; private set; } = null!;
+
+        /// <summary>
+        /// The auth method login name for password-style or ldap-style auth methods
+        /// </summary>
+        [Output("authMethodLoginName")]
+        public Output<string?> AuthMethodLoginName { get; private set; } = null!;
+
+        /// <summary>
+        /// The auth method password for password-style or ldap-style auth methods
+        /// </summary>
+        [Output("authMethodPassword")]
+        public Output<string?> AuthMethodPassword { get; private set; } = null!;
+
+        /// <summary>
+        /// The auth method login name for password-style auth methods
+        /// </summary>
+        [Output("passwordAuthMethodLoginName")]
+        public Output<string?> PasswordAuthMethodLoginName { get; private set; } = null!;
+
+        /// <summary>
+        /// The auth method password for password-style auth methods
+        /// </summary>
+        [Output("passwordAuthMethodPassword")]
+        public Output<string?> PasswordAuthMethodPassword { get; private set; } = null!;
+
+        /// <summary>
+        /// Specifies a directory that the Boundary provider can use to write and execute its built-in plugins.
+        /// </summary>
+        [Output("pluginExecutionDir")]
+        public Output<string?> PluginExecutionDir { get; private set; } = null!;
+
+        /// <summary>
+        /// Can be a heredoc string or a path on disk. If set, the string/file will be parsed as HCL and used with the recovery KMS
+        /// mechanism. While this is set, it will override any other authentication information; the KMS mechanism will always be
+        /// used. See Boundary's KMS docs for examples: https://boundaryproject.io/docs/configuration/kms
+        /// </summary>
+        [Output("recoveryKmsHcl")]
+        public Output<string?> RecoveryKmsHcl { get; private set; } = null!;
+
+        /// <summary>
+        /// The scope ID for the default auth method.
+        /// </summary>
+        [Output("scopeId")]
+        public Output<string?> ScopeId { get; private set; } = null!;
+
+        /// <summary>
+        /// The Boundary token to use, as a string or path on disk containing just the string. If set, the token read here will be
+        /// used in place of authenticating with the auth method specified in "auth_method_id", although the recovery KMS mechanism
+        /// will still override this. Can also be set with the BOUNDARY_TOKEN environment variable.
+        /// </summary>
+        [Output("token")]
+        public Output<string?> Token { get; private set; } = null!;
+
+
         /// <summary>
         /// Create a Provider resource with the given unique name, arguments, and options.
         /// </summary>
@@ -25,8 +91,8 @@ namespace Pulumi.Xyz
         /// <param name="name">The unique name of the resource</param>
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
-        public Provider(string name, ProviderArgs? args = null, CustomResourceOptions? options = null)
-            : base("xyz", name, args ?? new ProviderArgs(), MakeResourceOptions(options, ""))
+        public Provider(string name, ProviderArgs args, CustomResourceOptions? options = null)
+            : base("boundary", name, args ?? new ProviderArgs(), MakeResourceOptions(options, ""))
         {
         }
 
@@ -46,10 +112,75 @@ namespace Pulumi.Xyz
     public sealed class ProviderArgs : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// A region which should be used.
+        /// The base url of the Boundary API, e.g. "http://127.0.0.1:9200". If not set, it will be read from the "BOUNDARY_ADDR" env
+        /// var.
         /// </summary>
-        [Input("region", json: true)]
-        public Input<Pulumi.Xyz.Region.Region>? Region { get; set; }
+        [Input("addr", required: true)]
+        public Input<string> Addr { get; set; } = null!;
+
+        /// <summary>
+        /// The auth method ID e.g. ampw_1234567890. If not set, the default auth method for the given scope ID will be used.
+        /// </summary>
+        [Input("authMethodId")]
+        public Input<string>? AuthMethodId { get; set; }
+
+        /// <summary>
+        /// The auth method login name for password-style or ldap-style auth methods
+        /// </summary>
+        [Input("authMethodLoginName")]
+        public Input<string>? AuthMethodLoginName { get; set; }
+
+        /// <summary>
+        /// The auth method password for password-style or ldap-style auth methods
+        /// </summary>
+        [Input("authMethodPassword")]
+        public Input<string>? AuthMethodPassword { get; set; }
+
+        /// <summary>
+        /// The auth method login name for password-style auth methods
+        /// </summary>
+        [Input("passwordAuthMethodLoginName")]
+        public Input<string>? PasswordAuthMethodLoginName { get; set; }
+
+        /// <summary>
+        /// The auth method password for password-style auth methods
+        /// </summary>
+        [Input("passwordAuthMethodPassword")]
+        public Input<string>? PasswordAuthMethodPassword { get; set; }
+
+        /// <summary>
+        /// Specifies a directory that the Boundary provider can use to write and execute its built-in plugins.
+        /// </summary>
+        [Input("pluginExecutionDir")]
+        public Input<string>? PluginExecutionDir { get; set; }
+
+        /// <summary>
+        /// Can be a heredoc string or a path on disk. If set, the string/file will be parsed as HCL and used with the recovery KMS
+        /// mechanism. While this is set, it will override any other authentication information; the KMS mechanism will always be
+        /// used. See Boundary's KMS docs for examples: https://boundaryproject.io/docs/configuration/kms
+        /// </summary>
+        [Input("recoveryKmsHcl")]
+        public Input<string>? RecoveryKmsHcl { get; set; }
+
+        /// <summary>
+        /// The scope ID for the default auth method.
+        /// </summary>
+        [Input("scopeId")]
+        public Input<string>? ScopeId { get; set; }
+
+        /// <summary>
+        /// When set to true, does not validate the Boundary API endpoint certificate
+        /// </summary>
+        [Input("tlsInsecure", json: true)]
+        public Input<bool>? TlsInsecure { get; set; }
+
+        /// <summary>
+        /// The Boundary token to use, as a string or path on disk containing just the string. If set, the token read here will be
+        /// used in place of authenticating with the auth method specified in "auth_method_id", although the recovery KMS mechanism
+        /// will still override this. Can also be set with the BOUNDARY_TOKEN environment variable.
+        /// </summary>
+        [Input("token")]
+        public Input<string>? Token { get; set; }
 
         public ProviderArgs()
         {

@@ -38,7 +38,7 @@ const (
 	mainMod = "index" // the boundary module
 )
 
-//go:embed cmd/pulumi-resource-boundary/schema.json
+//go:embed cmd/pulumi-resource-boundary/bridge-metadata.json
 var metadata []byte
 
 // Provider returns additional overlaid schema and metadata associated with the provider.
@@ -135,7 +135,7 @@ func Provider() tfbridge.ProviderInfo {
 		Repository: "https://github.com/joerit/pulumi-boundary",
 		// The GitHub Org for the provider - defaults to `terraform-providers`. Note that this should
 		// match the TF provider module's require directive, not any replace directives.
-		GitHubOrg:    "",
+		GitHubOrg:    "joerit",
 		MetadataInfo: tfbridge.NewProviderMetadata(metadata),
 		Config: map[string]*tfbridge.SchemaInfo{
 			// Add any required configuration here, or remove the example below if
@@ -146,6 +146,7 @@ func Provider() tfbridge.ProviderInfo {
 		},
 		// If extra types are needed for configuration, they can be added here.
 		ExtraTypes: map[string]schema.ComplexTypeSpec{
+			/*
 			"boundary:region/region:Region": {
 				ObjectTypeSpec: schema.ObjectTypeSpec{
 					Type: "string",
@@ -155,6 +156,7 @@ func Provider() tfbridge.ProviderInfo {
 					{Name: "overThere", Value: "OVER_THERE"},
 				},
 			},
+			*/
 		},
 		JavaScript: &tfbridge.JavaScriptInfo{
 			// RespectSchemaVersion ensures the SDK is generated linking to the correct version of the provider.

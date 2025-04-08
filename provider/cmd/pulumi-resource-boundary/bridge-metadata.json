@@ -1,5 +1,5 @@
 {
-    "attribution": "This Pulumi package is based on the [`xyz` Terraform Provider](https://github.com/terraform-providers/terraform-provider-xyz).",
+    "attribution": "This Pulumi package is based on the [`boundary` Terraform Provider](https://github.com/Joerit/terraform-provider-boundary).",
     "auto-aliasing": {
         "resources": {
             "boundary_account": {
@@ -334,7 +334,7 @@
     },
     "homepage": "https://www.pulumi.com",
     "keywords": [
-        "xyz",
+        "boundary",
         "category/cloud"
     ],
     "language": {

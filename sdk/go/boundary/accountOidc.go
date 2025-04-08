@@ -12,6 +12,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The account resource allows you to configure a Boundary account.
 type AccountOidc struct {
 	pulumi.CustomResourceState
 

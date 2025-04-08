@@ -11,12 +11,102 @@ namespace Pulumi.Boundary
 {
     public static class GetScope
     {
+        /// <summary>
+        /// The scope data source allows you to discover an existing Boundary scope by name.
+        /// Please note that the Global scope will always have an id of "global", and does not need to be discovered with this data source.
+        /// 
+        /// ## Example Usage
+        /// 
+        /// ```csharp
+        /// using System.Collections.Generic;
+        /// using System.Linq;
+        /// using Pulumi;
+        /// using Boundary = Pulumi.Boundary;
+        /// 
+        /// return await Deployment.RunAsync(() =&gt; 
+        /// {
+        ///     // Retrieve the ID of a Boundary project
+        ///     var org = Boundary.GetScope.Invoke(new()
+        ///     {
+        ///         Name = "SecOps",
+        ///         ScopeId = "global",
+        ///     });
+        /// 
+        ///     var project = Boundary.GetScope.Invoke(new()
+        ///     {
+        ///         Name = "2111",
+        ///         ScopeId = id,
+        ///     });
+        /// 
+        /// });
+        /// ```
+        /// </summary>
         public static Task<GetScopeResult> InvokeAsync(GetScopeArgs args, InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.InvokeAsync<GetScopeResult>("boundary:index/getScope:getScope", args ?? new GetScopeArgs(), options.WithDefaults());
 
+        /// <summary>
+        /// The scope data source allows you to discover an existing Boundary scope by name.
+        /// Please note that the Global scope will always have an id of "global", and does not need to be discovered with this data source.
+        /// 
+        /// ## Example Usage
+        /// 
+        /// ```csharp
+        /// using System.Collections.Generic;
+        /// using System.Linq;
+        /// using Pulumi;
+        /// using Boundary = Pulumi.Boundary;
+        /// 
+        /// return await Deployment.RunAsync(() =&gt; 
+        /// {
+        ///     // Retrieve the ID of a Boundary project
+        ///     var org = Boundary.GetScope.Invoke(new()
+        ///     {
+        ///         Name = "SecOps",
+        ///         ScopeId = "global",
+        ///     });
+        /// 
+        ///     var project = Boundary.GetScope.Invoke(new()
+        ///     {
+        ///         Name = "2111",
+        ///         ScopeId = id,
+        ///     });
+        /// 
+        /// });
+        /// ```
+        /// </summary>
         public static Output<GetScopeResult> Invoke(GetScopeInvokeArgs args, InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.Invoke<GetScopeResult>("boundary:index/getScope:getScope", args ?? new GetScopeInvokeArgs(), options.WithDefaults());
 
+        /// <summary>
+        /// The scope data source allows you to discover an existing Boundary scope by name.
+        /// Please note that the Global scope will always have an id of "global", and does not need to be discovered with this data source.
+        /// 
+        /// ## Example Usage
+        /// 
+        /// ```csharp
+        /// using System.Collections.Generic;
+        /// using System.Linq;
+        /// using Pulumi;
+        /// using Boundary = Pulumi.Boundary;
+        /// 
+        /// return await Deployment.RunAsync(() =&gt; 
+        /// {
+        ///     // Retrieve the ID of a Boundary project
+        ///     var org = Boundary.GetScope.Invoke(new()
+        ///     {
+        ///         Name = "SecOps",
+        ///         ScopeId = "global",
+        ///     });
+        /// 
+        ///     var project = Boundary.GetScope.Invoke(new()
+        ///     {
+        ///         Name = "2111",
+        ///         ScopeId = id,
+        ///     });
+        /// 
+        /// });
+        /// ```
+        /// </summary>
         public static Output<GetScopeResult> Invoke(GetScopeInvokeArgs args, InvokeOutputOptions options)
             => global::Pulumi.Deployment.Instance.Invoke<GetScopeResult>("boundary:index/getScope:getScope", args ?? new GetScopeInvokeArgs(), options.WithDefaults());
     }
@@ -24,9 +114,15 @@ namespace Pulumi.Boundary
 
     public sealed class GetScopeArgs : global::Pulumi.InvokeArgs
     {
+        /// <summary>
+        /// The name of the scope to retrieve.
+        /// </summary>
         [Input("name", required: true)]
         public string Name { get; set; } = null!;
 
+        /// <summary>
+        /// The parent scope ID that will be queried for the scope.
+        /// </summary>
         [Input("scopeId", required: true)]
         public string ScopeId { get; set; } = null!;
 
@@ -38,9 +134,15 @@ namespace Pulumi.Boundary
 
     public sealed class GetScopeInvokeArgs : global::Pulumi.InvokeArgs
     {
+        /// <summary>
+        /// The name of the scope to retrieve.
+        /// </summary>
         [Input("name", required: true)]
         public Input<string> Name { get; set; } = null!;
 
+        /// <summary>
+        /// The parent scope ID that will be queried for the scope.
+        /// </summary>
         [Input("scopeId", required: true)]
         public Input<string> ScopeId { get; set; } = null!;
 
@@ -54,9 +156,21 @@ namespace Pulumi.Boundary
     [OutputType]
     public sealed class GetScopeResult
     {
+        /// <summary>
+        /// The description of the retrieved scope.
+        /// </summary>
         public readonly string Description;
+        /// <summary>
+        /// The ID of the retrieved scope.
+        /// </summary>
         public readonly string Id;
+        /// <summary>
+        /// The name of the scope to retrieve.
+        /// </summary>
         public readonly string Name;
+        /// <summary>
+        /// The parent scope ID that will be queried for the scope.
+        /// </summary>
         public readonly string ScopeId;
 
         [OutputConstructor]

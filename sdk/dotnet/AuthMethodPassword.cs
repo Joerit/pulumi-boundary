@@ -9,6 +9,9 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The auth method resource allows you to configure a Boundary auth_method_password.
+    /// </summary>
     [BoundaryResourceType("boundary:index/authMethodPassword:AuthMethodPassword")]
     public partial class AuthMethodPassword : global::Pulumi.CustomResource
     {

@@ -12,11 +12,214 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The hostSetPlugin resource allows you to configure a Boundary host set. Host sets are always part of a host catalog, so a host catalog resource should be used inline or you should have the host catalog ID in hand to successfully configure a host set.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"encoding/json"
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			project, err := boundary.NewScope(ctx, "project", &boundary.ScopeArgs{
+//				Name:                pulumi.String("project_one"),
+//				Description:         pulumi.String("My first scope!"),
+//				ScopeId:             org.ID(),
+//				AutoCreateAdminRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			tmpJSON0, err := json.Marshal(map[string]interface{}{
+//				"region": "us-east-1",
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json0 := string(tmpJSON0)
+//			tmpJSON1, err := json.Marshal(map[string]interface{}{
+//				"access_key_id":     "aws_access_key_id_value",
+//				"secret_access_key": "aws_secret_access_key_value",
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json1 := string(tmpJSON1)
+//			// For more information about the aws plugin, please visit here:
+//			// https://github.com/hashicorp/boundary-plugin-host-aws
+//			//
+//			// For more information about aws users, please visit here:
+//			// https://learn.hashicorp.com/tutorials/boundary/aws-host-catalogs?in=boundary/oss-access-management#configure-terraform-and-iam-user-privileges
+//			awsExample, err := boundary.NewHostCatalogPlugin(ctx, "aws_example", &boundary.HostCatalogPluginArgs{
+//				Name:           pulumi.String("My aws catalog"),
+//				Description:    pulumi.String("My first host catalog!"),
+//				ScopeId:        project.ID(),
+//				PluginName:     pulumi.String("aws"),
+//				AttributesJson: pulumi.String(json0),
+//				SecretsJson:    pulumi.String(json1),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			tmpJSON2, err := json.Marshal(map[string]interface{}{
+//				"filters": []string{
+//					"tag:service-type=web",
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json2 := string(tmpJSON2)
+//			_, err = boundary.NewHostSetPlugin(ctx, "web", &boundary.HostSetPluginArgs{
+//				Name:           pulumi.String("My web host set plugin"),
+//				HostCatalogId:  awsExample.ID(),
+//				AttributesJson: pulumi.String(json2),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			tmpJSON3, err := json.Marshal(map[string]interface{}{
+//				"filters": []string{
+//					"tag-key=foo",
+//					"tag-key=bar",
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json3 := string(tmpJSON3)
+//			_, err = boundary.NewHostSetPlugin(ctx, "foobar", &boundary.HostSetPluginArgs{
+//				Name:          pulumi.String("My foobar host set plugin"),
+//				HostCatalogId: awsExample.ID(),
+//				PreferredEndpoints: pulumi.StringArray{
+//					pulumi.String("cidr:54.0.0.0/8"),
+//				},
+//				AttributesJson: pulumi.String(json3),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			tmpJSON4, err := json.Marshal(map[string]interface{}{
+//				"filters": []string{
+//					"tag:development=prod,dev",
+//					"launch-time=2022-01-04T*",
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json4 := string(tmpJSON4)
+//			_, err = boundary.NewHostSetPlugin(ctx, "launch", &boundary.HostSetPluginArgs{
+//				Name:                pulumi.String("My launch host set plugin"),
+//				HostCatalogId:       awsExample.ID(),
+//				SyncIntervalSeconds: pulumi.Int(60),
+//				AttributesJson:      pulumi.String(json4),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			tmpJSON5, err := json.Marshal(map[string]interface{}{
+//				"disable_credential_rotation": "true",
+//				"tenant_id":                   "ARM_TENANT_ID",
+//				"subscription_id":             "ARM_SUBSCRIPTION_ID",
+//				"client_id":                   "ARM_CLIENT_ID",
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json5 := string(tmpJSON5)
+//			tmpJSON6, err := json.Marshal(map[string]interface{}{
+//				"secret_value": "ARM_CLIENT_SECRET",
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json6 := string(tmpJSON6)
+//			// For more information about the azure plugin, please visit here:
+//			// https://github.com/hashicorp/boundary-plugin-host-azure
+//			//
+//			// For more information about azure ad applications, please visit here:
+//			// https://learn.hashicorp.com/tutorials/boundary/azure-host-catalogs#register-a-new-azure-ad-application-1
+//			azureExample, err := boundary.NewHostCatalogPlugin(ctx, "azure_example", &boundary.HostCatalogPluginArgs{
+//				Name:           pulumi.String("My azure catalog"),
+//				Description:    pulumi.String("My second host catalog!"),
+//				ScopeId:        project.ID(),
+//				PluginName:     pulumi.String("azure"),
+//				AttributesJson: pulumi.String(json5),
+//				SecretsJson:    pulumi.String(json6),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			tmpJSON7, err := json.Marshal(map[string]interface{}{
+//				"filter": "tagName eq 'service-type' and tagValue eq 'database'",
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json7 := string(tmpJSON7)
+//			_, err = boundary.NewHostSetPlugin(ctx, "database", &boundary.HostSetPluginArgs{
+//				Name:           pulumi.String("My database host set plugin"),
+//				HostCatalogId:  azureExample.ID(),
+//				AttributesJson: pulumi.String(json7),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			tmpJSON8, err := json.Marshal(map[string]interface{}{
+//				"filter": "tagName eq 'tag-key' and tagValue eq 'foo'",
+//				"filter": "tagName eq 'application' and tagValue eq 'dev'",
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json8 := string(tmpJSON8)
+//			_, err = boundary.NewHostSetPlugin(ctx, "foodev", &boundary.HostSetPluginArgs{
+//				Name:          pulumi.String("My foodev host set plugin"),
+//				HostCatalogId: azureExample.ID(),
+//				PreferredEndpoints: pulumi.StringArray{
+//					pulumi.String("cidr:54.0.0.0/8"),
+//				},
+//				SyncIntervalSeconds: pulumi.Int(60),
+//				AttributesJson:      pulumi.String(json8),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/hostSetPlugin:HostSetPlugin foo <my-id>
+// ```
 type HostSetPlugin struct {
 	pulumi.CustomResourceState
 
-	// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-	// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+	// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
 	AttributesJson pulumi.StringPtrOutput `pulumi:"attributesJson"`
 	// The host set description.
 	Description pulumi.StringPtrOutput `pulumi:"description"`
@@ -65,8 +268,7 @@ func GetHostSetPlugin(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering HostSetPlugin resources.
 type hostSetPluginState struct {
-	// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-	// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+	// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
 	AttributesJson *string `pulumi:"attributesJson"`
 	// The host set description.
 	Description *string `pulumi:"description"`
@@ -83,8 +285,7 @@ type hostSetPluginState struct {
 }
 
 type HostSetPluginState struct {
-	// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-	// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+	// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
 	AttributesJson pulumi.StringPtrInput
 	// The host set description.
 	Description pulumi.StringPtrInput
@@ -105,8 +306,7 @@ func (HostSetPluginState) ElementType() reflect.Type {
 }
 
 type hostSetPluginArgs struct {
-	// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-	// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+	// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
 	AttributesJson *string `pulumi:"attributesJson"`
 	// The host set description.
 	Description *string `pulumi:"description"`
@@ -124,8 +324,7 @@ type hostSetPluginArgs struct {
 
 // The set of arguments for constructing a HostSetPlugin resource.
 type HostSetPluginArgs struct {
-	// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-	// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+	// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
 	AttributesJson pulumi.StringPtrInput
 	// The host set description.
 	Description pulumi.StringPtrInput
@@ -228,8 +427,7 @@ func (o HostSetPluginOutput) ToHostSetPluginOutputWithContext(ctx context.Contex
 	return o
 }
 
-// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
 func (o HostSetPluginOutput) AttributesJson() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *HostSetPlugin) pulumi.StringPtrOutput { return v.AttributesJson }).(pulumi.StringPtrOutput)
 }

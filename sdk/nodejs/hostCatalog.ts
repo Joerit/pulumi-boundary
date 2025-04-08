@@ -4,6 +4,42 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * Deprecated: use `boundary.HostCatalogStatic` instead.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: global.id,
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const example = new boundary.HostCatalog("example", {
+ *     name: "My catalog",
+ *     description: "My first host catalog!",
+ *     type: "Static",
+ *     scopeId: project.id,
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/hostCatalog:HostCatalog foo <my-id>
+ * ```
+ */
 export class HostCatalog extends pulumi.CustomResource {
     /**
      * Get an existing HostCatalog resource's state with the given name, ID, and optional extra

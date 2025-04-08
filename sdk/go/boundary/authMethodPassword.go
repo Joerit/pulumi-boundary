@@ -12,6 +12,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The auth method resource allows you to configure a Boundary auth_method_password.
 type AuthMethodPassword struct {
 	pulumi.CustomResourceState
 

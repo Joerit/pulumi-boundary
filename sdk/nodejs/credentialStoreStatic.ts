@@ -4,6 +4,41 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The static credential store resource allows you to configure a Boundary static credential store.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "global scope",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const example = new boundary.CredentialStoreStatic("example", {
+ *     name: "example_static_credential_store",
+ *     description: "My first static credential store!",
+ *     scopeId: project.id,
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/credentialStoreStatic:CredentialStoreStatic example_static_credential_store <my-id>
+ * ```
+ */
 export class CredentialStoreStatic extends pulumi.CustomResource {
     /**
      * Get an existing CredentialStoreStatic resource's state with the given name, ID, and optional extra

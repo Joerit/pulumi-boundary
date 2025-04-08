@@ -12,6 +12,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Deprecated: use `AccountPassword` instead.
 type Account struct {
 	pulumi.CustomResourceState
 

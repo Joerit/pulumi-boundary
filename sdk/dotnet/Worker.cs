@@ -9,6 +9,58 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The resource allows you to create a self-managed worker object.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ### Controller-led worker
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var controllerLed = new Boundary.Worker("controller_led", new()
+    ///     {
+    ///         ScopeId = "global",
+    ///         Name = "controller-led-worker-1",
+    ///         Description = "self managed worker with controller led auth",
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ### Worker-led worker
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var workerLed = new Boundary.Worker("worker_led", new()
+    ///     {
+    ///         ScopeId = "global",
+    ///         Name = "worker-led-worker-1",
+    ///         Description = "self managed worker with worker led auth",
+    ///         WorkerGeneratedAuthToken = workerGeneratedAuthToken,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/worker:Worker foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/worker:Worker")]
     public partial class Worker : global::Pulumi.CustomResource
     {
@@ -55,8 +107,7 @@ namespace Pulumi.Boundary
         public Output<string?> ScopeId { get; private set; } = null!;
 
         /// <summary>
-        /// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this
-        /// blank will result in a controller generated token.
+        /// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this blank will result in a controller generated token.
         /// </summary>
         [Output("workerGeneratedAuthToken")]
         public Output<string?> WorkerGeneratedAuthToken { get; private set; } = null!;
@@ -126,8 +177,7 @@ namespace Pulumi.Boundary
         public Input<string>? ScopeId { get; set; }
 
         /// <summary>
-        /// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this
-        /// blank will result in a controller generated token.
+        /// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this blank will result in a controller generated token.
         /// </summary>
         [Input("workerGeneratedAuthToken")]
         public Input<string>? WorkerGeneratedAuthToken { get; set; }
@@ -189,8 +239,7 @@ namespace Pulumi.Boundary
         public Input<string>? ScopeId { get; set; }
 
         /// <summary>
-        /// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this
-        /// blank will result in a controller generated token.
+        /// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this blank will result in a controller generated token.
         /// </summary>
         [Input("workerGeneratedAuthToken")]
         public Input<string>? WorkerGeneratedAuthToken { get; set; }

@@ -12,10 +12,214 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The target resource allows you to configure a Boundary target.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"encoding/json"
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			global, err := boundary.NewScope(ctx, "global", &boundary.ScopeArgs{
+//				GlobalScope: pulumi.Bool(true),
+//				ScopeId:     pulumi.String("global"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               global.ID(),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			project, err := boundary.NewScope(ctx, "project", &boundary.ScopeArgs{
+//				Name:                pulumi.String("project_one"),
+//				Description:         pulumi.String("My first scope!"),
+//				ScopeId:             org.ID(),
+//				AutoCreateAdminRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			foo, err := boundary.NewCredentialStoreVault(ctx, "foo", &boundary.CredentialStoreVaultArgs{
+//				Name:        pulumi.String("vault_store"),
+//				Description: pulumi.String("My first Vault credential store!"),
+//				Address:     pulumi.String("http://127.0.0.1:8200"),
+//				Token:       pulumi.String("s.0ufRo6XEGU2jOqnIr7OlFYP5"),
+//				ScopeId:     project.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			fooCredentialLibraryVault, err := boundary.NewCredentialLibraryVault(ctx, "foo", &boundary.CredentialLibraryVaultArgs{
+//				Name:              pulumi.String("foo"),
+//				Description:       pulumi.String("My first Vault credential library!"),
+//				CredentialStoreId: foo.ID(),
+//				Path:              pulumi.String("my/secret/foo"),
+//				HttpMethod:        pulumi.String("GET"),
+//				CredentialType:    pulumi.String("username_password"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			fooHostCatalog, err := boundary.NewHostCatalog(ctx, "foo", &boundary.HostCatalogArgs{
+//				Name:        pulumi.String("test"),
+//				Description: pulumi.String("test catalog"),
+//				ScopeId:     project.ID(),
+//				Type:        pulumi.String("static"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			fooHost, err := boundary.NewHost(ctx, "foo", &boundary.HostArgs{
+//				Type:          pulumi.String("static"),
+//				Name:          pulumi.String("foo"),
+//				HostCatalogId: fooHostCatalog.ID(),
+//				Address:       pulumi.String("10.0.0.1"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			bar, err := boundary.NewHost(ctx, "bar", &boundary.HostArgs{
+//				Type:          pulumi.String("static"),
+//				Name:          pulumi.String("bar"),
+//				HostCatalogId: fooHostCatalog.ID(),
+//				Address:       pulumi.String("10.0.0.1"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			fooHostSet, err := boundary.NewHostSet(ctx, "foo", &boundary.HostSetArgs{
+//				Type:          pulumi.String("static"),
+//				Name:          pulumi.String("foo"),
+//				HostCatalogId: fooHostCatalog.ID(),
+//				HostIds: pulumi.StringArray{
+//					fooHost.ID(),
+//					bar.ID(),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			tmpJSON0, err := json.Marshal(map[string]interface{}{
+//				"region": "us-east-1",
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json0 := string(tmpJSON0)
+//			tmpJSON1, err := json.Marshal(map[string]interface{}{
+//				"access_key_id":     "aws_access_key_id_value",
+//				"secret_access_key": "aws_secret_access_key_value",
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json1 := string(tmpJSON1)
+//			awsExample, err := boundary.NewStorageBucket(ctx, "aws_example", &boundary.StorageBucketArgs{
+//				Name:           pulumi.String("My aws storage bucket"),
+//				Description:    pulumi.String("My first storage bucket!"),
+//				ScopeId:        org.ID(),
+//				PluginName:     pulumi.String("aws"),
+//				BucketName:     pulumi.String("mybucket"),
+//				AttributesJson: pulumi.String(json0),
+//				SecretsJson:    pulumi.String(json1),
+//				WorkerFilter:   pulumi.String("\"pki\" in \"/tags/type\""),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewTarget(ctx, "foo", &boundary.TargetArgs{
+//				Name:        pulumi.String("foo"),
+//				Description: pulumi.String("Foo target"),
+//				Type:        pulumi.String("tcp"),
+//				DefaultPort: pulumi.Int(22),
+//				ScopeId:     project.ID(),
+//				HostSourceIds: pulumi.StringArray{
+//					fooHostSet.ID(),
+//				},
+//				BrokeredCredentialSourceIds: pulumi.StringArray{
+//					fooCredentialLibraryVault.ID(),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewTarget(ctx, "ssh_foo", &boundary.TargetArgs{
+//				Name:        pulumi.String("ssh_foo"),
+//				Description: pulumi.String("Ssh target"),
+//				Type:        pulumi.String("ssh"),
+//				DefaultPort: pulumi.Int(22),
+//				ScopeId:     project.ID(),
+//				HostSourceIds: pulumi.StringArray{
+//					fooHostSet.ID(),
+//				},
+//				InjectedApplicationCredentialSourceIds: pulumi.StringArray{
+//					fooCredentialLibraryVault.ID(),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewTarget(ctx, "ssh_session_recording_foo", &boundary.TargetArgs{
+//				Name:        pulumi.String("ssh_foo"),
+//				Description: pulumi.String("Ssh target"),
+//				Type:        pulumi.String("ssh"),
+//				DefaultPort: pulumi.Int(22),
+//				ScopeId:     project.ID(),
+//				HostSourceIds: pulumi.StringArray{
+//					fooHostSet.ID(),
+//				},
+//				InjectedApplicationCredentialSourceIds: pulumi.StringArray{
+//					fooCredentialLibraryVault.ID(),
+//				},
+//				EnableSessionRecording: pulumi.Bool(true),
+//				StorageBucketId:        awsExample,
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewTarget(ctx, "address_foo", &boundary.TargetArgs{
+//				Name:        pulumi.String("address_foo"),
+//				Description: pulumi.String("Foo target with an address"),
+//				Type:        pulumi.String("tcp"),
+//				DefaultPort: pulumi.Int(22),
+//				ScopeId:     project.ID(),
+//				Address:     pulumi.String("127.0.0.1"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/target:Target foo <my-id>
+// ```
 type Target struct {
 	pulumi.CustomResourceState
 
-	// Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+	// Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
 	Address pulumi.StringPtrOutput `pulumi:"address"`
 	// A list of brokered credential source ID's.
 	BrokeredCredentialSourceIds pulumi.StringArrayOutput `pulumi:"brokeredCredentialSourceIds"`
@@ -87,7 +291,7 @@ func GetTarget(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering Target resources.
 type targetState struct {
-	// Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+	// Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
 	Address *string `pulumi:"address"`
 	// A list of brokered credential source ID's.
 	BrokeredCredentialSourceIds []string `pulumi:"brokeredCredentialSourceIds"`
@@ -124,7 +328,7 @@ type targetState struct {
 }
 
 type TargetState struct {
-	// Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+	// Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
 	Address pulumi.StringPtrInput
 	// A list of brokered credential source ID's.
 	BrokeredCredentialSourceIds pulumi.StringArrayInput
@@ -165,7 +369,7 @@ func (TargetState) ElementType() reflect.Type {
 }
 
 type targetArgs struct {
-	// Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+	// Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
 	Address *string `pulumi:"address"`
 	// A list of brokered credential source ID's.
 	BrokeredCredentialSourceIds []string `pulumi:"brokeredCredentialSourceIds"`
@@ -203,7 +407,7 @@ type targetArgs struct {
 
 // The set of arguments for constructing a Target resource.
 type TargetArgs struct {
-	// Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+	// Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
 	Address pulumi.StringPtrInput
 	// A list of brokered credential source ID's.
 	BrokeredCredentialSourceIds pulumi.StringArrayInput
@@ -326,7 +530,7 @@ func (o TargetOutput) ToTargetOutputWithContext(ctx context.Context) TargetOutpu
 	return o
 }
 
-// Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+// Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
 func (o TargetOutput) Address() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Target) pulumi.StringPtrOutput { return v.Address }).(pulumi.StringPtrOutput)
 }

@@ -12,6 +12,144 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The scope resource allows you to configure a Boundary scope.
+//
+// ## Example Usage
+//
+// Creating the global scope:
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := boundary.NewScope(ctx, "global", &boundary.ScopeArgs{
+//				GlobalScope: pulumi.Bool(true),
+//				ScopeId:     pulumi.String("global"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// Creating an organization scope within global:
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.Any(global.Id),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// Creating an project scope within an organization:
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := boundary.NewScope(ctx, "project", &boundary.ScopeArgs{
+//				Name:                pulumi.String("project_one"),
+//				Description:         pulumi.String("My first scope!"),
+//				ScopeId:             pulumi.Any(org.Id),
+//				AutoCreateAdminRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// Creating an organization scope with a managed role for administration (auto create role set false):
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:        pulumi.String("organization_one"),
+//				Description: pulumi.String("My first scope!"),
+//				ScopeId:     pulumi.Any(global.Id),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewRole(ctx, "org_admin", &boundary.RoleArgs{
+//				ScopeId: pulumi.Any(global.Id),
+//				GrantScopeIds: pulumi.StringArray{
+//					org.ID(),
+//				},
+//				GrantStrings: pulumi.StringArray{
+//					pulumi.String("ids=*;type=*;actions=*"),
+//				},
+//				PrincipalIds: pulumi.StringArray{
+//					pulumi.String("u_auth"),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/scope:Scope foo <my-id>
+// ```
 type Scope struct {
 	pulumi.CustomResourceState
 
@@ -19,8 +157,7 @@ type Scope struct {
 	AutoCreateDefaultRole pulumi.BoolPtrOutput `pulumi:"autoCreateDefaultRole"`
 	// The scope description.
 	Description pulumi.StringPtrOutput `pulumi:"description"`
-	// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-	// to be imported and managed.
+	// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
 	GlobalScope pulumi.BoolPtrOutput `pulumi:"globalScope"`
 	// The scope name. Defaults to the resource name.
 	Name pulumi.StringOutput `pulumi:"name"`
@@ -65,8 +202,7 @@ type scopeState struct {
 	AutoCreateDefaultRole *bool `pulumi:"autoCreateDefaultRole"`
 	// The scope description.
 	Description *string `pulumi:"description"`
-	// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-	// to be imported and managed.
+	// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
 	GlobalScope *bool `pulumi:"globalScope"`
 	// The scope name. Defaults to the resource name.
 	Name *string `pulumi:"name"`
@@ -79,8 +215,7 @@ type ScopeState struct {
 	AutoCreateDefaultRole pulumi.BoolPtrInput
 	// The scope description.
 	Description pulumi.StringPtrInput
-	// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-	// to be imported and managed.
+	// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
 	GlobalScope pulumi.BoolPtrInput
 	// The scope name. Defaults to the resource name.
 	Name pulumi.StringPtrInput
@@ -97,8 +232,7 @@ type scopeArgs struct {
 	AutoCreateDefaultRole *bool `pulumi:"autoCreateDefaultRole"`
 	// The scope description.
 	Description *string `pulumi:"description"`
-	// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-	// to be imported and managed.
+	// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
 	GlobalScope *bool `pulumi:"globalScope"`
 	// The scope name. Defaults to the resource name.
 	Name *string `pulumi:"name"`
@@ -112,8 +246,7 @@ type ScopeArgs struct {
 	AutoCreateDefaultRole pulumi.BoolPtrInput
 	// The scope description.
 	Description pulumi.StringPtrInput
-	// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-	// to be imported and managed.
+	// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
 	GlobalScope pulumi.BoolPtrInput
 	// The scope name. Defaults to the resource name.
 	Name pulumi.StringPtrInput
@@ -221,8 +354,7 @@ func (o ScopeOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Scope) pulumi.StringPtrOutput { return v.Description }).(pulumi.StringPtrOutput)
 }
 
-// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-// to be imported and managed.
+// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
 func (o ScopeOutput) GlobalScope() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *Scope) pulumi.BoolPtrOutput { return v.GlobalScope }).(pulumi.BoolPtrOutput)
 }

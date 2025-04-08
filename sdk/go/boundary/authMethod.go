@@ -12,6 +12,50 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The auth method resource allows you to configure a Boundary auth_method.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewAuthMethod(ctx, "password", &boundary.AuthMethodArgs{
+//				ScopeId: org.ID(),
+//				Type:    pulumi.String("password"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/authMethod:AuthMethod foo <my-id>
+// ```
 type AuthMethod struct {
 	pulumi.CustomResourceState
 

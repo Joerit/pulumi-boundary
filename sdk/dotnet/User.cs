@@ -9,6 +9,62 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The user resource allows you to configure a Boundary user.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var password = new Boundary.AuthMethod("password", new()
+    ///     {
+    ///         ScopeId = org.Id,
+    ///         Type = "password",
+    ///     });
+    /// 
+    ///     var jeff = new Boundary.AccountPassword("jeff", new()
+    ///     {
+    ///         AuthMethodId = password.Id,
+    ///         Type = "password",
+    ///         LoginName = "jeff",
+    ///         Password = "$uper$ecure",
+    ///     });
+    /// 
+    ///     var jeffUser = new Boundary.User("jeff", new()
+    ///     {
+    ///         Name = "jeff",
+    ///         Description = "Jeff's user resource",
+    ///         AccountIds = new[]
+    ///         {
+    ///             jeff.Id,
+    ///         },
+    ///         ScopeId = org.Id,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/user:User foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/user:User")]
     public partial class User : global::Pulumi.CustomResource
     {

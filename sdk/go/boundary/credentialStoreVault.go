@@ -12,6 +12,62 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The credential store for Vault resource allows you to configure a Boundary credential store for Vault.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			project, err := boundary.NewScope(ctx, "project", &boundary.ScopeArgs{
+//				Name:                pulumi.String("project_one"),
+//				Description:         pulumi.String("My first scope!"),
+//				ScopeId:             org.ID(),
+//				AutoCreateAdminRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewCredentialStoreVault(ctx, "example", &boundary.CredentialStoreVaultArgs{
+//				Name:        pulumi.String("foo"),
+//				Description: pulumi.String("My first Vault credential store!"),
+//				Address:     pulumi.String("http://127.0.0.1:8200"),
+//				Token:       pulumi.String("s.0ufRo6XEGU2jOqnIr7OlFYP5"),
+//				ScopeId:     project.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/credentialStoreVault:CredentialStoreVault foo <my-id>
+// ```
 type CredentialStoreVault struct {
 	pulumi.CustomResourceState
 
@@ -41,8 +97,7 @@ type CredentialStoreVault struct {
 	Token pulumi.StringOutput `pulumi:"token"`
 	// The Vault token hmac.
 	TokenHmac pulumi.StringOutput `pulumi:"tokenHmac"`
-	// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-	// instances with Boundary.
+	// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
 	WorkerFilter pulumi.StringPtrOutput `pulumi:"workerFilter"`
 }
 
@@ -122,8 +177,7 @@ type credentialStoreVaultState struct {
 	Token *string `pulumi:"token"`
 	// The Vault token hmac.
 	TokenHmac *string `pulumi:"tokenHmac"`
-	// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-	// instances with Boundary.
+	// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
 	WorkerFilter *string `pulumi:"workerFilter"`
 }
 
@@ -154,8 +208,7 @@ type CredentialStoreVaultState struct {
 	Token pulumi.StringPtrInput
 	// The Vault token hmac.
 	TokenHmac pulumi.StringPtrInput
-	// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-	// instances with Boundary.
+	// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
 	WorkerFilter pulumi.StringPtrInput
 }
 
@@ -186,8 +239,7 @@ type credentialStoreVaultArgs struct {
 	TlsSkipVerify *bool `pulumi:"tlsSkipVerify"`
 	// A token used for accessing Vault.
 	Token string `pulumi:"token"`
-	// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-	// instances with Boundary.
+	// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
 	WorkerFilter *string `pulumi:"workerFilter"`
 }
 
@@ -215,8 +267,7 @@ type CredentialStoreVaultArgs struct {
 	TlsSkipVerify pulumi.BoolPtrInput
 	// A token used for accessing Vault.
 	Token pulumi.StringInput
-	// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-	// instances with Boundary.
+	// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
 	WorkerFilter pulumi.StringPtrInput
 }
 
@@ -372,8 +423,7 @@ func (o CredentialStoreVaultOutput) TokenHmac() pulumi.StringOutput {
 	return o.ApplyT(func(v *CredentialStoreVault) pulumi.StringOutput { return v.TokenHmac }).(pulumi.StringOutput)
 }
 
-// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-// instances with Boundary.
+// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
 func (o CredentialStoreVaultOutput) WorkerFilter() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *CredentialStoreVault) pulumi.StringPtrOutput { return v.WorkerFilter }).(pulumi.StringPtrOutput)
 }

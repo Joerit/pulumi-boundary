@@ -11,12 +11,117 @@ namespace Pulumi.Boundary
 {
     public static class GetGroup
     {
+        /// <summary>
+        /// The boundary.Group data source allows you to find a Boundary group.
+        /// 
+        /// ## Example Usage
+        /// 
+        /// ```csharp
+        /// using System.Collections.Generic;
+        /// using System.Linq;
+        /// using Pulumi;
+        /// using Boundary = Pulumi.Boundary;
+        /// 
+        /// return await Deployment.RunAsync(() =&gt; 
+        /// {
+        ///     // Retrieve a user from the global scope
+        ///     var globalGroup = Boundary.GetGroup.Invoke(new()
+        ///     {
+        ///         Name = "admin",
+        ///     });
+        /// 
+        ///     // User from an org scope
+        ///     var org = Boundary.GetScope.Invoke(new()
+        ///     {
+        ///         Name = "org",
+        ///         ScopeId = "global",
+        ///     });
+        /// 
+        ///     var orgGroup = Boundary.GetGroup.Invoke(new()
+        ///     {
+        ///         Name = "username",
+        ///         ScopeId = org.Apply(getScopeResult =&gt; getScopeResult.Id),
+        ///     });
+        /// 
+        /// });
+        /// ```
+        /// </summary>
         public static Task<GetGroupResult> InvokeAsync(GetGroupArgs args, InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.InvokeAsync<GetGroupResult>("boundary:index/getGroup:getGroup", args ?? new GetGroupArgs(), options.WithDefaults());
 
+        /// <summary>
+        /// The boundary.Group data source allows you to find a Boundary group.
+        /// 
+        /// ## Example Usage
+        /// 
+        /// ```csharp
+        /// using System.Collections.Generic;
+        /// using System.Linq;
+        /// using Pulumi;
+        /// using Boundary = Pulumi.Boundary;
+        /// 
+        /// return await Deployment.RunAsync(() =&gt; 
+        /// {
+        ///     // Retrieve a user from the global scope
+        ///     var globalGroup = Boundary.GetGroup.Invoke(new()
+        ///     {
+        ///         Name = "admin",
+        ///     });
+        /// 
+        ///     // User from an org scope
+        ///     var org = Boundary.GetScope.Invoke(new()
+        ///     {
+        ///         Name = "org",
+        ///         ScopeId = "global",
+        ///     });
+        /// 
+        ///     var orgGroup = Boundary.GetGroup.Invoke(new()
+        ///     {
+        ///         Name = "username",
+        ///         ScopeId = org.Apply(getScopeResult =&gt; getScopeResult.Id),
+        ///     });
+        /// 
+        /// });
+        /// ```
+        /// </summary>
         public static Output<GetGroupResult> Invoke(GetGroupInvokeArgs args, InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.Invoke<GetGroupResult>("boundary:index/getGroup:getGroup", args ?? new GetGroupInvokeArgs(), options.WithDefaults());
 
+        /// <summary>
+        /// The boundary.Group data source allows you to find a Boundary group.
+        /// 
+        /// ## Example Usage
+        /// 
+        /// ```csharp
+        /// using System.Collections.Generic;
+        /// using System.Linq;
+        /// using Pulumi;
+        /// using Boundary = Pulumi.Boundary;
+        /// 
+        /// return await Deployment.RunAsync(() =&gt; 
+        /// {
+        ///     // Retrieve a user from the global scope
+        ///     var globalGroup = Boundary.GetGroup.Invoke(new()
+        ///     {
+        ///         Name = "admin",
+        ///     });
+        /// 
+        ///     // User from an org scope
+        ///     var org = Boundary.GetScope.Invoke(new()
+        ///     {
+        ///         Name = "org",
+        ///         ScopeId = "global",
+        ///     });
+        /// 
+        ///     var orgGroup = Boundary.GetGroup.Invoke(new()
+        ///     {
+        ///         Name = "username",
+        ///         ScopeId = org.Apply(getScopeResult =&gt; getScopeResult.Id),
+        ///     });
+        /// 
+        /// });
+        /// ```
+        /// </summary>
         public static Output<GetGroupResult> Invoke(GetGroupInvokeArgs args, InvokeOutputOptions options)
             => global::Pulumi.Deployment.Instance.Invoke<GetGroupResult>("boundary:index/getGroup:getGroup", args ?? new GetGroupInvokeArgs(), options.WithDefaults());
     }
@@ -24,9 +129,15 @@ namespace Pulumi.Boundary
 
     public sealed class GetGroupArgs : global::Pulumi.InvokeArgs
     {
+        /// <summary>
+        /// The name of the group to retrieve.
+        /// </summary>
         [Input("name", required: true)]
         public string Name { get; set; } = null!;
 
+        /// <summary>
+        /// The scope ID in which the resource is created. Defaults `global` if unset.
+        /// </summary>
         [Input("scopeId")]
         public string? ScopeId { get; set; }
 
@@ -38,9 +149,15 @@ namespace Pulumi.Boundary
 
     public sealed class GetGroupInvokeArgs : global::Pulumi.InvokeArgs
     {
+        /// <summary>
+        /// The name of the group to retrieve.
+        /// </summary>
         [Input("name", required: true)]
         public Input<string> Name { get; set; } = null!;
 
+        /// <summary>
+        /// The scope ID in which the resource is created. Defaults `global` if unset.
+        /// </summary>
         [Input("scopeId")]
         public Input<string>? ScopeId { get; set; }
 
@@ -54,10 +171,25 @@ namespace Pulumi.Boundary
     [OutputType]
     public sealed class GetGroupResult
     {
+        /// <summary>
+        /// The description of the retrieved group.
+        /// </summary>
         public readonly string Description;
+        /// <summary>
+        /// The ID of the retrieved group.
+        /// </summary>
         public readonly string Id;
+        /// <summary>
+        /// Resource IDs for group members, these are most likely boundary users.
+        /// </summary>
         public readonly ImmutableArray<string> MemberIds;
+        /// <summary>
+        /// The name of the group to retrieve.
+        /// </summary>
         public readonly string Name;
+        /// <summary>
+        /// The scope ID in which the resource is created. Defaults `global` if unset.
+        /// </summary>
         public readonly string? ScopeId;
         public readonly ImmutableArray<Outputs.GetGroupScopeResult> Scopes;
 

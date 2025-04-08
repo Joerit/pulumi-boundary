@@ -4,6 +4,41 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The static host catalog resource allows you to configure a Boundary static-type host catalog. Host catalogs are always part of a project, so a project resource should be used inline or you should have the project ID in hand to successfully configure a host catalog.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: global.id,
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const example = new boundary.HostCatalogStatic("example", {
+ *     name: "My catalog",
+ *     description: "My first host catalog!",
+ *     scopeId: project.id,
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/hostCatalogStatic:HostCatalogStatic foo <my-id>
+ * ```
+ */
 export class HostCatalogStatic extends pulumi.CustomResource {
     /**
      * Get an existing HostCatalogStatic resource's state with the given name, ID, and optional extra

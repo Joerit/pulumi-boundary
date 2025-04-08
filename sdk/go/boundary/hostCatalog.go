@@ -12,6 +12,61 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Deprecated: use `HostCatalogStatic` instead.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.Any(global.Id),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			project, err := boundary.NewScope(ctx, "project", &boundary.ScopeArgs{
+//				Name:                pulumi.String("project_one"),
+//				Description:         pulumi.String("My first scope!"),
+//				ScopeId:             org.ID(),
+//				AutoCreateAdminRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewHostCatalog(ctx, "example", &boundary.HostCatalogArgs{
+//				Name:        pulumi.String("My catalog"),
+//				Description: pulumi.String("My first host catalog!"),
+//				Type:        pulumi.String("Static"),
+//				ScopeId:     project.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/hostCatalog:HostCatalog foo <my-id>
+// ```
 type HostCatalog struct {
 	pulumi.CustomResourceState
 

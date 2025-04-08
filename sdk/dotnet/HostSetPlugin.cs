@@ -9,12 +9,169 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The host_set_plugin resource allows you to configure a Boundary host set. Host sets are always part of a host catalog, so a host catalog resource should be used inline or you should have the host catalog ID in hand to successfully configure a host set.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using System.Text.Json;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     // For more information about the aws plugin, please visit here:
+    ///     // https://github.com/hashicorp/boundary-plugin-host-aws
+    ///     //
+    ///     // For more information about aws users, please visit here:
+    ///     // https://learn.hashicorp.com/tutorials/boundary/aws-host-catalogs?in=boundary/oss-access-management#configure-terraform-and-iam-user-privileges
+    ///     var awsExample = new Boundary.HostCatalogPlugin("aws_example", new()
+    ///     {
+    ///         Name = "My aws catalog",
+    ///         Description = "My first host catalog!",
+    ///         ScopeId = project.Id,
+    ///         PluginName = "aws",
+    ///         AttributesJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["region"] = "us-east-1",
+    ///         }),
+    ///         SecretsJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["access_key_id"] = "aws_access_key_id_value",
+    ///             ["secret_access_key"] = "aws_secret_access_key_value",
+    ///         }),
+    ///     });
+    /// 
+    ///     var web = new Boundary.HostSetPlugin("web", new()
+    ///     {
+    ///         Name = "My web host set plugin",
+    ///         HostCatalogId = awsExample.Id,
+    ///         AttributesJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["filters"] = new[]
+    ///             {
+    ///                 "tag:service-type=web",
+    ///             },
+    ///         }),
+    ///     });
+    /// 
+    ///     var foobar = new Boundary.HostSetPlugin("foobar", new()
+    ///     {
+    ///         Name = "My foobar host set plugin",
+    ///         HostCatalogId = awsExample.Id,
+    ///         PreferredEndpoints = new[]
+    ///         {
+    ///             "cidr:54.0.0.0/8",
+    ///         },
+    ///         AttributesJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["filters"] = new[]
+    ///             {
+    ///                 "tag-key=foo",
+    ///                 "tag-key=bar",
+    ///             },
+    ///         }),
+    ///     });
+    /// 
+    ///     var launch = new Boundary.HostSetPlugin("launch", new()
+    ///     {
+    ///         Name = "My launch host set plugin",
+    ///         HostCatalogId = awsExample.Id,
+    ///         SyncIntervalSeconds = 60,
+    ///         AttributesJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["filters"] = new[]
+    ///             {
+    ///                 "tag:development=prod,dev",
+    ///                 "launch-time=2022-01-04T*",
+    ///             },
+    ///         }),
+    ///     });
+    /// 
+    ///     // For more information about the azure plugin, please visit here:
+    ///     // https://github.com/hashicorp/boundary-plugin-host-azure
+    ///     //
+    ///     // For more information about azure ad applications, please visit here:
+    ///     // https://learn.hashicorp.com/tutorials/boundary/azure-host-catalogs#register-a-new-azure-ad-application-1
+    ///     var azureExample = new Boundary.HostCatalogPlugin("azure_example", new()
+    ///     {
+    ///         Name = "My azure catalog",
+    ///         Description = "My second host catalog!",
+    ///         ScopeId = project.Id,
+    ///         PluginName = "azure",
+    ///         AttributesJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["disable_credential_rotation"] = "true",
+    ///             ["tenant_id"] = "ARM_TENANT_ID",
+    ///             ["subscription_id"] = "ARM_SUBSCRIPTION_ID",
+    ///             ["client_id"] = "ARM_CLIENT_ID",
+    ///         }),
+    ///         SecretsJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["secret_value"] = "ARM_CLIENT_SECRET",
+    ///         }),
+    ///     });
+    /// 
+    ///     var database = new Boundary.HostSetPlugin("database", new()
+    ///     {
+    ///         Name = "My database host set plugin",
+    ///         HostCatalogId = azureExample.Id,
+    ///         AttributesJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["filter"] = "tagName eq 'service-type' and tagValue eq 'database'",
+    ///         }),
+    ///     });
+    /// 
+    ///     var foodev = new Boundary.HostSetPlugin("foodev", new()
+    ///     {
+    ///         Name = "My foodev host set plugin",
+    ///         HostCatalogId = azureExample.Id,
+    ///         PreferredEndpoints = new[]
+    ///         {
+    ///             "cidr:54.0.0.0/8",
+    ///         },
+    ///         SyncIntervalSeconds = 60,
+    ///         AttributesJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["filter"] = "tagName eq 'tag-key' and tagValue eq 'foo'",
+    ///             ["filter"] = "tagName eq 'application' and tagValue eq 'dev'",
+    ///         }),
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/hostSetPlugin:HostSetPlugin foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/hostSetPlugin:HostSetPlugin")]
     public partial class HostSetPlugin : global::Pulumi.CustomResource
     {
         /// <summary>
-        /// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-        /// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+        /// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
         /// </summary>
         [Output("attributesJson")]
         public Output<string?> AttributesJson { get; private set; } = null!;
@@ -102,8 +259,7 @@ namespace Pulumi.Boundary
     public sealed class HostSetPluginArgs : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-        /// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+        /// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
         /// </summary>
         [Input("attributesJson")]
         public Input<string>? AttributesJson { get; set; }
@@ -159,8 +315,7 @@ namespace Pulumi.Boundary
     public sealed class HostSetPluginState : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-        /// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+        /// The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
         /// </summary>
         [Input("attributesJson")]
         public Input<string>? AttributesJson { get; set; }

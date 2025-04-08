@@ -9,6 +9,101 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The group resource allows you to configure a Boundary group.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var foo = new Boundary.User("foo", new()
+    ///     {
+    ///         Description = "foo user",
+    ///         ScopeId = org.Id,
+    ///     });
+    /// 
+    ///     var example = new Boundary.Group("example", new()
+    ///     {
+    ///         Name = "My group",
+    ///         Description = "My first group!",
+    ///         MemberIds = new[]
+    ///         {
+    ///             foo.Id,
+    ///         },
+    ///         ScopeId = org.Id,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// Usage for project-specific group:
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     var foo = new Boundary.User("foo", new()
+    ///     {
+    ///         Description = "foo user",
+    ///         ScopeId = org.Id,
+    ///     });
+    /// 
+    ///     var example = new Boundary.Group("example", new()
+    ///     {
+    ///         Name = "My group",
+    ///         Description = "My first group!",
+    ///         MemberIds = new[]
+    ///         {
+    ///             foo.Id,
+    ///         },
+    ///         ScopeId = project.Id,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/group:Group foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/group:Group")]
     public partial class Group : global::Pulumi.CustomResource
     {

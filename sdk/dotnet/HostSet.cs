@@ -9,6 +9,80 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// Deprecated: use `boundary.HostSetStatic` instead.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     var @static = new Boundary.HostCatalog("static", new()
+    ///     {
+    ///         Type = "static",
+    ///         ScopeId = project.Id,
+    ///     });
+    /// 
+    ///     var first = new Boundary.Host("first", new()
+    ///     {
+    ///         Type = "static",
+    ///         Name = "host_1",
+    ///         Description = "My first host!",
+    ///         Address = "10.0.0.1",
+    ///         HostCatalogId = @static.Id,
+    ///     });
+    /// 
+    ///     var second = new Boundary.Host("second", new()
+    ///     {
+    ///         Type = "static",
+    ///         Name = "host_2",
+    ///         Description = "My second host!",
+    ///         Address = "10.0.0.2",
+    ///         HostCatalogId = @static.Id,
+    ///     });
+    /// 
+    ///     var web = new Boundary.HostSet("web", new()
+    ///     {
+    ///         HostCatalogId = @static.Id,
+    ///         Type = "static",
+    ///         HostIds = new[]
+    ///         {
+    ///             first.Id,
+    ///             second.Id,
+    ///         },
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/hostSet:HostSet foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/hostSet:HostSet")]
     public partial class HostSet : global::Pulumi.CustomResource
     {

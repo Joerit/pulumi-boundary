@@ -9,6 +9,9 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// Deprecated: use `boundary.AccountPassword` instead.
+    /// </summary>
     [BoundaryResourceType("boundary:index/account:Account")]
     public partial class Account : global::Pulumi.CustomResource
     {

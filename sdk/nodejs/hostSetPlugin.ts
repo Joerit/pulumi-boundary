@@ -4,6 +4,120 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The hostSetPlugin resource allows you to configure a Boundary host set. Host sets are always part of a host catalog, so a host catalog resource should be used inline or you should have the host catalog ID in hand to successfully configure a host set.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * // For more information about the aws plugin, please visit here:
+ * // https://github.com/hashicorp/boundary-plugin-host-aws
+ * //
+ * // For more information about aws users, please visit here:
+ * // https://learn.hashicorp.com/tutorials/boundary/aws-host-catalogs?in=boundary/oss-access-management#configure-terraform-and-iam-user-privileges
+ * const awsExample = new boundary.HostCatalogPlugin("aws_example", {
+ *     name: "My aws catalog",
+ *     description: "My first host catalog!",
+ *     scopeId: project.id,
+ *     pluginName: "aws",
+ *     attributesJson: JSON.stringify({
+ *         region: "us-east-1",
+ *     }),
+ *     secretsJson: JSON.stringify({
+ *         access_key_id: "aws_access_key_id_value",
+ *         secret_access_key: "aws_secret_access_key_value",
+ *     }),
+ * });
+ * const web = new boundary.HostSetPlugin("web", {
+ *     name: "My web host set plugin",
+ *     hostCatalogId: awsExample.id,
+ *     attributesJson: JSON.stringify({
+ *         filters: ["tag:service-type=web"],
+ *     }),
+ * });
+ * const foobar = new boundary.HostSetPlugin("foobar", {
+ *     name: "My foobar host set plugin",
+ *     hostCatalogId: awsExample.id,
+ *     preferredEndpoints: ["cidr:54.0.0.0/8"],
+ *     attributesJson: JSON.stringify({
+ *         filters: [
+ *             "tag-key=foo",
+ *             "tag-key=bar",
+ *         ],
+ *     }),
+ * });
+ * const launch = new boundary.HostSetPlugin("launch", {
+ *     name: "My launch host set plugin",
+ *     hostCatalogId: awsExample.id,
+ *     syncIntervalSeconds: 60,
+ *     attributesJson: JSON.stringify({
+ *         filters: [
+ *             "tag:development=prod,dev",
+ *             "launch-time=2022-01-04T*",
+ *         ],
+ *     }),
+ * });
+ * // For more information about the azure plugin, please visit here:
+ * // https://github.com/hashicorp/boundary-plugin-host-azure
+ * //
+ * // For more information about azure ad applications, please visit here:
+ * // https://learn.hashicorp.com/tutorials/boundary/azure-host-catalogs#register-a-new-azure-ad-application-1
+ * const azureExample = new boundary.HostCatalogPlugin("azure_example", {
+ *     name: "My azure catalog",
+ *     description: "My second host catalog!",
+ *     scopeId: project.id,
+ *     pluginName: "azure",
+ *     attributesJson: JSON.stringify({
+ *         disable_credential_rotation: "true",
+ *         tenant_id: "ARM_TENANT_ID",
+ *         subscription_id: "ARM_SUBSCRIPTION_ID",
+ *         client_id: "ARM_CLIENT_ID",
+ *     }),
+ *     secretsJson: JSON.stringify({
+ *         secret_value: "ARM_CLIENT_SECRET",
+ *     }),
+ * });
+ * const database = new boundary.HostSetPlugin("database", {
+ *     name: "My database host set plugin",
+ *     hostCatalogId: azureExample.id,
+ *     attributesJson: JSON.stringify({
+ *         filter: "tagName eq 'service-type' and tagValue eq 'database'",
+ *     }),
+ * });
+ * const foodev = new boundary.HostSetPlugin("foodev", {
+ *     name: "My foodev host set plugin",
+ *     hostCatalogId: azureExample.id,
+ *     preferredEndpoints: ["cidr:54.0.0.0/8"],
+ *     syncIntervalSeconds: 60,
+ *     attributesJson: JSON.stringify({
+ *         filter: "tagName eq 'tag-key' and tagValue eq 'foo'",
+ *         filter: "tagName eq 'application' and tagValue eq 'dev'",
+ *     }),
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/hostSetPlugin:HostSetPlugin foo <my-id>
+ * ```
+ */
 export class HostSetPlugin extends pulumi.CustomResource {
     /**
      * Get an existing HostSetPlugin resource's state with the given name, ID, and optional extra
@@ -33,8 +147,7 @@ export class HostSetPlugin extends pulumi.CustomResource {
     }
 
     /**
-     * The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-     * file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+     * The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
      */
     public readonly attributesJson!: pulumi.Output<string | undefined>;
     /**
@@ -105,8 +218,7 @@ export class HostSetPlugin extends pulumi.CustomResource {
  */
 export interface HostSetPluginState {
     /**
-     * The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-     * file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+     * The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
      */
     attributesJson?: pulumi.Input<string>;
     /**
@@ -140,8 +252,7 @@ export interface HostSetPluginState {
  */
 export interface HostSetPluginArgs {
     /**
-     * The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-     * file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
+     * The attributes for the host set. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host set.
      */
     attributesJson?: pulumi.Input<string>;
     /**

@@ -4,6 +4,46 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The user resource allows you to configure a Boundary user.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const password = new boundary.AuthMethod("password", {
+ *     scopeId: org.id,
+ *     type: "password",
+ * });
+ * const jeff = new boundary.AccountPassword("jeff", {
+ *     authMethodId: password.id,
+ *     type: "password",
+ *     loginName: "jeff",
+ *     password: "$uper$ecure",
+ * });
+ * const jeffUser = new boundary.User("jeff", {
+ *     name: "jeff",
+ *     description: "Jeff's user resource",
+ *     accountIds: [jeff.id],
+ *     scopeId: org.id,
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/user:User foo <my-id>
+ * ```
+ */
 export class User extends pulumi.CustomResource {
     /**
      * Get an existing User resource's state with the given name, ID, and optional extra

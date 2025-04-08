@@ -9,6 +9,52 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The static host catalog resource allows you to configure a Boundary static-type host catalog. Host catalogs are always part of a project, so a project resource should be used inline or you should have the project ID in hand to successfully configure a host catalog.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = @global.Id,
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     var example = new Boundary.HostCatalogStatic("example", new()
+    ///     {
+    ///         Name = "My catalog",
+    ///         Description = "My first host catalog!",
+    ///         ScopeId = project.Id,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/hostCatalogStatic:HostCatalogStatic foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/hostCatalogStatic:HostCatalogStatic")]
     public partial class HostCatalogStatic : global::Pulumi.CustomResource
     {

@@ -12,6 +12,90 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Deprecated: use `HostSetStatic` instead.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			project, err := boundary.NewScope(ctx, "project", &boundary.ScopeArgs{
+//				Name:                pulumi.String("project_one"),
+//				Description:         pulumi.String("My first scope!"),
+//				ScopeId:             org.ID(),
+//				AutoCreateAdminRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			static, err := boundary.NewHostCatalog(ctx, "static", &boundary.HostCatalogArgs{
+//				Type:    pulumi.String("static"),
+//				ScopeId: project.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			first, err := boundary.NewHost(ctx, "first", &boundary.HostArgs{
+//				Type:          pulumi.String("static"),
+//				Name:          pulumi.String("host_1"),
+//				Description:   pulumi.String("My first host!"),
+//				Address:       pulumi.String("10.0.0.1"),
+//				HostCatalogId: static.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			second, err := boundary.NewHost(ctx, "second", &boundary.HostArgs{
+//				Type:          pulumi.String("static"),
+//				Name:          pulumi.String("host_2"),
+//				Description:   pulumi.String("My second host!"),
+//				Address:       pulumi.String("10.0.0.2"),
+//				HostCatalogId: static.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewHostSet(ctx, "web", &boundary.HostSetArgs{
+//				HostCatalogId: static.ID(),
+//				Type:          pulumi.String("static"),
+//				HostIds: pulumi.StringArray{
+//					first.ID(),
+//					second.ID(),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/hostSet:HostSet foo <my-id>
+// ```
 type HostSet struct {
 	pulumi.CustomResourceState
 

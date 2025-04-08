@@ -4,6 +4,39 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The account resource allows you to configure a Boundary account.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const password = new boundary.AuthMethod("password", {
+ *     scopeId: org.id,
+ *     type: "password",
+ * });
+ * const jeff = new boundary.AccountPassword("jeff", {
+ *     authMethodId: password.id,
+ *     loginName: "jeff",
+ *     password: "$uper$ecure",
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/accountPassword:AccountPassword foo <my-id>
+ * ```
+ */
 export class AccountPassword extends pulumi.CustomResource {
     /**
      * Get an existing AccountPassword resource's state with the given name, ID, and optional extra

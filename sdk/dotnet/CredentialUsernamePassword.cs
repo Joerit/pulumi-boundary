@@ -9,6 +9,61 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The username/password credential resource allows you to configure a credential using a username and password pair.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "global scope",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     var example = new Boundary.CredentialStoreStatic("example", new()
+    ///     {
+    ///         Name = "example_static_credential_store",
+    ///         Description = "My first static credential store!",
+    ///         ScopeId = project.Id,
+    ///     });
+    /// 
+    ///     var exampleCredentialUsernamePassword = new Boundary.CredentialUsernamePassword("example", new()
+    ///     {
+    ///         Name = "example_username_password",
+    ///         Description = "My first username password credential!",
+    ///         CredentialStoreId = example.Id,
+    ///         Username = "my-username",
+    ///         Password = "my-password",
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/credentialUsernamePassword:CredentialUsernamePassword example_username_password &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/credentialUsernamePassword:CredentialUsernamePassword")]
     public partial class CredentialUsernamePassword : global::Pulumi.CustomResource
     {

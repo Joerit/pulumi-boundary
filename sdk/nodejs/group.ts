@@ -4,6 +4,71 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The group resource allows you to configure a Boundary group.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const foo = new boundary.User("foo", {
+ *     description: "foo user",
+ *     scopeId: org.id,
+ * });
+ * const example = new boundary.Group("example", {
+ *     name: "My group",
+ *     description: "My first group!",
+ *     memberIds: [foo.id],
+ *     scopeId: org.id,
+ * });
+ * ```
+ *
+ * Usage for project-specific group:
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const foo = new boundary.User("foo", {
+ *     description: "foo user",
+ *     scopeId: org.id,
+ * });
+ * const example = new boundary.Group("example", {
+ *     name: "My group",
+ *     description: "My first group!",
+ *     memberIds: [foo.id],
+ *     scopeId: project.id,
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/group:Group foo <my-id>
+ * ```
+ */
 export class Group extends pulumi.CustomResource {
     /**
      * Get an existing Group resource's state with the given name, ID, and optional extra

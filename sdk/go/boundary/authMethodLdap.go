@@ -12,6 +12,61 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The LDAP auth method resource allows you to configure a Boundary auth_method_ldap.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewAuthMethodLdap(ctx, "forumsys_ldap", &boundary.AuthMethodLdapArgs{
+//				Name:    pulumi.String("forumsys public LDAP"),
+//				ScopeId: pulumi.String("global"),
+//				Urls: pulumi.StringArray{
+//					pulumi.String("ldap://ldap.forumsys.com"),
+//				},
+//				UserDn:       pulumi.String("dc=example,dc=com"),
+//				UserAttr:     pulumi.String("uid"),
+//				GroupDn:      pulumi.String("dc=example,dc=com"),
+//				BindDn:       pulumi.String("cn=read-only-admin,dc=example,dc=com"),
+//				BindPassword: pulumi.String("password"),
+//				State:        pulumi.String("active-public"),
+//				EnableGroups: pulumi.Bool(true),
+//				DiscoverDn:   pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/authMethodLdap:AuthMethodLdap foo <my-id>
+// ```
 type AuthMethodLdap struct {
 	pulumi.CustomResourceState
 
@@ -23,22 +78,17 @@ type AuthMethodLdap struct {
 	BindDn pulumi.StringPtrOutput `pulumi:"bindDn"`
 	// The password to use along with bind-dn performing user and group searches (optional).
 	BindPassword pulumi.StringPtrOutput `pulumi:"bindPassword"`
-	// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of
-	// the value.
+	// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	BindPasswordHmac pulumi.StringOutput `pulumi:"bindPasswordHmac"`
-	// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP
-	// server(optional). This may be specified multiple times
+	// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP server(optional).  This may be specified multiple times
 	Certificates pulumi.StringArrayOutput `pulumi:"certificates"`
-	// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP
-	// server(optional).
+	// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP server(optional).
 	ClientCertificate pulumi.StringPtrOutput `pulumi:"clientCertificate"`
 	// PEM-encoded X.509 client certificate key in PKCS #8, ASN.1 DER form used with the client certificate (optional).
 	ClientCertificateKey pulumi.StringPtrOutput `pulumi:"clientCertificateKey"`
-	// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial
-	// setting of the value.
+	// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	ClientCertificateKeyHmac pulumi.StringOutput `pulumi:"clientCertificateKeyHmac"`
-	// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching,
-	// DerefFindingBaseObj, and DerefAlways (optional).
+	// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching, DerefFindingBaseObj, and DerefAlways (optional).
 	DereferenceAliases pulumi.StringOutput `pulumi:"dereferenceAliases"`
 	// The auth method description.
 	Description pulumi.StringPtrOutput `pulumi:"description"`
@@ -54,11 +104,9 @@ type AuthMethodLdap struct {
 	GroupFilter pulumi.StringPtrOutput `pulumi:"groupFilter"`
 	// Skip the LDAP server SSL certificate validation (optional) - insecure and use with caution.
 	InsecureTls pulumi.BoolPtrOutput `pulumi:"insecureTls"`
-	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-	// a scope means the the user will be automatically created when they login using an LDAP account.
+	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the the user will be automatically created when they login using an LDAP account.
 	IsPrimaryForScope pulumi.BoolPtrOutput `pulumi:"isPrimaryForScope"`
-	// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups
-	// (optional).
+	// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups (optional).
 	MaximumPageSize pulumi.IntPtrOutput `pulumi:"maximumPageSize"`
 	// The auth method name. Defaults to the resource name.
 	Name pulumi.StringOutput `pulumi:"name"`
@@ -72,7 +120,7 @@ type AuthMethodLdap struct {
 	Type pulumi.StringPtrOutput `pulumi:"type"`
 	// The userPrincipalDomain used to construct the UPN string for the authenticating user (optional).
 	UpnDomain pulumi.StringPtrOutput `pulumi:"upnDomain"`
-	// The LDAP URLs that specify LDAP servers to connect to (required). May be specified multiple times.
+	// The LDAP URLs that specify LDAP servers to connect to (required).  May be specified multiple times.
 	Urls pulumi.StringArrayOutput `pulumi:"urls"`
 	// Use the Active Directory tokenGroups constructed attribute of the user to find the group memberships (optional).
 	UseTokenGroups pulumi.BoolPtrOutput `pulumi:"useTokenGroups"`
@@ -125,22 +173,17 @@ type authMethodLdapState struct {
 	BindDn *string `pulumi:"bindDn"`
 	// The password to use along with bind-dn performing user and group searches (optional).
 	BindPassword *string `pulumi:"bindPassword"`
-	// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of
-	// the value.
+	// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	BindPasswordHmac *string `pulumi:"bindPasswordHmac"`
-	// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP
-	// server(optional). This may be specified multiple times
+	// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP server(optional).  This may be specified multiple times
 	Certificates []string `pulumi:"certificates"`
-	// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP
-	// server(optional).
+	// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP server(optional).
 	ClientCertificate *string `pulumi:"clientCertificate"`
 	// PEM-encoded X.509 client certificate key in PKCS #8, ASN.1 DER form used with the client certificate (optional).
 	ClientCertificateKey *string `pulumi:"clientCertificateKey"`
-	// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial
-	// setting of the value.
+	// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	ClientCertificateKeyHmac *string `pulumi:"clientCertificateKeyHmac"`
-	// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching,
-	// DerefFindingBaseObj, and DerefAlways (optional).
+	// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching, DerefFindingBaseObj, and DerefAlways (optional).
 	DereferenceAliases *string `pulumi:"dereferenceAliases"`
 	// The auth method description.
 	Description *string `pulumi:"description"`
@@ -156,11 +199,9 @@ type authMethodLdapState struct {
 	GroupFilter *string `pulumi:"groupFilter"`
 	// Skip the LDAP server SSL certificate validation (optional) - insecure and use with caution.
 	InsecureTls *bool `pulumi:"insecureTls"`
-	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-	// a scope means the the user will be automatically created when they login using an LDAP account.
+	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the the user will be automatically created when they login using an LDAP account.
 	IsPrimaryForScope *bool `pulumi:"isPrimaryForScope"`
-	// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups
-	// (optional).
+	// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups (optional).
 	MaximumPageSize *int `pulumi:"maximumPageSize"`
 	// The auth method name. Defaults to the resource name.
 	Name *string `pulumi:"name"`
@@ -174,7 +215,7 @@ type authMethodLdapState struct {
 	Type *string `pulumi:"type"`
 	// The userPrincipalDomain used to construct the UPN string for the authenticating user (optional).
 	UpnDomain *string `pulumi:"upnDomain"`
-	// The LDAP URLs that specify LDAP servers to connect to (required). May be specified multiple times.
+	// The LDAP URLs that specify LDAP servers to connect to (required).  May be specified multiple times.
 	Urls []string `pulumi:"urls"`
 	// Use the Active Directory tokenGroups constructed attribute of the user to find the group memberships (optional).
 	UseTokenGroups *bool `pulumi:"useTokenGroups"`
@@ -195,22 +236,17 @@ type AuthMethodLdapState struct {
 	BindDn pulumi.StringPtrInput
 	// The password to use along with bind-dn performing user and group searches (optional).
 	BindPassword pulumi.StringPtrInput
-	// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of
-	// the value.
+	// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	BindPasswordHmac pulumi.StringPtrInput
-	// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP
-	// server(optional). This may be specified multiple times
+	// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP server(optional).  This may be specified multiple times
 	Certificates pulumi.StringArrayInput
-	// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP
-	// server(optional).
+	// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP server(optional).
 	ClientCertificate pulumi.StringPtrInput
 	// PEM-encoded X.509 client certificate key in PKCS #8, ASN.1 DER form used with the client certificate (optional).
 	ClientCertificateKey pulumi.StringPtrInput
-	// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial
-	// setting of the value.
+	// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	ClientCertificateKeyHmac pulumi.StringPtrInput
-	// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching,
-	// DerefFindingBaseObj, and DerefAlways (optional).
+	// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching, DerefFindingBaseObj, and DerefAlways (optional).
 	DereferenceAliases pulumi.StringPtrInput
 	// The auth method description.
 	Description pulumi.StringPtrInput
@@ -226,11 +262,9 @@ type AuthMethodLdapState struct {
 	GroupFilter pulumi.StringPtrInput
 	// Skip the LDAP server SSL certificate validation (optional) - insecure and use with caution.
 	InsecureTls pulumi.BoolPtrInput
-	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-	// a scope means the the user will be automatically created when they login using an LDAP account.
+	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the the user will be automatically created when they login using an LDAP account.
 	IsPrimaryForScope pulumi.BoolPtrInput
-	// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups
-	// (optional).
+	// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups (optional).
 	MaximumPageSize pulumi.IntPtrInput
 	// The auth method name. Defaults to the resource name.
 	Name pulumi.StringPtrInput
@@ -244,7 +278,7 @@ type AuthMethodLdapState struct {
 	Type pulumi.StringPtrInput
 	// The userPrincipalDomain used to construct the UPN string for the authenticating user (optional).
 	UpnDomain pulumi.StringPtrInput
-	// The LDAP URLs that specify LDAP servers to connect to (required). May be specified multiple times.
+	// The LDAP URLs that specify LDAP servers to connect to (required).  May be specified multiple times.
 	Urls pulumi.StringArrayInput
 	// Use the Active Directory tokenGroups constructed attribute of the user to find the group memberships (optional).
 	UseTokenGroups pulumi.BoolPtrInput
@@ -269,22 +303,17 @@ type authMethodLdapArgs struct {
 	BindDn *string `pulumi:"bindDn"`
 	// The password to use along with bind-dn performing user and group searches (optional).
 	BindPassword *string `pulumi:"bindPassword"`
-	// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of
-	// the value.
+	// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	BindPasswordHmac *string `pulumi:"bindPasswordHmac"`
-	// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP
-	// server(optional). This may be specified multiple times
+	// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP server(optional).  This may be specified multiple times
 	Certificates []string `pulumi:"certificates"`
-	// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP
-	// server(optional).
+	// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP server(optional).
 	ClientCertificate *string `pulumi:"clientCertificate"`
 	// PEM-encoded X.509 client certificate key in PKCS #8, ASN.1 DER form used with the client certificate (optional).
 	ClientCertificateKey *string `pulumi:"clientCertificateKey"`
-	// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial
-	// setting of the value.
+	// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	ClientCertificateKeyHmac *string `pulumi:"clientCertificateKeyHmac"`
-	// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching,
-	// DerefFindingBaseObj, and DerefAlways (optional).
+	// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching, DerefFindingBaseObj, and DerefAlways (optional).
 	DereferenceAliases *string `pulumi:"dereferenceAliases"`
 	// The auth method description.
 	Description *string `pulumi:"description"`
@@ -300,11 +329,9 @@ type authMethodLdapArgs struct {
 	GroupFilter *string `pulumi:"groupFilter"`
 	// Skip the LDAP server SSL certificate validation (optional) - insecure and use with caution.
 	InsecureTls *bool `pulumi:"insecureTls"`
-	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-	// a scope means the the user will be automatically created when they login using an LDAP account.
+	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the the user will be automatically created when they login using an LDAP account.
 	IsPrimaryForScope *bool `pulumi:"isPrimaryForScope"`
-	// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups
-	// (optional).
+	// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups (optional).
 	MaximumPageSize *int `pulumi:"maximumPageSize"`
 	// The auth method name. Defaults to the resource name.
 	Name *string `pulumi:"name"`
@@ -318,7 +345,7 @@ type authMethodLdapArgs struct {
 	Type *string `pulumi:"type"`
 	// The userPrincipalDomain used to construct the UPN string for the authenticating user (optional).
 	UpnDomain *string `pulumi:"upnDomain"`
-	// The LDAP URLs that specify LDAP servers to connect to (required). May be specified multiple times.
+	// The LDAP URLs that specify LDAP servers to connect to (required).  May be specified multiple times.
 	Urls []string `pulumi:"urls"`
 	// Use the Active Directory tokenGroups constructed attribute of the user to find the group memberships (optional).
 	UseTokenGroups *bool `pulumi:"useTokenGroups"`
@@ -340,22 +367,17 @@ type AuthMethodLdapArgs struct {
 	BindDn pulumi.StringPtrInput
 	// The password to use along with bind-dn performing user and group searches (optional).
 	BindPassword pulumi.StringPtrInput
-	// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of
-	// the value.
+	// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	BindPasswordHmac pulumi.StringPtrInput
-	// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP
-	// server(optional). This may be specified multiple times
+	// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP server(optional).  This may be specified multiple times
 	Certificates pulumi.StringArrayInput
-	// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP
-	// server(optional).
+	// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP server(optional).
 	ClientCertificate pulumi.StringPtrInput
 	// PEM-encoded X.509 client certificate key in PKCS #8, ASN.1 DER form used with the client certificate (optional).
 	ClientCertificateKey pulumi.StringPtrInput
-	// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial
-	// setting of the value.
+	// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	ClientCertificateKeyHmac pulumi.StringPtrInput
-	// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching,
-	// DerefFindingBaseObj, and DerefAlways (optional).
+	// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching, DerefFindingBaseObj, and DerefAlways (optional).
 	DereferenceAliases pulumi.StringPtrInput
 	// The auth method description.
 	Description pulumi.StringPtrInput
@@ -371,11 +393,9 @@ type AuthMethodLdapArgs struct {
 	GroupFilter pulumi.StringPtrInput
 	// Skip the LDAP server SSL certificate validation (optional) - insecure and use with caution.
 	InsecureTls pulumi.BoolPtrInput
-	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-	// a scope means the the user will be automatically created when they login using an LDAP account.
+	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the the user will be automatically created when they login using an LDAP account.
 	IsPrimaryForScope pulumi.BoolPtrInput
-	// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups
-	// (optional).
+	// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups (optional).
 	MaximumPageSize pulumi.IntPtrInput
 	// The auth method name. Defaults to the resource name.
 	Name pulumi.StringPtrInput
@@ -389,7 +409,7 @@ type AuthMethodLdapArgs struct {
 	Type pulumi.StringPtrInput
 	// The userPrincipalDomain used to construct the UPN string for the authenticating user (optional).
 	UpnDomain pulumi.StringPtrInput
-	// The LDAP URLs that specify LDAP servers to connect to (required). May be specified multiple times.
+	// The LDAP URLs that specify LDAP servers to connect to (required).  May be specified multiple times.
 	Urls pulumi.StringArrayInput
 	// Use the Active Directory tokenGroups constructed attribute of the user to find the group memberships (optional).
 	UseTokenGroups pulumi.BoolPtrInput
@@ -508,20 +528,17 @@ func (o AuthMethodLdapOutput) BindPassword() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.StringPtrOutput { return v.BindPassword }).(pulumi.StringPtrOutput)
 }
 
-// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of
-// the value.
+// The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of the value.
 func (o AuthMethodLdapOutput) BindPasswordHmac() pulumi.StringOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.StringOutput { return v.BindPasswordHmac }).(pulumi.StringOutput)
 }
 
-// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP
-// server(optional). This may be specified multiple times
+// PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP server(optional).  This may be specified multiple times
 func (o AuthMethodLdapOutput) Certificates() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.StringArrayOutput { return v.Certificates }).(pulumi.StringArrayOutput)
 }
 
-// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP
-// server(optional).
+// PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP server(optional).
 func (o AuthMethodLdapOutput) ClientCertificate() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.StringPtrOutput { return v.ClientCertificate }).(pulumi.StringPtrOutput)
 }
@@ -531,14 +548,12 @@ func (o AuthMethodLdapOutput) ClientCertificateKey() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.StringPtrOutput { return v.ClientCertificateKey }).(pulumi.StringPtrOutput)
 }
 
-// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial
-// setting of the value.
+// The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial setting of the value.
 func (o AuthMethodLdapOutput) ClientCertificateKeyHmac() pulumi.StringOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.StringOutput { return v.ClientCertificateKeyHmac }).(pulumi.StringOutput)
 }
 
-// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching,
-// DerefFindingBaseObj, and DerefAlways (optional).
+// Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching, DerefFindingBaseObj, and DerefAlways (optional).
 func (o AuthMethodLdapOutput) DereferenceAliases() pulumi.StringOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.StringOutput { return v.DereferenceAliases }).(pulumi.StringOutput)
 }
@@ -578,14 +593,12 @@ func (o AuthMethodLdapOutput) InsecureTls() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.BoolPtrOutput { return v.InsecureTls }).(pulumi.BoolPtrOutput)
 }
 
-// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-// a scope means the the user will be automatically created when they login using an LDAP account.
+// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the the user will be automatically created when they login using an LDAP account.
 func (o AuthMethodLdapOutput) IsPrimaryForScope() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.BoolPtrOutput { return v.IsPrimaryForScope }).(pulumi.BoolPtrOutput)
 }
 
-// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups
-// (optional).
+// MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups (optional).
 func (o AuthMethodLdapOutput) MaximumPageSize() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.IntPtrOutput { return v.MaximumPageSize }).(pulumi.IntPtrOutput)
 }
@@ -620,7 +633,7 @@ func (o AuthMethodLdapOutput) UpnDomain() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.StringPtrOutput { return v.UpnDomain }).(pulumi.StringPtrOutput)
 }
 
-// The LDAP URLs that specify LDAP servers to connect to (required). May be specified multiple times.
+// The LDAP URLs that specify LDAP servers to connect to (required).  May be specified multiple times.
 func (o AuthMethodLdapOutput) Urls() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *AuthMethodLdap) pulumi.StringArrayOutput { return v.Urls }).(pulumi.StringArrayOutput)
 }

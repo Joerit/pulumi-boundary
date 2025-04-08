@@ -9,6 +9,9 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The account resource allows you to configure a Boundary account.
+    /// </summary>
     [BoundaryResourceType("boundary:index/accountOidc:AccountOidc")]
     public partial class AccountOidc : global::Pulumi.CustomResource
     {

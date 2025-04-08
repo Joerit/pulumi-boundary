@@ -4,6 +4,74 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The host catalog resource allows you to configure a Boundary plugin-type host catalog. Host catalogs are always part of a project, so a project resource should be used inline or you should have the project ID in hand to successfully configure a host catalog.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: global.id,
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * // For more information about the aws plugin, please visit here:
+ * // https://github.com/hashicorp/boundary-plugin-host-aws
+ * //
+ * // For more information about aws users, please visit here:
+ * // https://learn.hashicorp.com/tutorials/boundary/aws-host-catalogs?in=boundary/oss-access-management#configure-terraform-and-iam-user-privileges
+ * const awsExample = new boundary.HostCatalogPlugin("aws_example", {
+ *     name: "My aws catalog",
+ *     description: "My first host catalog!",
+ *     scopeId: project.id,
+ *     pluginName: "aws",
+ *     attributesJson: JSON.stringify({
+ *         region: "us-east-1",
+ *     }),
+ *     secretsJson: JSON.stringify({
+ *         access_key_id: "aws_access_key_id_value",
+ *         secret_access_key: "aws_secret_access_key_value",
+ *     }),
+ * });
+ * // For more information about the azure plugin, please visit here:
+ * // https://github.com/hashicorp/boundary-plugin-host-azure
+ * //
+ * // For more information about azure ad applications, please visit here:
+ * // https://learn.hashicorp.com/tutorials/boundary/azure-host-catalogs#register-a-new-azure-ad-application-1
+ * const azureExample = new boundary.HostCatalogPlugin("azure_example", {
+ *     name: "My azure catalog",
+ *     description: "My second host catalog!",
+ *     scopeId: project.id,
+ *     pluginName: "azure",
+ *     attributesJson: JSON.stringify({
+ *         disable_credential_rotation: "true",
+ *         tenant_id: "ARM_TENANT_ID",
+ *         subscription_id: "ARM_SUBSCRIPTION_ID",
+ *         client_id: "ARM_CLIENT_ID",
+ *     }),
+ *     secretsJson: JSON.stringify({
+ *         secret_value: "ARM_CLIENT_SECRET",
+ *     }),
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/hostCatalogPlugin:HostCatalogPlugin foo <my-id>
+ * ```
+ */
 export class HostCatalogPlugin extends pulumi.CustomResource {
     /**
      * Get an existing HostCatalogPlugin resource's state with the given name, ID, and optional extra
@@ -33,8 +101,7 @@ export class HostCatalogPlugin extends pulumi.CustomResource {
     }
 
     /**
-     * The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-     * file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
+     * The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
      */
     public readonly attributesJson!: pulumi.Output<string | undefined>;
     /**
@@ -46,8 +113,7 @@ export class HostCatalogPlugin extends pulumi.CustomResource {
      */
     public readonly internalForceUpdate!: pulumi.Output<string>;
     /**
-     * Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift
-     * detection.
+     * Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift detection.
      */
     public readonly internalHmacUsedForSecretsConfigHmac!: pulumi.Output<string>;
     /**
@@ -75,10 +141,7 @@ export class HostCatalogPlugin extends pulumi.CustomResource {
      */
     public readonly secretsHmac!: pulumi.Output<string>;
     /**
-     * The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-     * file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing
-     * this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them
-     * for storage.
+     * The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
      */
     public readonly secretsJson!: pulumi.Output<string | undefined>;
     /**
@@ -141,8 +204,7 @@ export class HostCatalogPlugin extends pulumi.CustomResource {
  */
 export interface HostCatalogPluginState {
     /**
-     * The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-     * file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
+     * The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
      */
     attributesJson?: pulumi.Input<string>;
     /**
@@ -154,8 +216,7 @@ export interface HostCatalogPluginState {
      */
     internalForceUpdate?: pulumi.Input<string>;
     /**
-     * Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift
-     * detection.
+     * Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift detection.
      */
     internalHmacUsedForSecretsConfigHmac?: pulumi.Input<string>;
     /**
@@ -183,10 +244,7 @@ export interface HostCatalogPluginState {
      */
     secretsHmac?: pulumi.Input<string>;
     /**
-     * The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-     * file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing
-     * this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them
-     * for storage.
+     * The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
      */
     secretsJson?: pulumi.Input<string>;
     /**
@@ -200,8 +258,7 @@ export interface HostCatalogPluginState {
  */
 export interface HostCatalogPluginArgs {
     /**
-     * The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-     * file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
+     * The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
      */
     attributesJson?: pulumi.Input<string>;
     /**
@@ -213,8 +270,7 @@ export interface HostCatalogPluginArgs {
      */
     internalForceUpdate?: pulumi.Input<string>;
     /**
-     * Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift
-     * detection.
+     * Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift detection.
      */
     internalHmacUsedForSecretsConfigHmac?: pulumi.Input<string>;
     /**
@@ -242,10 +298,7 @@ export interface HostCatalogPluginArgs {
      */
     secretsHmac?: pulumi.Input<string>;
     /**
-     * The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-     * file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing
-     * this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them
-     * for storage.
+     * The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
      */
     secretsJson?: pulumi.Input<string>;
     /**

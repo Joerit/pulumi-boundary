@@ -4,6 +4,9 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The auth method resource allows you to configure a Boundary auth_method_password.
+ */
 export class AuthMethodPassword extends pulumi.CustomResource {
     /**
      * Get an existing AuthMethodPassword resource's state with the given name, ID, and optional extra

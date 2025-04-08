@@ -11,6 +11,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The user data source allows you to find a Boundary user.
 func LookupUser(ctx *pulumi.Context, args *LookupUserArgs, opts ...pulumi.InvokeOption) (*LookupUserResult, error) {
 	opts = internal.PkgInvokeDefaultOpts(opts)
 	var rv LookupUserResult
@@ -23,21 +24,31 @@ func LookupUser(ctx *pulumi.Context, args *LookupUserArgs, opts ...pulumi.Invoke
 
 // A collection of arguments for invoking getUser.
 type LookupUserArgs struct {
-	Name    string  `pulumi:"name"`
+	// The username to search for.
+	Name string `pulumi:"name"`
+	// The scope ID in which the resource is created. Defaults `global` if unset.
 	ScopeId *string `pulumi:"scopeId"`
 }
 
 // A collection of values returned by getUser.
 type LookupUserResult struct {
-	AccountIds        []string       `pulumi:"accountIds"`
-	AuthorizedActions []string       `pulumi:"authorizedActions"`
-	Description       string         `pulumi:"description"`
-	Id                string         `pulumi:"id"`
-	LoginName         string         `pulumi:"loginName"`
-	Name              string         `pulumi:"name"`
-	PrimaryAccountId  string         `pulumi:"primaryAccountId"`
-	ScopeId           *string        `pulumi:"scopeId"`
-	Scopes            []GetUserScope `pulumi:"scopes"`
+	// Account ID's to associate with this user resource.
+	AccountIds []string `pulumi:"accountIds"`
+	// A list of actions that the worker is entitled to perform.
+	AuthorizedActions []string `pulumi:"authorizedActions"`
+	// The user description.
+	Description string `pulumi:"description"`
+	// The ID of the user.
+	Id string `pulumi:"id"`
+	// Login name for user.
+	LoginName string `pulumi:"loginName"`
+	// The username to search for.
+	Name string `pulumi:"name"`
+	// Primary account ID.
+	PrimaryAccountId string `pulumi:"primaryAccountId"`
+	// The scope ID in which the resource is created. Defaults `global` if unset.
+	ScopeId *string        `pulumi:"scopeId"`
+	Scopes  []GetUserScope `pulumi:"scopes"`
 }
 
 func LookupUserOutput(ctx *pulumi.Context, args LookupUserOutputArgs, opts ...pulumi.InvokeOption) LookupUserResultOutput {
@@ -51,7 +62,9 @@ func LookupUserOutput(ctx *pulumi.Context, args LookupUserOutputArgs, opts ...pu
 
 // A collection of arguments for invoking getUser.
 type LookupUserOutputArgs struct {
-	Name    pulumi.StringInput    `pulumi:"name"`
+	// The username to search for.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The scope ID in which the resource is created. Defaults `global` if unset.
 	ScopeId pulumi.StringPtrInput `pulumi:"scopeId"`
 }
 
@@ -74,34 +87,42 @@ func (o LookupUserResultOutput) ToLookupUserResultOutputWithContext(ctx context.
 	return o
 }
 
+// Account ID's to associate with this user resource.
 func (o LookupUserResultOutput) AccountIds() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupUserResult) []string { return v.AccountIds }).(pulumi.StringArrayOutput)
 }
 
+// A list of actions that the worker is entitled to perform.
 func (o LookupUserResultOutput) AuthorizedActions() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupUserResult) []string { return v.AuthorizedActions }).(pulumi.StringArrayOutput)
 }
 
+// The user description.
 func (o LookupUserResultOutput) Description() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupUserResult) string { return v.Description }).(pulumi.StringOutput)
 }
 
+// The ID of the user.
 func (o LookupUserResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupUserResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
+// Login name for user.
 func (o LookupUserResultOutput) LoginName() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupUserResult) string { return v.LoginName }).(pulumi.StringOutput)
 }
 
+// The username to search for.
 func (o LookupUserResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupUserResult) string { return v.Name }).(pulumi.StringOutput)
 }
 
+// Primary account ID.
 func (o LookupUserResultOutput) PrimaryAccountId() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupUserResult) string { return v.PrimaryAccountId }).(pulumi.StringOutput)
 }
 
+// The scope ID in which the resource is created. Defaults `global` if unset.
 func (o LookupUserResultOutput) ScopeId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupUserResult) *string { return v.ScopeId }).(pulumi.StringPtrOutput)
 }

@@ -9,6 +9,188 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The role resource allows you to configure a Boundary role.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// Basic usage:
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var example = new Boundary.Role("example", new()
+    ///     {
+    ///         Name = "My role",
+    ///         Description = "My first role!",
+    ///         ScopeId = org.Id,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// Usage with a user resource:
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var foo = new Boundary.User("foo", new()
+    ///     {
+    ///         Name = "User 1",
+    ///         ScopeId = org.Id,
+    ///     });
+    /// 
+    ///     var bar = new Boundary.User("bar", new()
+    ///     {
+    ///         Name = "User 2",
+    ///         ScopeId = org.Id,
+    ///     });
+    /// 
+    ///     var example = new Boundary.Role("example", new()
+    ///     {
+    ///         Name = "My role",
+    ///         Description = "My first role!",
+    ///         PrincipalIds = new[]
+    ///         {
+    ///             foo.Id,
+    ///             bar.Id,
+    ///         },
+    ///         ScopeId = org.Id,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// Usage with user and grants resource:
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var @readonly = new Boundary.User("readonly", new()
+    ///     {
+    ///         Name = "readonly",
+    ///         Description = "A readonly user",
+    ///         ScopeId = org.Id,
+    ///     });
+    /// 
+    ///     var readonlyRole = new Boundary.Role("readonly", new()
+    ///     {
+    ///         Name = "readonly",
+    ///         Description = "A readonly role",
+    ///         PrincipalIds = new[]
+    ///         {
+    ///             @readonly.Id,
+    ///         },
+    ///         GrantStrings = new[]
+    ///         {
+    ///             "ids=*;type=*;actions=read",
+    ///         },
+    ///         ScopeId = org.Id,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// Usage for a project-specific role:
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     var @readonly = new Boundary.User("readonly", new()
+    ///     {
+    ///         Name = "readonly",
+    ///         Description = "A readonly user",
+    ///         ScopeId = org.Id,
+    ///     });
+    /// 
+    ///     var readonlyRole = new Boundary.Role("readonly", new()
+    ///     {
+    ///         Name = "readonly",
+    ///         Description = "A readonly role",
+    ///         PrincipalIds = new[]
+    ///         {
+    ///             @readonly.Id,
+    ///         },
+    ///         GrantStrings = new[]
+    ///         {
+    ///             "ids=*;type=*;actions=read",
+    ///         },
+    ///         ScopeId = project.Id,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/role:Role foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/role:Role")]
     public partial class Role : global::Pulumi.CustomResource
     {
@@ -19,8 +201,7 @@ namespace Pulumi.Boundary
         public Output<string?> Description { get; private set; } = null!;
 
         /// <summary>
-        /// A list of scopes for which the grants in this role should apply, which can include the special values "this",
-        /// "children", or "descendants"
+        /// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
         /// </summary>
         [Output("grantScopeIds")]
         public Output<ImmutableArray<string>> GrantScopeIds { get; private set; } = null!;
@@ -105,8 +286,7 @@ namespace Pulumi.Boundary
         private InputList<string>? _grantScopeIds;
 
         /// <summary>
-        /// A list of scopes for which the grants in this role should apply, which can include the special values "this",
-        /// "children", or "descendants"
+        /// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
         /// </summary>
         public InputList<string> GrantScopeIds
         {
@@ -168,8 +348,7 @@ namespace Pulumi.Boundary
         private InputList<string>? _grantScopeIds;
 
         /// <summary>
-        /// A list of scopes for which the grants in this role should apply, which can include the special values "this",
-        /// "children", or "descendants"
+        /// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
         /// </summary>
         public InputList<string> GrantScopeIds
         {

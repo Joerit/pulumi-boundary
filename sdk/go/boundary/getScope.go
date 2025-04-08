@@ -11,6 +11,43 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The scope data source allows you to discover an existing Boundary scope by name.
+// Please note that the Global scope will always have an id of "global", and does not need to be discovered with this data source.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			// Retrieve the ID of a Boundary project
+//			_, err := boundary.LookupScope(ctx, &boundary.LookupScopeArgs{
+//				Name:    "SecOps",
+//				ScopeId: "global",
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.LookupScope(ctx, &boundary.LookupScopeArgs{
+//				Name:    "2111",
+//				ScopeId: id,
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
 func LookupScope(ctx *pulumi.Context, args *LookupScopeArgs, opts ...pulumi.InvokeOption) (*LookupScopeResult, error) {
 	opts = internal.PkgInvokeDefaultOpts(opts)
 	var rv LookupScopeResult
@@ -23,16 +60,22 @@ func LookupScope(ctx *pulumi.Context, args *LookupScopeArgs, opts ...pulumi.Invo
 
 // A collection of arguments for invoking getScope.
 type LookupScopeArgs struct {
-	Name    string `pulumi:"name"`
+	// The name of the scope to retrieve.
+	Name string `pulumi:"name"`
+	// The parent scope ID that will be queried for the scope.
 	ScopeId string `pulumi:"scopeId"`
 }
 
 // A collection of values returned by getScope.
 type LookupScopeResult struct {
+	// The description of the retrieved scope.
 	Description string `pulumi:"description"`
-	Id          string `pulumi:"id"`
-	Name        string `pulumi:"name"`
-	ScopeId     string `pulumi:"scopeId"`
+	// The ID of the retrieved scope.
+	Id string `pulumi:"id"`
+	// The name of the scope to retrieve.
+	Name string `pulumi:"name"`
+	// The parent scope ID that will be queried for the scope.
+	ScopeId string `pulumi:"scopeId"`
 }
 
 func LookupScopeOutput(ctx *pulumi.Context, args LookupScopeOutputArgs, opts ...pulumi.InvokeOption) LookupScopeResultOutput {
@@ -46,7 +89,9 @@ func LookupScopeOutput(ctx *pulumi.Context, args LookupScopeOutputArgs, opts ...
 
 // A collection of arguments for invoking getScope.
 type LookupScopeOutputArgs struct {
-	Name    pulumi.StringInput `pulumi:"name"`
+	// The name of the scope to retrieve.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The parent scope ID that will be queried for the scope.
 	ScopeId pulumi.StringInput `pulumi:"scopeId"`
 }
 
@@ -69,18 +114,22 @@ func (o LookupScopeResultOutput) ToLookupScopeResultOutputWithContext(ctx contex
 	return o
 }
 
+// The description of the retrieved scope.
 func (o LookupScopeResultOutput) Description() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupScopeResult) string { return v.Description }).(pulumi.StringOutput)
 }
 
+// The ID of the retrieved scope.
 func (o LookupScopeResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupScopeResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
+// The name of the scope to retrieve.
 func (o LookupScopeResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupScopeResult) string { return v.Name }).(pulumi.StringOutput)
 }
 
+// The parent scope ID that will be queried for the scope.
 func (o LookupScopeResultOutput) ScopeId() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupScopeResult) string { return v.ScopeId }).(pulumi.StringOutput)
 }

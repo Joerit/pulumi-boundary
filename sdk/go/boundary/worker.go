@@ -11,6 +11,72 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The resource allows you to create a self-managed worker object.
+//
+// ## Example Usage
+//
+// ### Controller-led worker
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := boundary.NewWorker(ctx, "controller_led", &boundary.WorkerArgs{
+//				ScopeId:     pulumi.String("global"),
+//				Name:        pulumi.String("controller-led-worker-1"),
+//				Description: pulumi.String("self managed worker with controller led auth"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ### Worker-led worker
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := boundary.NewWorker(ctx, "worker_led", &boundary.WorkerArgs{
+//				ScopeId:                  pulumi.String("global"),
+//				Name:                     pulumi.String("worker-led-worker-1"),
+//				Description:              pulumi.String("self managed worker with worker led auth"),
+//				WorkerGeneratedAuthToken: pulumi.Any(workerGeneratedAuthToken),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/worker:Worker foo <my-id>
+// ```
 type Worker struct {
 	pulumi.CustomResourceState
 
@@ -28,8 +94,7 @@ type Worker struct {
 	ReleaseVersion pulumi.IntOutput `pulumi:"releaseVersion"`
 	// The scope for the worker. Defaults to `global`.
 	ScopeId pulumi.StringPtrOutput `pulumi:"scopeId"`
-	// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this
-	// blank will result in a controller generated token.
+	// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this blank will result in a controller generated token.
 	WorkerGeneratedAuthToken pulumi.StringPtrOutput `pulumi:"workerGeneratedAuthToken"`
 }
 
@@ -77,8 +142,7 @@ type workerState struct {
 	ReleaseVersion *int `pulumi:"releaseVersion"`
 	// The scope for the worker. Defaults to `global`.
 	ScopeId *string `pulumi:"scopeId"`
-	// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this
-	// blank will result in a controller generated token.
+	// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this blank will result in a controller generated token.
 	WorkerGeneratedAuthToken *string `pulumi:"workerGeneratedAuthToken"`
 }
 
@@ -97,8 +161,7 @@ type WorkerState struct {
 	ReleaseVersion pulumi.IntPtrInput
 	// The scope for the worker. Defaults to `global`.
 	ScopeId pulumi.StringPtrInput
-	// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this
-	// blank will result in a controller generated token.
+	// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this blank will result in a controller generated token.
 	WorkerGeneratedAuthToken pulumi.StringPtrInput
 }
 
@@ -113,8 +176,7 @@ type workerArgs struct {
 	Name *string `pulumi:"name"`
 	// The scope for the worker. Defaults to `global`.
 	ScopeId *string `pulumi:"scopeId"`
-	// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this
-	// blank will result in a controller generated token.
+	// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this blank will result in a controller generated token.
 	WorkerGeneratedAuthToken *string `pulumi:"workerGeneratedAuthToken"`
 }
 
@@ -126,8 +188,7 @@ type WorkerArgs struct {
 	Name pulumi.StringPtrInput
 	// The scope for the worker. Defaults to `global`.
 	ScopeId pulumi.StringPtrInput
-	// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this
-	// blank will result in a controller generated token.
+	// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this blank will result in a controller generated token.
 	WorkerGeneratedAuthToken pulumi.StringPtrInput
 }
 
@@ -253,8 +314,7 @@ func (o WorkerOutput) ScopeId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Worker) pulumi.StringPtrOutput { return v.ScopeId }).(pulumi.StringPtrOutput)
 }
 
-// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this
-// blank will result in a controller generated token.
+// The worker authentication token required to register the worker for the worker-led authentication flow. Leaving this blank will result in a controller generated token.
 func (o WorkerOutput) WorkerGeneratedAuthToken() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Worker) pulumi.StringPtrOutput { return v.WorkerGeneratedAuthToken }).(pulumi.StringPtrOutput)
 }

@@ -4,6 +4,15 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The SSH private key credential resource allows you to configure a credential using a username, private key and optional passphrase.
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/credentialSshPrivateKey:CredentialSshPrivateKey example_ssh_private_key <my-id>
+ * ```
+ */
 export class CredentialSshPrivateKey extends pulumi.CustomResource {
     /**
      * Get an existing CredentialSshPrivateKey resource's state with the given name, ID, and optional extra

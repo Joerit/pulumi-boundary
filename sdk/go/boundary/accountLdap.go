@@ -12,6 +12,80 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The account resource allows you to configure a Boundary account.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			forumsysLdap, err := boundary.NewAuthMethodLdap(ctx, "forumsys_ldap", &boundary.AuthMethodLdapArgs{
+//				Name:    pulumi.String("forumsys public LDAP"),
+//				ScopeId: pulumi.String("global"),
+//				Urls: pulumi.StringArray{
+//					pulumi.String("ldap://ldap.forumsys.com"),
+//				},
+//				UserDn:       pulumi.String("dc=example,dc=com"),
+//				UserAttr:     pulumi.String("uid"),
+//				GroupDn:      pulumi.String("dc=example,dc=com"),
+//				BindDn:       pulumi.String("cn=read-only-admin,dc=example,dc=com"),
+//				BindPassword: pulumi.String("password"),
+//				State:        pulumi.String("active-public"),
+//				EnableGroups: pulumi.Bool(true),
+//				DiscoverDn:   pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			einstein, err := boundary.NewAccountLdap(ctx, "einstein", &boundary.AccountLdapArgs{
+//				AuthMethodId: forumsysLdap.ID(),
+//				LoginName:    pulumi.String("einstein"),
+//				Name:         pulumi.String("einstein"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewUser(ctx, "einstein", &boundary.UserArgs{
+//				Name:        pulumi.String("einstein"),
+//				Description: pulumi.String("User resource for einstein"),
+//				ScopeId:     pulumi.String("global"),
+//				AccountIds: pulumi.StringArray{
+//					einstein.ID(),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/accountLdap:AccountLdap foo <my-id>
+// ```
 type AccountLdap struct {
 	pulumi.CustomResourceState
 

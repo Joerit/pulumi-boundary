@@ -4,6 +4,9 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The account resource allows you to configure a Boundary account.
+ */
 export class AccountOidc extends pulumi.CustomResource {
     /**
      * Get an existing AccountOidc resource's state with the given name, ID, and optional extra

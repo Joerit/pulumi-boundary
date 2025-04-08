@@ -4,9 +4,11 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as inputs from "./types/input";
 import * as outputs from "./types/output";
-import * as enums from "./types/enums";
 import * as utilities from "./utilities";
 
+/**
+ * The user data source allows you to find a Boundary user.
+ */
 export function getUser(args: GetUserArgs, opts?: pulumi.InvokeOptions): Promise<GetUserResult> {
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
     return pulumi.runtime.invoke("boundary:index/getUser:getUser", {
@@ -19,7 +21,13 @@ export function getUser(args: GetUserArgs, opts?: pulumi.InvokeOptions): Promise
  * A collection of arguments for invoking getUser.
  */
 export interface GetUserArgs {
+    /**
+     * The username to search for.
+     */
     name: string;
+    /**
+     * The scope ID in which the resource is created. Defaults `global` if unset.
+     */
     scopeId?: string;
 }
 
@@ -27,16 +35,43 @@ export interface GetUserArgs {
  * A collection of values returned by getUser.
  */
 export interface GetUserResult {
+    /**
+     * Account ID's to associate with this user resource.
+     */
     readonly accountIds: string[];
+    /**
+     * A list of actions that the worker is entitled to perform.
+     */
     readonly authorizedActions: string[];
+    /**
+     * The user description.
+     */
     readonly description: string;
+    /**
+     * The ID of the user.
+     */
     readonly id: string;
+    /**
+     * Login name for user.
+     */
     readonly loginName: string;
+    /**
+     * The username to search for.
+     */
     readonly name: string;
+    /**
+     * Primary account ID.
+     */
     readonly primaryAccountId: string;
+    /**
+     * The scope ID in which the resource is created. Defaults `global` if unset.
+     */
     readonly scopeId?: string;
     readonly scopes: outputs.GetUserScope[];
 }
+/**
+ * The user data source allows you to find a Boundary user.
+ */
 export function getUserOutput(args: GetUserOutputArgs, opts?: pulumi.InvokeOutputOptions): pulumi.Output<GetUserResult> {
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
     return pulumi.runtime.invokeOutput("boundary:index/getUser:getUser", {
@@ -49,6 +84,12 @@ export function getUserOutput(args: GetUserOutputArgs, opts?: pulumi.InvokeOutpu
  * A collection of arguments for invoking getUser.
  */
 export interface GetUserOutputArgs {
+    /**
+     * The username to search for.
+     */
     name: pulumi.Input<string>;
+    /**
+     * The scope ID in which the resource is created. Defaults `global` if unset.
+     */
     scopeId?: pulumi.Input<string>;
 }

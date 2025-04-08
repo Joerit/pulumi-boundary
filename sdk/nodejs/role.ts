@@ -4,6 +4,129 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The role resource allows you to configure a Boundary role.
+ *
+ * ## Example Usage
+ *
+ * Basic usage:
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const example = new boundary.Role("example", {
+ *     name: "My role",
+ *     description: "My first role!",
+ *     scopeId: org.id,
+ * });
+ * ```
+ *
+ * Usage with a user resource:
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const foo = new boundary.User("foo", {
+ *     name: "User 1",
+ *     scopeId: org.id,
+ * });
+ * const bar = new boundary.User("bar", {
+ *     name: "User 2",
+ *     scopeId: org.id,
+ * });
+ * const example = new boundary.Role("example", {
+ *     name: "My role",
+ *     description: "My first role!",
+ *     principalIds: [
+ *         foo.id,
+ *         bar.id,
+ *     ],
+ *     scopeId: org.id,
+ * });
+ * ```
+ *
+ * Usage with user and grants resource:
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const readonly = new boundary.User("readonly", {
+ *     name: "readonly",
+ *     description: "A readonly user",
+ *     scopeId: org.id,
+ * });
+ * const readonlyRole = new boundary.Role("readonly", {
+ *     name: "readonly",
+ *     description: "A readonly role",
+ *     principalIds: [readonly.id],
+ *     grantStrings: ["ids=*;type=*;actions=read"],
+ *     scopeId: org.id,
+ * });
+ * ```
+ *
+ * Usage for a project-specific role:
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const readonly = new boundary.User("readonly", {
+ *     name: "readonly",
+ *     description: "A readonly user",
+ *     scopeId: org.id,
+ * });
+ * const readonlyRole = new boundary.Role("readonly", {
+ *     name: "readonly",
+ *     description: "A readonly role",
+ *     principalIds: [readonly.id],
+ *     grantStrings: ["ids=*;type=*;actions=read"],
+ *     scopeId: project.id,
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/role:Role foo <my-id>
+ * ```
+ */
 export class Role extends pulumi.CustomResource {
     /**
      * Get an existing Role resource's state with the given name, ID, and optional extra
@@ -37,8 +160,7 @@ export class Role extends pulumi.CustomResource {
      */
     public readonly description!: pulumi.Output<string | undefined>;
     /**
-     * A list of scopes for which the grants in this role should apply, which can include the special values "this",
-     * "children", or "descendants"
+     * A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
      */
     public readonly grantScopeIds!: pulumi.Output<string[]>;
     /**
@@ -103,8 +225,7 @@ export interface RoleState {
      */
     description?: pulumi.Input<string>;
     /**
-     * A list of scopes for which the grants in this role should apply, which can include the special values "this",
-     * "children", or "descendants"
+     * A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
      */
     grantScopeIds?: pulumi.Input<pulumi.Input<string>[]>;
     /**
@@ -134,8 +255,7 @@ export interface RoleArgs {
      */
     description?: pulumi.Input<string>;
     /**
-     * A list of scopes for which the grants in this role should apply, which can include the special values "this",
-     * "children", or "descendants"
+     * A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
      */
     grantScopeIds?: pulumi.Input<pulumi.Input<string>[]>;
     /**

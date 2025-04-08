@@ -4,6 +4,86 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The credential library for Vault resource allows you to configure a Boundary credential library for Vault.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const foo = new boundary.CredentialStoreVault("foo", {
+ *     name: "foo",
+ *     description: "My first Vault credential store!",
+ *     address: "http://127.0.0.1:8200",
+ *     token: "s.0ufRo6XEGU2jOqnIr7OlFYP5",
+ *     scopeId: project.id,
+ * });
+ * const fooCredentialLibraryVault = new boundary.CredentialLibraryVault("foo", {
+ *     name: "foo",
+ *     description: "My first Vault credential library!",
+ *     credentialStoreId: foo.id,
+ *     path: "my/secret/foo",
+ *     httpMethod: "GET",
+ * });
+ * const bar = new boundary.CredentialLibraryVault("bar", {
+ *     name: "bar",
+ *     description: "My second Vault credential library!",
+ *     credentialStoreId: foo.id,
+ *     path: "my/secret/bar",
+ *     httpMethod: "POST",
+ *     httpRequestBody: `{
+ *   "key": "Value",
+ * }
+ * `,
+ * });
+ * const baz = new boundary.CredentialLibraryVault("baz", {
+ *     name: "baz",
+ *     description: "vault username password credential with mapping overrides",
+ *     credentialStoreId: foo.id,
+ *     path: "my/secret/baz",
+ *     httpMethod: "GET",
+ *     credentialType: "username_password",
+ *     credentialMappingOverrides: {
+ *         password_attribute: "alternative_password_label",
+ *         username_attribute: "alternative_username_label",
+ *     },
+ * });
+ * const quz = new boundary.CredentialLibraryVault("quz", {
+ *     name: "quz",
+ *     description: "vault ssh private key credential with mapping overrides",
+ *     credentialStoreId: foo.id,
+ *     path: "my/secret/quz",
+ *     httpMethod: "GET",
+ *     credentialType: "ssh_private_key",
+ *     credentialMappingOverrides: {
+ *         private_key_attribute: "alternative_key_label",
+ *         private_key_passphrase_attribute: "alternative_passphrase_label",
+ *         username_attribute: "alternative_username_label",
+ *     },
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/credentialLibraryVault:CredentialLibraryVault foo <my-id>
+ * ```
+ */
 export class CredentialLibraryVault extends pulumi.CustomResource {
     /**
      * Get an existing CredentialLibraryVault resource's state with the given name, ID, and optional extra
@@ -53,8 +133,7 @@ export class CredentialLibraryVault extends pulumi.CustomResource {
      */
     public readonly httpMethod!: pulumi.Output<string | undefined>;
     /**
-     * The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set
-     * to `POST`.
+     * The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set to `POST`.
      */
     public readonly httpRequestBody!: pulumi.Output<string | undefined>;
     /**
@@ -134,8 +213,7 @@ export interface CredentialLibraryVaultState {
      */
     httpMethod?: pulumi.Input<string>;
     /**
-     * The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set
-     * to `POST`.
+     * The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set to `POST`.
      */
     httpRequestBody?: pulumi.Input<string>;
     /**
@@ -173,8 +251,7 @@ export interface CredentialLibraryVaultArgs {
      */
     httpMethod?: pulumi.Input<string>;
     /**
-     * The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set
-     * to `POST`.
+     * The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set to `POST`.
      */
     httpRequestBody?: pulumi.Input<string>;
     /**

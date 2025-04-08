@@ -9,11 +9,194 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The target resource allows you to configure a Boundary target.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using System.Text.Json;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var @global = new Boundary.Scope("global", new()
+    ///     {
+    ///         GlobalScope = true,
+    ///         ScopeId = "global",
+    ///     });
+    /// 
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = @global.Id,
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     var foo = new Boundary.CredentialStoreVault("foo", new()
+    ///     {
+    ///         Name = "vault_store",
+    ///         Description = "My first Vault credential store!",
+    ///         Address = "http://127.0.0.1:8200",
+    ///         Token = "s.0ufRo6XEGU2jOqnIr7OlFYP5",
+    ///         ScopeId = project.Id,
+    ///     });
+    /// 
+    ///     var fooCredentialLibraryVault = new Boundary.CredentialLibraryVault("foo", new()
+    ///     {
+    ///         Name = "foo",
+    ///         Description = "My first Vault credential library!",
+    ///         CredentialStoreId = foo.Id,
+    ///         Path = "my/secret/foo",
+    ///         HttpMethod = "GET",
+    ///         CredentialType = "username_password",
+    ///     });
+    /// 
+    ///     var fooHostCatalog = new Boundary.HostCatalog("foo", new()
+    ///     {
+    ///         Name = "test",
+    ///         Description = "test catalog",
+    ///         ScopeId = project.Id,
+    ///         Type = "static",
+    ///     });
+    /// 
+    ///     var fooHost = new Boundary.Host("foo", new()
+    ///     {
+    ///         Type = "static",
+    ///         Name = "foo",
+    ///         HostCatalogId = fooHostCatalog.Id,
+    ///         Address = "10.0.0.1",
+    ///     });
+    /// 
+    ///     var bar = new Boundary.Host("bar", new()
+    ///     {
+    ///         Type = "static",
+    ///         Name = "bar",
+    ///         HostCatalogId = fooHostCatalog.Id,
+    ///         Address = "10.0.0.1",
+    ///     });
+    /// 
+    ///     var fooHostSet = new Boundary.HostSet("foo", new()
+    ///     {
+    ///         Type = "static",
+    ///         Name = "foo",
+    ///         HostCatalogId = fooHostCatalog.Id,
+    ///         HostIds = new[]
+    ///         {
+    ///             fooHost.Id,
+    ///             bar.Id,
+    ///         },
+    ///     });
+    /// 
+    ///     var awsExample = new Boundary.StorageBucket("aws_example", new()
+    ///     {
+    ///         Name = "My aws storage bucket",
+    ///         Description = "My first storage bucket!",
+    ///         ScopeId = org.Id,
+    ///         PluginName = "aws",
+    ///         BucketName = "mybucket",
+    ///         AttributesJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["region"] = "us-east-1",
+    ///         }),
+    ///         SecretsJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["access_key_id"] = "aws_access_key_id_value",
+    ///             ["secret_access_key"] = "aws_secret_access_key_value",
+    ///         }),
+    ///         WorkerFilter = "\"pki\" in \"/tags/type\"",
+    ///     });
+    /// 
+    ///     var fooTarget = new Boundary.Target("foo", new()
+    ///     {
+    ///         Name = "foo",
+    ///         Description = "Foo target",
+    ///         Type = "tcp",
+    ///         DefaultPort = 22,
+    ///         ScopeId = project.Id,
+    ///         HostSourceIds = new[]
+    ///         {
+    ///             fooHostSet.Id,
+    ///         },
+    ///         BrokeredCredentialSourceIds = new[]
+    ///         {
+    ///             fooCredentialLibraryVault.Id,
+    ///         },
+    ///     });
+    /// 
+    ///     var sshFoo = new Boundary.Target("ssh_foo", new()
+    ///     {
+    ///         Name = "ssh_foo",
+    ///         Description = "Ssh target",
+    ///         Type = "ssh",
+    ///         DefaultPort = 22,
+    ///         ScopeId = project.Id,
+    ///         HostSourceIds = new[]
+    ///         {
+    ///             fooHostSet.Id,
+    ///         },
+    ///         InjectedApplicationCredentialSourceIds = new[]
+    ///         {
+    ///             fooCredentialLibraryVault.Id,
+    ///         },
+    ///     });
+    /// 
+    ///     var sshSessionRecordingFoo = new Boundary.Target("ssh_session_recording_foo", new()
+    ///     {
+    ///         Name = "ssh_foo",
+    ///         Description = "Ssh target",
+    ///         Type = "ssh",
+    ///         DefaultPort = 22,
+    ///         ScopeId = project.Id,
+    ///         HostSourceIds = new[]
+    ///         {
+    ///             fooHostSet.Id,
+    ///         },
+    ///         InjectedApplicationCredentialSourceIds = new[]
+    ///         {
+    ///             fooCredentialLibraryVault.Id,
+    ///         },
+    ///         EnableSessionRecording = true,
+    ///         StorageBucketId = awsExample,
+    ///     });
+    /// 
+    ///     var addressFoo = new Boundary.Target("address_foo", new()
+    ///     {
+    ///         Name = "address_foo",
+    ///         Description = "Foo target with an address",
+    ///         Type = "tcp",
+    ///         DefaultPort = 22,
+    ///         ScopeId = project.Id,
+    ///         Address = "127.0.0.1",
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/target:Target foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/target:Target")]
     public partial class Target : global::Pulumi.CustomResource
     {
         /// <summary>
-        /// Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+        /// Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
         /// </summary>
         [Output("address")]
         public Output<string?> Address { get; private set; } = null!;
@@ -155,7 +338,7 @@ namespace Pulumi.Boundary
     public sealed class TargetArgs : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+        /// Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
         /// </summary>
         [Input("address")]
         public Input<string>? Address { get; set; }
@@ -277,7 +460,7 @@ namespace Pulumi.Boundary
     public sealed class TargetState : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+        /// Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
         /// </summary>
         [Input("address")]
         public Input<string>? Address { get; set; }

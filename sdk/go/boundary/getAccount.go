@@ -11,6 +11,35 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The Account data source allows you to find a Boundary account.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			// Retrieve the ID of a Boundary account
+//			_, err := boundary.LookupAccount(ctx, &boundary.LookupAccountArgs{
+//				Name:         "admin",
+//				AuthMethodId: "ampw_1234567890",
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
 func LookupAccount(ctx *pulumi.Context, args *LookupAccountArgs, opts ...pulumi.InvokeOption) (*LookupAccountResult, error) {
 	opts = internal.PkgInvokeDefaultOpts(opts)
 	var rv LookupAccountResult
@@ -23,18 +52,25 @@ func LookupAccount(ctx *pulumi.Context, args *LookupAccountArgs, opts ...pulumi.
 
 // A collection of arguments for invoking getAccount.
 type LookupAccountArgs struct {
+	// The auth method ID that will be queried for the account.
 	AuthMethodId string `pulumi:"authMethodId"`
-	Name         string `pulumi:"name"`
+	// The name of the account to retrieve.
+	Name string `pulumi:"name"`
 }
 
 // A collection of values returned by getAccount.
 type LookupAccountResult struct {
-	AuthMethodId string            `pulumi:"authMethodId"`
-	Description  string            `pulumi:"description"`
-	Id           string            `pulumi:"id"`
-	Name         string            `pulumi:"name"`
-	Scopes       []GetAccountScope `pulumi:"scopes"`
-	Type         string            `pulumi:"type"`
+	// The auth method ID that will be queried for the account.
+	AuthMethodId string `pulumi:"authMethodId"`
+	// The description of the retrieved account.
+	Description string `pulumi:"description"`
+	// The ID of the retrieved account.
+	Id string `pulumi:"id"`
+	// The name of the account to retrieve.
+	Name   string            `pulumi:"name"`
+	Scopes []GetAccountScope `pulumi:"scopes"`
+	// The type of the account
+	Type string `pulumi:"type"`
 }
 
 func LookupAccountOutput(ctx *pulumi.Context, args LookupAccountOutputArgs, opts ...pulumi.InvokeOption) LookupAccountResultOutput {
@@ -48,8 +84,10 @@ func LookupAccountOutput(ctx *pulumi.Context, args LookupAccountOutputArgs, opts
 
 // A collection of arguments for invoking getAccount.
 type LookupAccountOutputArgs struct {
+	// The auth method ID that will be queried for the account.
 	AuthMethodId pulumi.StringInput `pulumi:"authMethodId"`
-	Name         pulumi.StringInput `pulumi:"name"`
+	// The name of the account to retrieve.
+	Name pulumi.StringInput `pulumi:"name"`
 }
 
 func (LookupAccountOutputArgs) ElementType() reflect.Type {
@@ -71,18 +109,22 @@ func (o LookupAccountResultOutput) ToLookupAccountResultOutputWithContext(ctx co
 	return o
 }
 
+// The auth method ID that will be queried for the account.
 func (o LookupAccountResultOutput) AuthMethodId() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAccountResult) string { return v.AuthMethodId }).(pulumi.StringOutput)
 }
 
+// The description of the retrieved account.
 func (o LookupAccountResultOutput) Description() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAccountResult) string { return v.Description }).(pulumi.StringOutput)
 }
 
+// The ID of the retrieved account.
 func (o LookupAccountResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAccountResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
+// The name of the account to retrieve.
 func (o LookupAccountResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAccountResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -91,6 +133,7 @@ func (o LookupAccountResultOutput) Scopes() GetAccountScopeArrayOutput {
 	return o.ApplyT(func(v LookupAccountResult) []GetAccountScope { return v.Scopes }).(GetAccountScopeArrayOutput)
 }
 
+// The type of the account
 func (o LookupAccountResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAccountResult) string { return v.Type }).(pulumi.StringOutput)
 }

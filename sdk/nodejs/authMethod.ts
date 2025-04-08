@@ -4,6 +4,34 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The auth method resource allows you to configure a Boundary auth_method.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const password = new boundary.AuthMethod("password", {
+ *     scopeId: org.id,
+ *     type: "password",
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/authMethod:AuthMethod foo <my-id>
+ * ```
+ */
 export class AuthMethod extends pulumi.CustomResource {
     /**
      * Get an existing AuthMethod resource's state with the given name, ID, and optional extra

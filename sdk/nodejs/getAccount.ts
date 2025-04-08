@@ -4,9 +4,24 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as inputs from "./types/input";
 import * as outputs from "./types/output";
-import * as enums from "./types/enums";
 import * as utilities from "./utilities";
 
+/**
+ * The boundary.Account data source allows you to find a Boundary account.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * // Retrieve the ID of a Boundary account
+ * const admin = boundary.getAccount({
+ *     name: "admin",
+ *     authMethodId: "ampw_1234567890",
+ * });
+ * ```
+ */
 export function getAccount(args: GetAccountArgs, opts?: pulumi.InvokeOptions): Promise<GetAccountResult> {
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
     return pulumi.runtime.invoke("boundary:index/getAccount:getAccount", {
@@ -19,7 +34,13 @@ export function getAccount(args: GetAccountArgs, opts?: pulumi.InvokeOptions): P
  * A collection of arguments for invoking getAccount.
  */
 export interface GetAccountArgs {
+    /**
+     * The auth method ID that will be queried for the account.
+     */
     authMethodId: string;
+    /**
+     * The name of the account to retrieve.
+     */
     name: string;
 }
 
@@ -27,13 +48,44 @@ export interface GetAccountArgs {
  * A collection of values returned by getAccount.
  */
 export interface GetAccountResult {
+    /**
+     * The auth method ID that will be queried for the account.
+     */
     readonly authMethodId: string;
+    /**
+     * The description of the retrieved account.
+     */
     readonly description: string;
+    /**
+     * The ID of the retrieved account.
+     */
     readonly id: string;
+    /**
+     * The name of the account to retrieve.
+     */
     readonly name: string;
     readonly scopes: outputs.GetAccountScope[];
+    /**
+     * The type of the account
+     */
     readonly type: string;
 }
+/**
+ * The boundary.Account data source allows you to find a Boundary account.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * // Retrieve the ID of a Boundary account
+ * const admin = boundary.getAccount({
+ *     name: "admin",
+ *     authMethodId: "ampw_1234567890",
+ * });
+ * ```
+ */
 export function getAccountOutput(args: GetAccountOutputArgs, opts?: pulumi.InvokeOutputOptions): pulumi.Output<GetAccountResult> {
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
     return pulumi.runtime.invokeOutput("boundary:index/getAccount:getAccount", {
@@ -46,6 +98,12 @@ export function getAccountOutput(args: GetAccountOutputArgs, opts?: pulumi.Invok
  * A collection of arguments for invoking getAccount.
  */
 export interface GetAccountOutputArgs {
+    /**
+     * The auth method ID that will be queried for the account.
+     */
     authMethodId: pulumi.Input<string>;
+    /**
+     * The name of the account to retrieve.
+     */
     name: pulumi.Input<string>;
 }

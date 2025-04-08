@@ -9,6 +9,15 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The json credential resource allows you to congiure a credential using a json object.
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/credentialJson:CredentialJson example_json &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/credentialJson:CredentialJson")]
     public partial class CredentialJson : global::Pulumi.CustomResource
     {
@@ -31,8 +40,7 @@ namespace Pulumi.Boundary
         public Output<string> Name { get; private set; } = null!;
 
         /// <summary>
-        /// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-        /// or a file
+        /// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
         /// </summary>
         [Output("object")]
         public Output<string> Object { get; private set; } = null!;
@@ -115,8 +123,7 @@ namespace Pulumi.Boundary
         private Input<string>? _object;
 
         /// <summary>
-        /// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-        /// or a file
+        /// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
         /// </summary>
         public Input<string>? Object
         {
@@ -158,8 +165,7 @@ namespace Pulumi.Boundary
         private Input<string>? _object;
 
         /// <summary>
-        /// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-        /// or a file
+        /// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
         /// </summary>
         public Input<string>? Object
         {

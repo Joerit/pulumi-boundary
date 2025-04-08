@@ -4,6 +4,56 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The hostSetStatic resource allows you to configure a Boundary host set. Host sets are always part of a host catalog, so a host catalog resource should be used inline or you should have the host catalog ID in hand to successfully configure a host set.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const example = new boundary.HostCatalogStatic("example", {scopeId: project.id});
+ * const first = new boundary.HostStatic("first", {
+ *     name: "host_1",
+ *     description: "My first host!",
+ *     address: "10.0.0.1",
+ *     hostCatalogId: example.id,
+ * });
+ * const second = new boundary.HostStatic("second", {
+ *     name: "host_2",
+ *     description: "My second host!",
+ *     address: "10.0.0.2",
+ *     hostCatalogId: example.id,
+ * });
+ * const web = new boundary.HostSetStatic("web", {
+ *     hostCatalogId: example.id,
+ *     hostIds: [
+ *         first.id,
+ *         second.id,
+ *     ],
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/hostSetStatic:HostSetStatic foo <my-id>
+ * ```
+ */
 export class HostSetStatic extends pulumi.CustomResource {
     /**
      * Get an existing HostSetStatic resource's state with the given name, ID, and optional extra

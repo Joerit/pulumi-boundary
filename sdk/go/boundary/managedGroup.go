@@ -12,6 +12,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The managed group resource allows you to configure a Boundary group.
 type ManagedGroup struct {
 	pulumi.CustomResourceState
 

@@ -4,6 +4,134 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The target resource allows you to configure a Boundary target.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const global = new boundary.Scope("global", {
+ *     globalScope: true,
+ *     scopeId: "global",
+ * });
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: global.id,
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const foo = new boundary.CredentialStoreVault("foo", {
+ *     name: "vault_store",
+ *     description: "My first Vault credential store!",
+ *     address: "http://127.0.0.1:8200",
+ *     token: "s.0ufRo6XEGU2jOqnIr7OlFYP5",
+ *     scopeId: project.id,
+ * });
+ * const fooCredentialLibraryVault = new boundary.CredentialLibraryVault("foo", {
+ *     name: "foo",
+ *     description: "My first Vault credential library!",
+ *     credentialStoreId: foo.id,
+ *     path: "my/secret/foo",
+ *     httpMethod: "GET",
+ *     credentialType: "username_password",
+ * });
+ * const fooHostCatalog = new boundary.HostCatalog("foo", {
+ *     name: "test",
+ *     description: "test catalog",
+ *     scopeId: project.id,
+ *     type: "static",
+ * });
+ * const fooHost = new boundary.Host("foo", {
+ *     type: "static",
+ *     name: "foo",
+ *     hostCatalogId: fooHostCatalog.id,
+ *     address: "10.0.0.1",
+ * });
+ * const bar = new boundary.Host("bar", {
+ *     type: "static",
+ *     name: "bar",
+ *     hostCatalogId: fooHostCatalog.id,
+ *     address: "10.0.0.1",
+ * });
+ * const fooHostSet = new boundary.HostSet("foo", {
+ *     type: "static",
+ *     name: "foo",
+ *     hostCatalogId: fooHostCatalog.id,
+ *     hostIds: [
+ *         fooHost.id,
+ *         bar.id,
+ *     ],
+ * });
+ * const awsExample = new boundary.StorageBucket("aws_example", {
+ *     name: "My aws storage bucket",
+ *     description: "My first storage bucket!",
+ *     scopeId: org.id,
+ *     pluginName: "aws",
+ *     bucketName: "mybucket",
+ *     attributesJson: JSON.stringify({
+ *         region: "us-east-1",
+ *     }),
+ *     secretsJson: JSON.stringify({
+ *         access_key_id: "aws_access_key_id_value",
+ *         secret_access_key: "aws_secret_access_key_value",
+ *     }),
+ *     workerFilter: "\"pki\" in \"/tags/type\"",
+ * });
+ * const fooTarget = new boundary.Target("foo", {
+ *     name: "foo",
+ *     description: "Foo target",
+ *     type: "tcp",
+ *     defaultPort: 22,
+ *     scopeId: project.id,
+ *     hostSourceIds: [fooHostSet.id],
+ *     brokeredCredentialSourceIds: [fooCredentialLibraryVault.id],
+ * });
+ * const sshFoo = new boundary.Target("ssh_foo", {
+ *     name: "ssh_foo",
+ *     description: "Ssh target",
+ *     type: "ssh",
+ *     defaultPort: 22,
+ *     scopeId: project.id,
+ *     hostSourceIds: [fooHostSet.id],
+ *     injectedApplicationCredentialSourceIds: [fooCredentialLibraryVault.id],
+ * });
+ * const sshSessionRecordingFoo = new boundary.Target("ssh_session_recording_foo", {
+ *     name: "ssh_foo",
+ *     description: "Ssh target",
+ *     type: "ssh",
+ *     defaultPort: 22,
+ *     scopeId: project.id,
+ *     hostSourceIds: [fooHostSet.id],
+ *     injectedApplicationCredentialSourceIds: [fooCredentialLibraryVault.id],
+ *     enableSessionRecording: true,
+ *     storageBucketId: awsExample,
+ * });
+ * const addressFoo = new boundary.Target("address_foo", {
+ *     name: "address_foo",
+ *     description: "Foo target with an address",
+ *     type: "tcp",
+ *     defaultPort: 22,
+ *     scopeId: project.id,
+ *     address: "127.0.0.1",
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/target:Target foo <my-id>
+ * ```
+ */
 export class Target extends pulumi.CustomResource {
     /**
      * Get an existing Target resource's state with the given name, ID, and optional extra
@@ -33,7 +161,7 @@ export class Target extends pulumi.CustomResource {
     }
 
     /**
-     * Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+     * Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
      */
     public readonly address!: pulumi.Output<string | undefined>;
     /**
@@ -163,7 +291,7 @@ export class Target extends pulumi.CustomResource {
  */
 export interface TargetState {
     /**
-     * Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+     * Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
      */
     address?: pulumi.Input<string>;
     /**
@@ -233,7 +361,7 @@ export interface TargetState {
  */
 export interface TargetArgs {
     /**
-     * Optionally, a valid network address to connect to for this target. Cannot be used alongside host_source_ids.
+     * Optionally, a valid network address to connect to for this target. Cannot be used alongside host*source*ids.
      */
     address?: pulumi.Input<string>;
     /**

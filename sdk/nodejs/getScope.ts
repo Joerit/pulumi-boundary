@@ -4,6 +4,27 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The scope data source allows you to discover an existing Boundary scope by name.
+ * Please note that the Global scope will always have an id of "global", and does not need to be discovered with this data source.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * // Retrieve the ID of a Boundary project
+ * const org = boundary.getScope({
+ *     name: "SecOps",
+ *     scopeId: "global",
+ * });
+ * const project = boundary.getScope({
+ *     name: "2111",
+ *     scopeId: id,
+ * });
+ * ```
+ */
 export function getScope(args: GetScopeArgs, opts?: pulumi.InvokeOptions): Promise<GetScopeResult> {
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
     return pulumi.runtime.invoke("boundary:index/getScope:getScope", {
@@ -16,7 +37,13 @@ export function getScope(args: GetScopeArgs, opts?: pulumi.InvokeOptions): Promi
  * A collection of arguments for invoking getScope.
  */
 export interface GetScopeArgs {
+    /**
+     * The name of the scope to retrieve.
+     */
     name: string;
+    /**
+     * The parent scope ID that will be queried for the scope.
+     */
     scopeId: string;
 }
 
@@ -24,11 +51,44 @@ export interface GetScopeArgs {
  * A collection of values returned by getScope.
  */
 export interface GetScopeResult {
+    /**
+     * The description of the retrieved scope.
+     */
     readonly description: string;
+    /**
+     * The ID of the retrieved scope.
+     */
     readonly id: string;
+    /**
+     * The name of the scope to retrieve.
+     */
     readonly name: string;
+    /**
+     * The parent scope ID that will be queried for the scope.
+     */
     readonly scopeId: string;
 }
+/**
+ * The scope data source allows you to discover an existing Boundary scope by name.
+ * Please note that the Global scope will always have an id of "global", and does not need to be discovered with this data source.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * // Retrieve the ID of a Boundary project
+ * const org = boundary.getScope({
+ *     name: "SecOps",
+ *     scopeId: "global",
+ * });
+ * const project = boundary.getScope({
+ *     name: "2111",
+ *     scopeId: id,
+ * });
+ * ```
+ */
 export function getScopeOutput(args: GetScopeOutputArgs, opts?: pulumi.InvokeOutputOptions): pulumi.Output<GetScopeResult> {
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
     return pulumi.runtime.invokeOutput("boundary:index/getScope:getScope", {
@@ -41,6 +101,12 @@ export function getScopeOutput(args: GetScopeOutputArgs, opts?: pulumi.InvokeOut
  * A collection of arguments for invoking getScope.
  */
 export interface GetScopeOutputArgs {
+    /**
+     * The name of the scope to retrieve.
+     */
     name: pulumi.Input<string>;
+    /**
+     * The parent scope ID that will be queried for the scope.
+     */
     scopeId: pulumi.Input<string>;
 }

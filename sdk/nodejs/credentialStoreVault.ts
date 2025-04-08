@@ -4,6 +4,43 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The credential store for Vault resource allows you to configure a Boundary credential store for Vault.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const example = new boundary.CredentialStoreVault("example", {
+ *     name: "foo",
+ *     description: "My first Vault credential store!",
+ *     address: "http://127.0.0.1:8200",
+ *     token: "s.0ufRo6XEGU2jOqnIr7OlFYP5",
+ *     scopeId: project.id,
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/credentialStoreVault:CredentialStoreVault foo <my-id>
+ * ```
+ */
 export class CredentialStoreVault extends pulumi.CustomResource {
     /**
      * Get an existing CredentialStoreVault resource's state with the given name, ID, and optional extra
@@ -85,8 +122,7 @@ export class CredentialStoreVault extends pulumi.CustomResource {
      */
     public /*out*/ readonly tokenHmac!: pulumi.Output<string>;
     /**
-     * HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-     * instances with Boundary.
+     * HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
      */
     public readonly workerFilter!: pulumi.Output<string | undefined>;
 
@@ -207,8 +243,7 @@ export interface CredentialStoreVaultState {
      */
     tokenHmac?: pulumi.Input<string>;
     /**
-     * HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-     * instances with Boundary.
+     * HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
      */
     workerFilter?: pulumi.Input<string>;
 }
@@ -262,8 +297,7 @@ export interface CredentialStoreVaultArgs {
      */
     token: pulumi.Input<string>;
     /**
-     * HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-     * instances with Boundary.
+     * HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
      */
     workerFilter?: pulumi.Input<string>;
 }

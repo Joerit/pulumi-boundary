@@ -9,6 +9,54 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The credential store for Vault resource allows you to configure a Boundary credential store for Vault.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     var example = new Boundary.CredentialStoreVault("example", new()
+    ///     {
+    ///         Name = "foo",
+    ///         Description = "My first Vault credential store!",
+    ///         Address = "http://127.0.0.1:8200",
+    ///         Token = "s.0ufRo6XEGU2jOqnIr7OlFYP5",
+    ///         ScopeId = project.Id,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/credentialStoreVault:CredentialStoreVault foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/credentialStoreVault:CredentialStoreVault")]
     public partial class CredentialStoreVault : global::Pulumi.CustomResource
     {
@@ -91,8 +139,7 @@ namespace Pulumi.Boundary
         public Output<string> TokenHmac { get; private set; } = null!;
 
         /// <summary>
-        /// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-        /// instances with Boundary.
+        /// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
         /// </summary>
         [Output("workerFilter")]
         public Output<string?> WorkerFilter { get; private set; } = null!;
@@ -235,8 +282,7 @@ namespace Pulumi.Boundary
         }
 
         /// <summary>
-        /// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-        /// instances with Boundary.
+        /// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
         /// </summary>
         [Input("workerFilter")]
         public Input<string>? WorkerFilter { get; set; }
@@ -348,8 +394,7 @@ namespace Pulumi.Boundary
         public Input<string>? TokenHmac { get; set; }
 
         /// <summary>
-        /// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault
-        /// instances with Boundary.
+        /// HCP Only. A filter used to control which PKI workers can handle Vault requests. This allows the use of private Vault instances with Boundary.
         /// </summary>
         [Input("workerFilter")]
         public Input<string>? WorkerFilter { get; set; }

@@ -9,6 +9,15 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The SSH private key credential resource allows you to configure a credential using a username, private key and optional passphrase.
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/credentialSshPrivateKey:CredentialSshPrivateKey example_ssh_private_key &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/credentialSshPrivateKey:CredentialSshPrivateKey")]
     public partial class CredentialSshPrivateKey : global::Pulumi.CustomResource
     {

@@ -4,6 +4,9 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The managed group resource allows you to configure a Boundary group.
+ */
 export class ManagedGroup extends pulumi.CustomResource {
     /**
      * Get an existing ManagedGroup resource's state with the given name, ID, and optional extra

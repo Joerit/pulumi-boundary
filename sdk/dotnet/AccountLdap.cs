@@ -9,6 +9,73 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The account resource allows you to configure a Boundary account.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var forumsysLdap = new Boundary.AuthMethodLdap("forumsys_ldap", new()
+    ///     {
+    ///         Name = "forumsys public LDAP",
+    ///         ScopeId = "global",
+    ///         Urls = new[]
+    ///         {
+    ///             "ldap://ldap.forumsys.com",
+    ///         },
+    ///         UserDn = "dc=example,dc=com",
+    ///         UserAttr = "uid",
+    ///         GroupDn = "dc=example,dc=com",
+    ///         BindDn = "cn=read-only-admin,dc=example,dc=com",
+    ///         BindPassword = "password",
+    ///         State = "active-public",
+    ///         EnableGroups = true,
+    ///         DiscoverDn = true,
+    ///     });
+    /// 
+    ///     var einstein = new Boundary.AccountLdap("einstein", new()
+    ///     {
+    ///         AuthMethodId = forumsysLdap.Id,
+    ///         LoginName = "einstein",
+    ///         Name = "einstein",
+    ///     });
+    /// 
+    ///     var einsteinUser = new Boundary.User("einstein", new()
+    ///     {
+    ///         Name = "einstein",
+    ///         Description = "User resource for einstein",
+    ///         ScopeId = "global",
+    ///         AccountIds = new[]
+    ///         {
+    ///             einstein.Id,
+    ///         },
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/accountLdap:AccountLdap foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/accountLdap:AccountLdap")]
     public partial class AccountLdap : global::Pulumi.CustomResource
     {

@@ -9,6 +9,9 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The managed group resource allows you to configure a Boundary group.
+    /// </summary>
     [BoundaryResourceType("boundary:index/managedGroup:ManagedGroup")]
     public partial class ManagedGroup : global::Pulumi.CustomResource
     {

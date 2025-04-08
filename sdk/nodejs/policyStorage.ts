@@ -4,6 +4,9 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The storage policy resource allows you to configure a Boundary storage policy. Storage policies allow an admin to configure how long session recordings must be stored and when to delete them. Storage policies must be applied to the global scope or an org scope in order to take effect.
+ */
 export class PolicyStorage extends pulumi.CustomResource {
     /**
      * Get an existing PolicyStorage resource's state with the given name, ID, and optional extra
@@ -33,13 +36,11 @@ export class PolicyStorage extends pulumi.CustomResource {
     }
 
     /**
-     * The number of days after which a session recording will be automatically deleted. Defaults to 0: never automatically
-     * delete. However, deleteAfterDays and retainForDays cannot both be 0.
+     * The number of days after which a session recording will be automatically deleted. Defaults to 0: never automatically delete. However, delete*after*days and retain*for*days cannot both be 0.
      */
     public readonly deleteAfterDays!: pulumi.Output<number | undefined>;
     /**
-     * Whether or not the associated deleteAfterDays value can be overridden by org scopes. Note: if the associated
-     * deleteAfterDays value is 0, overridable is ignored
+     * Whether or not the associated delete*after*days value can be overridden by org scopes. Note: if the associated delete*after*days value is 0, overridable is ignored
      */
     public readonly deleteAfterOverridable!: pulumi.Output<boolean | undefined>;
     /**
@@ -51,13 +52,11 @@ export class PolicyStorage extends pulumi.CustomResource {
      */
     public readonly name!: pulumi.Output<string>;
     /**
-     * The number of days a session recording is required to be stored. Defaults to 0: allow deletions at any time. However,
-     * retainForDays and deleteAfterDays cannot both be 0.
+     * The number of days a session recording is required to be stored. Defaults to 0: allow deletions at any time. However, retain*for*days and delete*after*days cannot both be 0.
      */
     public readonly retainForDays!: pulumi.Output<number | undefined>;
     /**
-     * Whether or not the associated retainForDays value can be overridden by org scopes. Note: if the associated retainForDays
-     * value is 0, overridable is ignored.
+     * Whether or not the associated retain*for*days value can be overridden by org scopes. Note: if the associated retain*for*days value is 0, overridable is ignored.
      */
     public readonly retainForOverridable!: pulumi.Output<boolean | undefined>;
     /**
@@ -108,13 +107,11 @@ export class PolicyStorage extends pulumi.CustomResource {
  */
 export interface PolicyStorageState {
     /**
-     * The number of days after which a session recording will be automatically deleted. Defaults to 0: never automatically
-     * delete. However, deleteAfterDays and retainForDays cannot both be 0.
+     * The number of days after which a session recording will be automatically deleted. Defaults to 0: never automatically delete. However, delete*after*days and retain*for*days cannot both be 0.
      */
     deleteAfterDays?: pulumi.Input<number>;
     /**
-     * Whether or not the associated deleteAfterDays value can be overridden by org scopes. Note: if the associated
-     * deleteAfterDays value is 0, overridable is ignored
+     * Whether or not the associated delete*after*days value can be overridden by org scopes. Note: if the associated delete*after*days value is 0, overridable is ignored
      */
     deleteAfterOverridable?: pulumi.Input<boolean>;
     /**
@@ -126,13 +123,11 @@ export interface PolicyStorageState {
      */
     name?: pulumi.Input<string>;
     /**
-     * The number of days a session recording is required to be stored. Defaults to 0: allow deletions at any time. However,
-     * retainForDays and deleteAfterDays cannot both be 0.
+     * The number of days a session recording is required to be stored. Defaults to 0: allow deletions at any time. However, retain*for*days and delete*after*days cannot both be 0.
      */
     retainForDays?: pulumi.Input<number>;
     /**
-     * Whether or not the associated retainForDays value can be overridden by org scopes. Note: if the associated retainForDays
-     * value is 0, overridable is ignored.
+     * Whether or not the associated retain*for*days value can be overridden by org scopes. Note: if the associated retain*for*days value is 0, overridable is ignored.
      */
     retainForOverridable?: pulumi.Input<boolean>;
     /**
@@ -146,13 +141,11 @@ export interface PolicyStorageState {
  */
 export interface PolicyStorageArgs {
     /**
-     * The number of days after which a session recording will be automatically deleted. Defaults to 0: never automatically
-     * delete. However, deleteAfterDays and retainForDays cannot both be 0.
+     * The number of days after which a session recording will be automatically deleted. Defaults to 0: never automatically delete. However, delete*after*days and retain*for*days cannot both be 0.
      */
     deleteAfterDays?: pulumi.Input<number>;
     /**
-     * Whether or not the associated deleteAfterDays value can be overridden by org scopes. Note: if the associated
-     * deleteAfterDays value is 0, overridable is ignored
+     * Whether or not the associated delete*after*days value can be overridden by org scopes. Note: if the associated delete*after*days value is 0, overridable is ignored
      */
     deleteAfterOverridable?: pulumi.Input<boolean>;
     /**
@@ -164,13 +157,11 @@ export interface PolicyStorageArgs {
      */
     name?: pulumi.Input<string>;
     /**
-     * The number of days a session recording is required to be stored. Defaults to 0: allow deletions at any time. However,
-     * retainForDays and deleteAfterDays cannot both be 0.
+     * The number of days a session recording is required to be stored. Defaults to 0: allow deletions at any time. However, retain*for*days and delete*after*days cannot both be 0.
      */
     retainForDays?: pulumi.Input<number>;
     /**
-     * Whether or not the associated retainForDays value can be overridden by org scopes. Note: if the associated retainForDays
-     * value is 0, overridable is ignored.
+     * Whether or not the associated retain*for*days value can be overridden by org scopes. Note: if the associated retain*for*days value is 0, overridable is ignored.
      */
     retainForOverridable?: pulumi.Input<boolean>;
     /**

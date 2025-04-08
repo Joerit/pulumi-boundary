@@ -12,6 +12,86 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The hostSetStatic resource allows you to configure a Boundary host set. Host sets are always part of a host catalog, so a host catalog resource should be used inline or you should have the host catalog ID in hand to successfully configure a host set.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			project, err := boundary.NewScope(ctx, "project", &boundary.ScopeArgs{
+//				Name:                pulumi.String("project_one"),
+//				Description:         pulumi.String("My first scope!"),
+//				ScopeId:             org.ID(),
+//				AutoCreateAdminRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			example, err := boundary.NewHostCatalogStatic(ctx, "example", &boundary.HostCatalogStaticArgs{
+//				ScopeId: project.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			first, err := boundary.NewHostStatic(ctx, "first", &boundary.HostStaticArgs{
+//				Name:          pulumi.String("host_1"),
+//				Description:   pulumi.String("My first host!"),
+//				Address:       pulumi.String("10.0.0.1"),
+//				HostCatalogId: example.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			second, err := boundary.NewHostStatic(ctx, "second", &boundary.HostStaticArgs{
+//				Name:          pulumi.String("host_2"),
+//				Description:   pulumi.String("My second host!"),
+//				Address:       pulumi.String("10.0.0.2"),
+//				HostCatalogId: example.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewHostSetStatic(ctx, "web", &boundary.HostSetStaticArgs{
+//				HostCatalogId: example.ID(),
+//				HostIds: pulumi.StringArray{
+//					first.ID(),
+//					second.ID(),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/hostSetStatic:HostSetStatic foo <my-id>
+// ```
 type HostSetStatic struct {
 	pulumi.CustomResourceState
 

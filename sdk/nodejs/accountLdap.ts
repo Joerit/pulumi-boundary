@@ -4,6 +4,54 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The account resource allows you to configure a Boundary account.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const forumsysLdap = new boundary.AuthMethodLdap("forumsys_ldap", {
+ *     name: "forumsys public LDAP",
+ *     scopeId: "global",
+ *     urls: ["ldap://ldap.forumsys.com"],
+ *     userDn: "dc=example,dc=com",
+ *     userAttr: "uid",
+ *     groupDn: "dc=example,dc=com",
+ *     bindDn: "cn=read-only-admin,dc=example,dc=com",
+ *     bindPassword: "password",
+ *     state: "active-public",
+ *     enableGroups: true,
+ *     discoverDn: true,
+ * });
+ * const einstein = new boundary.AccountLdap("einstein", {
+ *     authMethodId: forumsysLdap.id,
+ *     loginName: "einstein",
+ *     name: "einstein",
+ * });
+ * const einsteinUser = new boundary.User("einstein", {
+ *     name: "einstein",
+ *     description: "User resource for einstein",
+ *     scopeId: "global",
+ *     accountIds: [einstein.id],
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/accountLdap:AccountLdap foo <my-id>
+ * ```
+ */
 export class AccountLdap extends pulumi.CustomResource {
     /**
      * Get an existing AccountLdap resource's state with the given name, ID, and optional extra

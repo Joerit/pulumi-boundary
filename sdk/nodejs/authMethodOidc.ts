@@ -4,6 +4,65 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The OIDC auth method resource allows you to configure a Boundary auth_method_oidc.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const vault = new boundary.AuthMethodOidc("vault", {
+ *     apiUrlPrefix: "https://XO-XO-XO-XO-XOXOXO.boundary.hashicorp.cloud:9200",
+ *     clientId: "eieio",
+ *     clientSecret: "hvo_secret_XO",
+ *     description: "My Boundary OIDC Auth Method for Vault",
+ *     issuer: "https://XO-XO-XO-XO-XOXOXO.vault.hashicorp.cloud:8200/v1/identity/oidc/provider/my-provider",
+ *     scopeId: "global",
+ *     signingAlgorithms: ["RS256"],
+ *     type: "oidc",
+ * });
+ * const oidcWithOnePrompt = new boundary.AuthMethodOidc("oidc_with_one_prompt", {
+ *     apiUrlPrefix: "https://XO-XO-XO-XO-XOXOXO.boundary.hashicorp.cloud:9200",
+ *     clientId: "eieio",
+ *     clientSecret: "hvo_secret_XO",
+ *     description: "My Boundary OIDC Auth Method With Prompt",
+ *     issuer: "https://sts.windows.net/TENANT_ID/",
+ *     scopeId: "global",
+ *     signingAlgorithms: ["RS256"],
+ *     prompts: ["select_account"],
+ *     type: "oidc",
+ * });
+ * const oidcWithMultiplePrompts = new boundary.AuthMethodOidc("oidc_with_multiple_prompts", {
+ *     apiUrlPrefix: "https://XO-XO-XO-XO-XOXOXO.boundary.hashicorp.cloud:9200",
+ *     clientId: "eieio",
+ *     clientSecret: "hvo_secret_XO",
+ *     description: "My Boundary OIDC Auth Method With Multiple Prompts",
+ *     issuer: "https://sts.windows.net/TENANT_ID/",
+ *     scopeId: "global",
+ *     signingAlgorithms: ["RS256"],
+ *     prompts: [
+ *         "consent",
+ *         "select_account",
+ *     ],
+ *     type: "oidc",
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/authMethodOidc:AuthMethodOidc foo <my-id>
+ * ```
+ */
 export class AuthMethodOidc extends pulumi.CustomResource {
     /**
      * Get an existing AuthMethodOidc resource's state with the given name, ID, and optional extra
@@ -41,8 +100,7 @@ export class AuthMethodOidc extends pulumi.CustomResource {
      */
     public readonly allowedAudiences!: pulumi.Output<string[] | undefined>;
     /**
-     * The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-     * can reach back to the controller.
+     * The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
      */
     public readonly apiUrlPrefix!: pulumi.Output<string | undefined>;
     /**
@@ -58,13 +116,11 @@ export class AuthMethodOidc extends pulumi.CustomResource {
      */
     public readonly clientId!: pulumi.Output<string | undefined>;
     /**
-     * The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-     * value can be removed from configuration.
+     * The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
      */
     public readonly clientSecret!: pulumi.Output<string | undefined>;
     /**
-     * The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-     * the value.
+     * The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
      */
     public readonly clientSecretHmac!: pulumi.Output<string>;
     /**
@@ -72,8 +128,7 @@ export class AuthMethodOidc extends pulumi.CustomResource {
      */
     public readonly description!: pulumi.Output<string | undefined>;
     /**
-     * Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-     * information here. The validation is only performed at create or update time.
+     * Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
      */
     public readonly disableDiscoveredConfigValidation!: pulumi.Output<boolean | undefined>;
     /**
@@ -81,8 +136,7 @@ export class AuthMethodOidc extends pulumi.CustomResource {
      */
     public readonly idpCaCerts!: pulumi.Output<string[] | undefined>;
     /**
-     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-     * a scope means the user will be automatically created when they login using an OIDC account.
+     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
      */
     public readonly isPrimaryForScope!: pulumi.Output<boolean | undefined>;
     /**
@@ -95,9 +149,7 @@ export class AuthMethodOidc extends pulumi.CustomResource {
      */
     public readonly name!: pulumi.Output<string>;
     /**
-     * The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-     * selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-     * and `selectAccount`.
+     * The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `selectAccount`.
      */
     public readonly prompts!: pulumi.Output<string[] | undefined>;
     /**
@@ -196,8 +248,7 @@ export interface AuthMethodOidcState {
      */
     allowedAudiences?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-     * can reach back to the controller.
+     * The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
      */
     apiUrlPrefix?: pulumi.Input<string>;
     /**
@@ -213,13 +264,11 @@ export interface AuthMethodOidcState {
      */
     clientId?: pulumi.Input<string>;
     /**
-     * The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-     * value can be removed from configuration.
+     * The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
      */
     clientSecret?: pulumi.Input<string>;
     /**
-     * The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-     * the value.
+     * The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
      */
     clientSecretHmac?: pulumi.Input<string>;
     /**
@@ -227,8 +276,7 @@ export interface AuthMethodOidcState {
      */
     description?: pulumi.Input<string>;
     /**
-     * Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-     * information here. The validation is only performed at create or update time.
+     * Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
      */
     disableDiscoveredConfigValidation?: pulumi.Input<boolean>;
     /**
@@ -236,8 +284,7 @@ export interface AuthMethodOidcState {
      */
     idpCaCerts?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-     * a scope means the user will be automatically created when they login using an OIDC account.
+     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
      */
     isPrimaryForScope?: pulumi.Input<boolean>;
     /**
@@ -250,9 +297,7 @@ export interface AuthMethodOidcState {
      */
     name?: pulumi.Input<string>;
     /**
-     * The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-     * selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-     * and `selectAccount`.
+     * The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `selectAccount`.
      */
     prompts?: pulumi.Input<pulumi.Input<string>[]>;
     /**
@@ -286,8 +331,7 @@ export interface AuthMethodOidcArgs {
      */
     allowedAudiences?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-     * can reach back to the controller.
+     * The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
      */
     apiUrlPrefix?: pulumi.Input<string>;
     /**
@@ -303,13 +347,11 @@ export interface AuthMethodOidcArgs {
      */
     clientId?: pulumi.Input<string>;
     /**
-     * The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-     * value can be removed from configuration.
+     * The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
      */
     clientSecret?: pulumi.Input<string>;
     /**
-     * The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-     * the value.
+     * The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
      */
     clientSecretHmac?: pulumi.Input<string>;
     /**
@@ -317,8 +359,7 @@ export interface AuthMethodOidcArgs {
      */
     description?: pulumi.Input<string>;
     /**
-     * Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-     * information here. The validation is only performed at create or update time.
+     * Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
      */
     disableDiscoveredConfigValidation?: pulumi.Input<boolean>;
     /**
@@ -326,8 +367,7 @@ export interface AuthMethodOidcArgs {
      */
     idpCaCerts?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-     * a scope means the user will be automatically created when they login using an OIDC account.
+     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
      */
     isPrimaryForScope?: pulumi.Input<boolean>;
     /**
@@ -340,9 +380,7 @@ export interface AuthMethodOidcArgs {
      */
     name?: pulumi.Input<string>;
     /**
-     * The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-     * selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-     * and `selectAccount`.
+     * The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `selectAccount`.
      */
     prompts?: pulumi.Input<pulumi.Input<string>[]>;
     /**

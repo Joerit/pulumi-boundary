@@ -9,6 +9,98 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The credential library for Vault resource allows you to configure a Boundary credential library for Vault.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     var foo = new Boundary.CredentialStoreVault("foo", new()
+    ///     {
+    ///         Name = "foo",
+    ///         Description = "My first Vault credential store!",
+    ///         Address = "http://127.0.0.1:8200",
+    ///         Token = "s.0ufRo6XEGU2jOqnIr7OlFYP5",
+    ///         ScopeId = project.Id,
+    ///     });
+    /// 
+    ///     var fooCredentialLibraryVaultSshCertificate = new Boundary.CredentialLibraryVaultSshCertificate("foo", new()
+    ///     {
+    ///         Name = "foo",
+    ///         Description = "My first Vault SSH certificate credential library!",
+    ///         CredentialStoreId = foo.Id,
+    ///         Path = "ssh/sign/foo",
+    ///         Username = "foo",
+    ///     });
+    /// 
+    ///     var bar = new Boundary.CredentialLibraryVaultSshCertificate("bar", new()
+    ///     {
+    ///         Name = "bar",
+    ///         Description = "My second Vault SSH certificate credential library!",
+    ///         CredentialStoreId = foo.Id,
+    ///         Path = "ssh/sign/foo",
+    ///         Username = "foo",
+    ///         KeyType = "ecdsa",
+    ///         KeyBits = 384,
+    ///         Extensions = 
+    ///         {
+    ///             { "permit-pty", "" },
+    ///         },
+    ///     });
+    /// 
+    ///     var baz = new Boundary.CredentialLibraryVaultSshCertificate("baz", new()
+    ///     {
+    ///         Name = "baz",
+    ///         Description = "vault ",
+    ///         CredentialStoreId = foo.Id,
+    ///         Path = "ssh/issue/foo",
+    ///         Username = "foo",
+    ///         KeyType = "rsa",
+    ///         KeyBits = 4096,
+    ///         Extensions = 
+    ///         {
+    ///             { "permit-pty", "" },
+    ///             { "permit-X11-forwarding", "" },
+    ///         },
+    ///         CriticalOptions = 
+    ///         {
+    ///             { "force-command", "/bin/some_script" },
+    ///         },
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/credentialLibraryVaultSshCertificate:CredentialLibraryVaultSshCertificate foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/credentialLibraryVaultSshCertificate:CredentialLibraryVaultSshCertificate")]
     public partial class CredentialLibraryVaultSshCertificate : global::Pulumi.CustomResource
     {

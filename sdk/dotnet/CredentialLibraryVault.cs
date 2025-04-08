@@ -9,6 +9,107 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The credential library for Vault resource allows you to configure a Boundary credential library for Vault.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     var foo = new Boundary.CredentialStoreVault("foo", new()
+    ///     {
+    ///         Name = "foo",
+    ///         Description = "My first Vault credential store!",
+    ///         Address = "http://127.0.0.1:8200",
+    ///         Token = "s.0ufRo6XEGU2jOqnIr7OlFYP5",
+    ///         ScopeId = project.Id,
+    ///     });
+    /// 
+    ///     var fooCredentialLibraryVault = new Boundary.CredentialLibraryVault("foo", new()
+    ///     {
+    ///         Name = "foo",
+    ///         Description = "My first Vault credential library!",
+    ///         CredentialStoreId = foo.Id,
+    ///         Path = "my/secret/foo",
+    ///         HttpMethod = "GET",
+    ///     });
+    /// 
+    ///     var bar = new Boundary.CredentialLibraryVault("bar", new()
+    ///     {
+    ///         Name = "bar",
+    ///         Description = "My second Vault credential library!",
+    ///         CredentialStoreId = foo.Id,
+    ///         Path = "my/secret/bar",
+    ///         HttpMethod = "POST",
+    ///         HttpRequestBody = @"{
+    ///   ""key"": ""Value"",
+    /// }
+    /// ",
+    ///     });
+    /// 
+    ///     var baz = new Boundary.CredentialLibraryVault("baz", new()
+    ///     {
+    ///         Name = "baz",
+    ///         Description = "vault username password credential with mapping overrides",
+    ///         CredentialStoreId = foo.Id,
+    ///         Path = "my/secret/baz",
+    ///         HttpMethod = "GET",
+    ///         CredentialType = "username_password",
+    ///         CredentialMappingOverrides = 
+    ///         {
+    ///             { "password_attribute", "alternative_password_label" },
+    ///             { "username_attribute", "alternative_username_label" },
+    ///         },
+    ///     });
+    /// 
+    ///     var quz = new Boundary.CredentialLibraryVault("quz", new()
+    ///     {
+    ///         Name = "quz",
+    ///         Description = "vault ssh private key credential with mapping overrides",
+    ///         CredentialStoreId = foo.Id,
+    ///         Path = "my/secret/quz",
+    ///         HttpMethod = "GET",
+    ///         CredentialType = "ssh_private_key",
+    ///         CredentialMappingOverrides = 
+    ///         {
+    ///             { "private_key_attribute", "alternative_key_label" },
+    ///             { "private_key_passphrase_attribute", "alternative_passphrase_label" },
+    ///             { "username_attribute", "alternative_username_label" },
+    ///         },
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/credentialLibraryVault:CredentialLibraryVault foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/credentialLibraryVault:CredentialLibraryVault")]
     public partial class CredentialLibraryVault : global::Pulumi.CustomResource
     {
@@ -43,8 +144,7 @@ namespace Pulumi.Boundary
         public Output<string?> HttpMethod { get; private set; } = null!;
 
         /// <summary>
-        /// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `http_method` is set
-        /// to `POST`.
+        /// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `http_method` is set to `POST`.
         /// </summary>
         [Output("httpRequestBody")]
         public Output<string?> HttpRequestBody { get; private set; } = null!;
@@ -144,8 +244,7 @@ namespace Pulumi.Boundary
         public Input<string>? HttpMethod { get; set; }
 
         /// <summary>
-        /// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `http_method` is set
-        /// to `POST`.
+        /// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `http_method` is set to `POST`.
         /// </summary>
         [Input("httpRequestBody")]
         public Input<string>? HttpRequestBody { get; set; }
@@ -207,8 +306,7 @@ namespace Pulumi.Boundary
         public Input<string>? HttpMethod { get; set; }
 
         /// <summary>
-        /// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `http_method` is set
-        /// to `POST`.
+        /// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `http_method` is set to `POST`.
         /// </summary>
         [Input("httpRequestBody")]
         public Input<string>? HttpRequestBody { get; set; }

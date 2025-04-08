@@ -11,12 +11,81 @@ namespace Pulumi.Boundary
 {
     public static class GetAccount
     {
+        /// <summary>
+        /// The boundary.Account data source allows you to find a Boundary account.
+        /// 
+        /// ## Example Usage
+        /// 
+        /// ```csharp
+        /// using System.Collections.Generic;
+        /// using System.Linq;
+        /// using Pulumi;
+        /// using Boundary = Pulumi.Boundary;
+        /// 
+        /// return await Deployment.RunAsync(() =&gt; 
+        /// {
+        ///     // Retrieve the ID of a Boundary account
+        ///     var admin = Boundary.GetAccount.Invoke(new()
+        ///     {
+        ///         Name = "admin",
+        ///         AuthMethodId = "ampw_1234567890",
+        ///     });
+        /// 
+        /// });
+        /// ```
+        /// </summary>
         public static Task<GetAccountResult> InvokeAsync(GetAccountArgs args, InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.InvokeAsync<GetAccountResult>("boundary:index/getAccount:getAccount", args ?? new GetAccountArgs(), options.WithDefaults());
 
+        /// <summary>
+        /// The boundary.Account data source allows you to find a Boundary account.
+        /// 
+        /// ## Example Usage
+        /// 
+        /// ```csharp
+        /// using System.Collections.Generic;
+        /// using System.Linq;
+        /// using Pulumi;
+        /// using Boundary = Pulumi.Boundary;
+        /// 
+        /// return await Deployment.RunAsync(() =&gt; 
+        /// {
+        ///     // Retrieve the ID of a Boundary account
+        ///     var admin = Boundary.GetAccount.Invoke(new()
+        ///     {
+        ///         Name = "admin",
+        ///         AuthMethodId = "ampw_1234567890",
+        ///     });
+        /// 
+        /// });
+        /// ```
+        /// </summary>
         public static Output<GetAccountResult> Invoke(GetAccountInvokeArgs args, InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.Invoke<GetAccountResult>("boundary:index/getAccount:getAccount", args ?? new GetAccountInvokeArgs(), options.WithDefaults());
 
+        /// <summary>
+        /// The boundary.Account data source allows you to find a Boundary account.
+        /// 
+        /// ## Example Usage
+        /// 
+        /// ```csharp
+        /// using System.Collections.Generic;
+        /// using System.Linq;
+        /// using Pulumi;
+        /// using Boundary = Pulumi.Boundary;
+        /// 
+        /// return await Deployment.RunAsync(() =&gt; 
+        /// {
+        ///     // Retrieve the ID of a Boundary account
+        ///     var admin = Boundary.GetAccount.Invoke(new()
+        ///     {
+        ///         Name = "admin",
+        ///         AuthMethodId = "ampw_1234567890",
+        ///     });
+        /// 
+        /// });
+        /// ```
+        /// </summary>
         public static Output<GetAccountResult> Invoke(GetAccountInvokeArgs args, InvokeOutputOptions options)
             => global::Pulumi.Deployment.Instance.Invoke<GetAccountResult>("boundary:index/getAccount:getAccount", args ?? new GetAccountInvokeArgs(), options.WithDefaults());
     }
@@ -24,9 +93,15 @@ namespace Pulumi.Boundary
 
     public sealed class GetAccountArgs : global::Pulumi.InvokeArgs
     {
+        /// <summary>
+        /// The auth method ID that will be queried for the account.
+        /// </summary>
         [Input("authMethodId", required: true)]
         public string AuthMethodId { get; set; } = null!;
 
+        /// <summary>
+        /// The name of the account to retrieve.
+        /// </summary>
         [Input("name", required: true)]
         public string Name { get; set; } = null!;
 
@@ -38,9 +113,15 @@ namespace Pulumi.Boundary
 
     public sealed class GetAccountInvokeArgs : global::Pulumi.InvokeArgs
     {
+        /// <summary>
+        /// The auth method ID that will be queried for the account.
+        /// </summary>
         [Input("authMethodId", required: true)]
         public Input<string> AuthMethodId { get; set; } = null!;
 
+        /// <summary>
+        /// The name of the account to retrieve.
+        /// </summary>
         [Input("name", required: true)]
         public Input<string> Name { get; set; } = null!;
 
@@ -54,11 +135,26 @@ namespace Pulumi.Boundary
     [OutputType]
     public sealed class GetAccountResult
     {
+        /// <summary>
+        /// The auth method ID that will be queried for the account.
+        /// </summary>
         public readonly string AuthMethodId;
+        /// <summary>
+        /// The description of the retrieved account.
+        /// </summary>
         public readonly string Description;
+        /// <summary>
+        /// The ID of the retrieved account.
+        /// </summary>
         public readonly string Id;
+        /// <summary>
+        /// The name of the account to retrieve.
+        /// </summary>
         public readonly string Name;
         public readonly ImmutableArray<Outputs.GetAccountScopeResult> Scopes;
+        /// <summary>
+        /// The type of the account
+        /// </summary>
         public readonly string Type;
 
         [OutputConstructor]

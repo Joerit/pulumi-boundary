@@ -4,6 +4,48 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The username/password credential resource allows you to configure a credential using a username and password pair.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "global scope",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const example = new boundary.CredentialStoreStatic("example", {
+ *     name: "example_static_credential_store",
+ *     description: "My first static credential store!",
+ *     scopeId: project.id,
+ * });
+ * const exampleCredentialUsernamePassword = new boundary.CredentialUsernamePassword("example", {
+ *     name: "example_username_password",
+ *     description: "My first username password credential!",
+ *     credentialStoreId: example.id,
+ *     username: "my-username",
+ *     password: "my-password",
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/credentialUsernamePassword:CredentialUsernamePassword example_username_password <my-id>
+ * ```
+ */
 export class CredentialUsernamePassword extends pulumi.CustomResource {
     /**
      * Get an existing CredentialUsernamePassword resource's state with the given name, ID, and optional extra

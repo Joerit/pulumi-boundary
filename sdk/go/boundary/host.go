@@ -12,11 +12,75 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Deprecated: use `HostStatic` instead.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			project, err := boundary.NewScope(ctx, "project", &boundary.ScopeArgs{
+//				Name:                pulumi.String("project_one"),
+//				Description:         pulumi.String("My first scope!"),
+//				ScopeId:             org.ID(),
+//				AutoCreateAdminRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			static, err := boundary.NewHostCatalog(ctx, "static", &boundary.HostCatalogArgs{
+//				Name:        pulumi.String("My catalog"),
+//				Description: pulumi.String("My first host catalog!"),
+//				Type:        pulumi.String("static"),
+//				ScopeId:     project.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewHost(ctx, "example", &boundary.HostArgs{
+//				Type:          pulumi.String("static"),
+//				Name:          pulumi.String("example_host"),
+//				Description:   pulumi.String("My first host!"),
+//				Address:       pulumi.String("10.0.0.1"),
+//				HostCatalogId: static.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/host:Host foo <my-id>
+// ```
 type Host struct {
 	pulumi.CustomResourceState
 
-	// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do
-	// not add :port here) or a domain name.
+	// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
 	Address pulumi.StringPtrOutput `pulumi:"address"`
 	// The host description.
 	Description   pulumi.StringPtrOutput `pulumi:"description"`
@@ -63,8 +127,7 @@ func GetHost(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering Host resources.
 type hostState struct {
-	// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do
-	// not add :port here) or a domain name.
+	// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
 	Address *string `pulumi:"address"`
 	// The host description.
 	Description   *string `pulumi:"description"`
@@ -76,8 +139,7 @@ type hostState struct {
 }
 
 type HostState struct {
-	// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do
-	// not add :port here) or a domain name.
+	// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
 	Address pulumi.StringPtrInput
 	// The host description.
 	Description   pulumi.StringPtrInput
@@ -93,8 +155,7 @@ func (HostState) ElementType() reflect.Type {
 }
 
 type hostArgs struct {
-	// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do
-	// not add :port here) or a domain name.
+	// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
 	Address *string `pulumi:"address"`
 	// The host description.
 	Description   *string `pulumi:"description"`
@@ -107,8 +168,7 @@ type hostArgs struct {
 
 // The set of arguments for constructing a Host resource.
 type HostArgs struct {
-	// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do
-	// not add :port here) or a domain name.
+	// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
 	Address pulumi.StringPtrInput
 	// The host description.
 	Description   pulumi.StringPtrInput
@@ -206,8 +266,7 @@ func (o HostOutput) ToHostOutputWithContext(ctx context.Context) HostOutput {
 	return o
 }
 
-// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do
-// not add :port here) or a domain name.
+// The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
 func (o HostOutput) Address() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Host) pulumi.StringPtrOutput { return v.Address }).(pulumi.StringPtrOutput)
 }

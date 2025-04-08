@@ -11,6 +11,49 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The Group data source allows you to find a Boundary group.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			// Retrieve a user from the global scope
+//			_, err := boundary.LookupGroup(ctx, &boundary.LookupGroupArgs{
+//				Name: "admin",
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			// User from an org scope
+//			org, err := boundary.LookupScope(ctx, &boundary.LookupScopeArgs{
+//				Name:    "org",
+//				ScopeId: "global",
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.LookupGroup(ctx, &boundary.LookupGroupArgs{
+//				Name:    "username",
+//				ScopeId: pulumi.StringRef(org.Id),
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
 func LookupGroup(ctx *pulumi.Context, args *LookupGroupArgs, opts ...pulumi.InvokeOption) (*LookupGroupResult, error) {
 	opts = internal.PkgInvokeDefaultOpts(opts)
 	var rv LookupGroupResult
@@ -23,18 +66,25 @@ func LookupGroup(ctx *pulumi.Context, args *LookupGroupArgs, opts ...pulumi.Invo
 
 // A collection of arguments for invoking getGroup.
 type LookupGroupArgs struct {
-	Name    string  `pulumi:"name"`
+	// The name of the group to retrieve.
+	Name string `pulumi:"name"`
+	// The scope ID in which the resource is created. Defaults `global` if unset.
 	ScopeId *string `pulumi:"scopeId"`
 }
 
 // A collection of values returned by getGroup.
 type LookupGroupResult struct {
-	Description string          `pulumi:"description"`
-	Id          string          `pulumi:"id"`
-	MemberIds   []string        `pulumi:"memberIds"`
-	Name        string          `pulumi:"name"`
-	ScopeId     *string         `pulumi:"scopeId"`
-	Scopes      []GetGroupScope `pulumi:"scopes"`
+	// The description of the retrieved group.
+	Description string `pulumi:"description"`
+	// The ID of the retrieved group.
+	Id string `pulumi:"id"`
+	// Resource IDs for group members, these are most likely boundary users.
+	MemberIds []string `pulumi:"memberIds"`
+	// The name of the group to retrieve.
+	Name string `pulumi:"name"`
+	// The scope ID in which the resource is created. Defaults `global` if unset.
+	ScopeId *string         `pulumi:"scopeId"`
+	Scopes  []GetGroupScope `pulumi:"scopes"`
 }
 
 func LookupGroupOutput(ctx *pulumi.Context, args LookupGroupOutputArgs, opts ...pulumi.InvokeOption) LookupGroupResultOutput {
@@ -48,7 +98,9 @@ func LookupGroupOutput(ctx *pulumi.Context, args LookupGroupOutputArgs, opts ...
 
 // A collection of arguments for invoking getGroup.
 type LookupGroupOutputArgs struct {
-	Name    pulumi.StringInput    `pulumi:"name"`
+	// The name of the group to retrieve.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The scope ID in which the resource is created. Defaults `global` if unset.
 	ScopeId pulumi.StringPtrInput `pulumi:"scopeId"`
 }
 
@@ -71,22 +123,27 @@ func (o LookupGroupResultOutput) ToLookupGroupResultOutputWithContext(ctx contex
 	return o
 }
 
+// The description of the retrieved group.
 func (o LookupGroupResultOutput) Description() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGroupResult) string { return v.Description }).(pulumi.StringOutput)
 }
 
+// The ID of the retrieved group.
 func (o LookupGroupResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGroupResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
+// Resource IDs for group members, these are most likely boundary users.
 func (o LookupGroupResultOutput) MemberIds() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupGroupResult) []string { return v.MemberIds }).(pulumi.StringArrayOutput)
 }
 
+// The name of the group to retrieve.
 func (o LookupGroupResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGroupResult) string { return v.Name }).(pulumi.StringOutput)
 }
 
+// The scope ID in which the resource is created. Defaults `global` if unset.
 func (o LookupGroupResultOutput) ScopeId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupGroupResult) *string { return v.ScopeId }).(pulumi.StringPtrOutput)
 }

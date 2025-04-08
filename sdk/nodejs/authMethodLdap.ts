@@ -4,6 +4,43 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The LDAP auth method resource allows you to configure a Boundary auth_method_ldap.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const forumsysLdap = new boundary.AuthMethodLdap("forumsys_ldap", {
+ *     name: "forumsys public LDAP",
+ *     scopeId: "global",
+ *     urls: ["ldap://ldap.forumsys.com"],
+ *     userDn: "dc=example,dc=com",
+ *     userAttr: "uid",
+ *     groupDn: "dc=example,dc=com",
+ *     bindDn: "cn=read-only-admin,dc=example,dc=com",
+ *     bindPassword: "password",
+ *     state: "active-public",
+ *     enableGroups: true,
+ *     discoverDn: true,
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/authMethodLdap:AuthMethodLdap foo <my-id>
+ * ```
+ */
 export class AuthMethodLdap extends pulumi.CustomResource {
     /**
      * Get an existing AuthMethodLdap resource's state with the given name, ID, and optional extra
@@ -49,18 +86,15 @@ export class AuthMethodLdap extends pulumi.CustomResource {
      */
     public readonly bindPassword!: pulumi.Output<string | undefined>;
     /**
-     * The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of
-     * the value.
+     * The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of the value.
      */
     public readonly bindPasswordHmac!: pulumi.Output<string>;
     /**
-     * PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP
-     * server(optional). This may be specified multiple times
+     * PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP server(optional).  This may be specified multiple times
      */
     public readonly certificates!: pulumi.Output<string[] | undefined>;
     /**
-     * PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP
-     * server(optional).
+     * PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP server(optional).
      */
     public readonly clientCertificate!: pulumi.Output<string | undefined>;
     /**
@@ -68,13 +102,11 @@ export class AuthMethodLdap extends pulumi.CustomResource {
      */
     public readonly clientCertificateKey!: pulumi.Output<string | undefined>;
     /**
-     * The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial
-     * setting of the value.
+     * The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial setting of the value.
      */
     public readonly clientCertificateKeyHmac!: pulumi.Output<string>;
     /**
-     * Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching,
-     * DerefFindingBaseObj, and DerefAlways (optional).
+     * Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching, DerefFindingBaseObj, and DerefAlways (optional).
      */
     public readonly dereferenceAliases!: pulumi.Output<string>;
     /**
@@ -106,13 +138,11 @@ export class AuthMethodLdap extends pulumi.CustomResource {
      */
     public readonly insecureTls!: pulumi.Output<boolean | undefined>;
     /**
-     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-     * a scope means the the user will be automatically created when they login using an LDAP account.
+     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the the user will be automatically created when they login using an LDAP account.
      */
     public readonly isPrimaryForScope!: pulumi.Output<boolean | undefined>;
     /**
-     * MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups
-     * (optional).
+     * MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups (optional).
      */
     public readonly maximumPageSize!: pulumi.Output<number | undefined>;
     /**
@@ -140,7 +170,7 @@ export class AuthMethodLdap extends pulumi.CustomResource {
      */
     public readonly upnDomain!: pulumi.Output<string | undefined>;
     /**
-     * The LDAP URLs that specify LDAP servers to connect to (required). May be specified multiple times.
+     * The LDAP URLs that specify LDAP servers to connect to (required).  May be specified multiple times.
      */
     public readonly urls!: pulumi.Output<string[] | undefined>;
     /**
@@ -265,18 +295,15 @@ export interface AuthMethodLdapState {
      */
     bindPassword?: pulumi.Input<string>;
     /**
-     * The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of
-     * the value.
+     * The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of the value.
      */
     bindPasswordHmac?: pulumi.Input<string>;
     /**
-     * PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP
-     * server(optional). This may be specified multiple times
+     * PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP server(optional).  This may be specified multiple times
      */
     certificates?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP
-     * server(optional).
+     * PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP server(optional).
      */
     clientCertificate?: pulumi.Input<string>;
     /**
@@ -284,13 +311,11 @@ export interface AuthMethodLdapState {
      */
     clientCertificateKey?: pulumi.Input<string>;
     /**
-     * The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial
-     * setting of the value.
+     * The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial setting of the value.
      */
     clientCertificateKeyHmac?: pulumi.Input<string>;
     /**
-     * Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching,
-     * DerefFindingBaseObj, and DerefAlways (optional).
+     * Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching, DerefFindingBaseObj, and DerefAlways (optional).
      */
     dereferenceAliases?: pulumi.Input<string>;
     /**
@@ -322,13 +347,11 @@ export interface AuthMethodLdapState {
      */
     insecureTls?: pulumi.Input<boolean>;
     /**
-     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-     * a scope means the the user will be automatically created when they login using an LDAP account.
+     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the the user will be automatically created when they login using an LDAP account.
      */
     isPrimaryForScope?: pulumi.Input<boolean>;
     /**
-     * MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups
-     * (optional).
+     * MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups (optional).
      */
     maximumPageSize?: pulumi.Input<number>;
     /**
@@ -356,7 +379,7 @@ export interface AuthMethodLdapState {
      */
     upnDomain?: pulumi.Input<string>;
     /**
-     * The LDAP URLs that specify LDAP servers to connect to (required). May be specified multiple times.
+     * The LDAP URLs that specify LDAP servers to connect to (required).  May be specified multiple times.
      */
     urls?: pulumi.Input<pulumi.Input<string>[]>;
     /**
@@ -398,18 +421,15 @@ export interface AuthMethodLdapArgs {
      */
     bindPassword?: pulumi.Input<string>;
     /**
-     * The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of
-     * the value.
+     * The HMAC of the bind password returned by the Boundary controller, which is used for comparison after initial setting of the value.
      */
     bindPasswordHmac?: pulumi.Input<string>;
     /**
-     * PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP
-     * server(optional). This may be specified multiple times
+     * PEM-encoded X.509 CA certificate in ASN.1 DER form that can be used as a trust anchor when connecting to an LDAP server(optional).  This may be specified multiple times
      */
     certificates?: pulumi.Input<pulumi.Input<string>[]>;
     /**
-     * PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP
-     * server(optional).
+     * PEM-encoded X.509 client certificate in ASN.1 DER form that can be used to authenticate against an LDAP server(optional).
      */
     clientCertificate?: pulumi.Input<string>;
     /**
@@ -417,13 +437,11 @@ export interface AuthMethodLdapArgs {
      */
     clientCertificateKey?: pulumi.Input<string>;
     /**
-     * The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial
-     * setting of the value.
+     * The HMAC of the client certificate key returned by the Boundary controller, which is used for comparison after initial setting of the value.
      */
     clientCertificateKeyHmac?: pulumi.Input<string>;
     /**
-     * Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching,
-     * DerefFindingBaseObj, and DerefAlways (optional).
+     * Control how aliases are dereferenced when performing the search. Can be one of: NeverDerefAliases, DerefInSearching, DerefFindingBaseObj, and DerefAlways (optional).
      */
     dereferenceAliases?: pulumi.Input<string>;
     /**
@@ -455,13 +473,11 @@ export interface AuthMethodLdapArgs {
      */
     insecureTls?: pulumi.Input<boolean>;
     /**
-     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-     * a scope means the the user will be automatically created when they login using an LDAP account.
+     * When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the the user will be automatically created when they login using an LDAP account.
      */
     isPrimaryForScope?: pulumi.Input<boolean>;
     /**
-     * MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups
-     * (optional).
+     * MaximumPageSize specifies a maximum search result size to use when retrieving the authenticated user's groups (optional).
      */
     maximumPageSize?: pulumi.Input<number>;
     /**
@@ -489,7 +505,7 @@ export interface AuthMethodLdapArgs {
      */
     upnDomain?: pulumi.Input<string>;
     /**
-     * The LDAP URLs that specify LDAP servers to connect to (required). May be specified multiple times.
+     * The LDAP URLs that specify LDAP servers to connect to (required).  May be specified multiple times.
      */
     urls?: pulumi.Input<pulumi.Input<string>[]>;
     /**

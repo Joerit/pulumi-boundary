@@ -4,6 +4,15 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The json credential resource allows you to congiure a credential using a json object.
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/credentialJson:CredentialJson example_json <my-id>
+ * ```
+ */
 export class CredentialJson extends pulumi.CustomResource {
     /**
      * Get an existing CredentialJson resource's state with the given name, ID, and optional extra
@@ -45,8 +54,7 @@ export class CredentialJson extends pulumi.CustomResource {
      */
     public readonly name!: pulumi.Output<string>;
     /**
-     * The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-     * or a file
+     * The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
      */
     public readonly object!: pulumi.Output<string>;
     /**
@@ -110,8 +118,7 @@ export interface CredentialJsonState {
      */
     name?: pulumi.Input<string>;
     /**
-     * The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-     * or a file
+     * The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
      */
     object?: pulumi.Input<string>;
     /**
@@ -137,8 +144,7 @@ export interface CredentialJsonArgs {
      */
     name?: pulumi.Input<string>;
     /**
-     * The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-     * or a file
+     * The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
      */
     object: pulumi.Input<string>;
 }

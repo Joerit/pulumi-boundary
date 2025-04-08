@@ -9,6 +9,66 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The managed group resource allows you to configure a Boundary group.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var forumsysLdap = new Boundary.AuthMethodLdap("forumsys_ldap", new()
+    ///     {
+    ///         Name = "forumsys public LDAP",
+    ///         ScopeId = "global",
+    ///         Urls = new[]
+    ///         {
+    ///             "ldap://ldap.forumsys.com",
+    ///         },
+    ///         UserDn = "dc=example,dc=com",
+    ///         UserAttr = "uid",
+    ///         GroupDn = "dc=example,dc=com",
+    ///         BindDn = "cn=read-only-admin,dc=example,dc=com",
+    ///         BindPassword = "password",
+    ///         State = "active-public",
+    ///         EnableGroups = true,
+    ///         DiscoverDn = true,
+    ///     });
+    /// 
+    ///     var forumsysScientists = new Boundary.ManagedGroupLdap("forumsys_scientists", new()
+    ///     {
+    ///         Name = "scientists",
+    ///         Description = "forumsys scientists managed group",
+    ///         AuthMethodId = forumsysLdap.Id,
+    ///         GroupNames = new[]
+    ///         {
+    ///             "Scientists",
+    ///         },
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/managedGroupLdap:ManagedGroupLdap foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/managedGroupLdap:ManagedGroupLdap")]
     public partial class ManagedGroupLdap : global::Pulumi.CustomResource
     {

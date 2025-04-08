@@ -11,6 +11,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The AuthMethod data source allows you to find a Boundary auth method.
 func LookupAuthMethod(ctx *pulumi.Context, args *LookupAuthMethodArgs, opts ...pulumi.InvokeOption) (*LookupAuthMethodResult, error) {
 	opts = internal.PkgInvokeDefaultOpts(opts)
 	var rv LookupAuthMethodResult
@@ -23,18 +24,25 @@ func LookupAuthMethod(ctx *pulumi.Context, args *LookupAuthMethodArgs, opts ...p
 
 // A collection of arguments for invoking getAuthMethod.
 type LookupAuthMethodArgs struct {
-	Name    string  `pulumi:"name"`
+	// The name of the auth method to retrieve.
+	Name string `pulumi:"name"`
+	// The scope ID in which the resource is created. Defaults `global` if unset.
 	ScopeId *string `pulumi:"scopeId"`
 }
 
 // A collection of values returned by getAuthMethod.
 type LookupAuthMethodResult struct {
-	Description string               `pulumi:"description"`
-	Id          string               `pulumi:"id"`
-	Name        string               `pulumi:"name"`
-	ScopeId     *string              `pulumi:"scopeId"`
-	Scopes      []GetAuthMethodScope `pulumi:"scopes"`
-	Type        string               `pulumi:"type"`
+	// The description of the retrieved auth method.
+	Description string `pulumi:"description"`
+	// The ID of the retrieved auth method.
+	Id string `pulumi:"id"`
+	// The name of the auth method to retrieve.
+	Name string `pulumi:"name"`
+	// The scope ID in which the resource is created. Defaults `global` if unset.
+	ScopeId *string              `pulumi:"scopeId"`
+	Scopes  []GetAuthMethodScope `pulumi:"scopes"`
+	// The type of the auth method
+	Type string `pulumi:"type"`
 }
 
 func LookupAuthMethodOutput(ctx *pulumi.Context, args LookupAuthMethodOutputArgs, opts ...pulumi.InvokeOption) LookupAuthMethodResultOutput {
@@ -48,7 +56,9 @@ func LookupAuthMethodOutput(ctx *pulumi.Context, args LookupAuthMethodOutputArgs
 
 // A collection of arguments for invoking getAuthMethod.
 type LookupAuthMethodOutputArgs struct {
-	Name    pulumi.StringInput    `pulumi:"name"`
+	// The name of the auth method to retrieve.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The scope ID in which the resource is created. Defaults `global` if unset.
 	ScopeId pulumi.StringPtrInput `pulumi:"scopeId"`
 }
 
@@ -71,18 +81,22 @@ func (o LookupAuthMethodResultOutput) ToLookupAuthMethodResultOutputWithContext(
 	return o
 }
 
+// The description of the retrieved auth method.
 func (o LookupAuthMethodResultOutput) Description() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAuthMethodResult) string { return v.Description }).(pulumi.StringOutput)
 }
 
+// The ID of the retrieved auth method.
 func (o LookupAuthMethodResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAuthMethodResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
+// The name of the auth method to retrieve.
 func (o LookupAuthMethodResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAuthMethodResult) string { return v.Name }).(pulumi.StringOutput)
 }
 
+// The scope ID in which the resource is created. Defaults `global` if unset.
 func (o LookupAuthMethodResultOutput) ScopeId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupAuthMethodResult) *string { return v.ScopeId }).(pulumi.StringPtrOutput)
 }
@@ -91,6 +105,7 @@ func (o LookupAuthMethodResultOutput) Scopes() GetAuthMethodScopeArrayOutput {
 	return o.ApplyT(func(v LookupAuthMethodResult) []GetAuthMethodScope { return v.Scopes }).(GetAuthMethodScopeArrayOutput)
 }
 
+// The type of the auth method
 func (o LookupAuthMethodResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAuthMethodResult) string { return v.Type }).(pulumi.StringOutput)
 }

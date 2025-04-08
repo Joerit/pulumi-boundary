@@ -9,6 +9,50 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The account resource allows you to configure a Boundary account.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var password = new Boundary.AuthMethod("password", new()
+    ///     {
+    ///         ScopeId = org.Id,
+    ///         Type = "password",
+    ///     });
+    /// 
+    ///     var jeff = new Boundary.AccountPassword("jeff", new()
+    ///     {
+    ///         AuthMethodId = password.Id,
+    ///         LoginName = "jeff",
+    ///         Password = "$uper$ecure",
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/accountPassword:AccountPassword foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/accountPassword:AccountPassword")]
     public partial class AccountPassword : global::Pulumi.CustomResource
     {

@@ -4,6 +4,49 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * Deprecated: use `boundary.HostStatic` instead.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const static = new boundary.HostCatalog("static", {
+ *     name: "My catalog",
+ *     description: "My first host catalog!",
+ *     type: "static",
+ *     scopeId: project.id,
+ * });
+ * const example = new boundary.Host("example", {
+ *     type: "static",
+ *     name: "example_host",
+ *     description: "My first host!",
+ *     address: "10.0.0.1",
+ *     hostCatalogId: static.id,
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/host:Host foo <my-id>
+ * ```
+ */
 export class Host extends pulumi.CustomResource {
     /**
      * Get an existing Host resource's state with the given name, ID, and optional extra
@@ -33,8 +76,7 @@ export class Host extends pulumi.CustomResource {
     }
 
     /**
-     * The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do
-     * not add :port here) or a domain name.
+     * The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
      */
     public readonly address!: pulumi.Output<string | undefined>;
     /**
@@ -93,8 +135,7 @@ export class Host extends pulumi.CustomResource {
  */
 export interface HostState {
     /**
-     * The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do
-     * not add :port here) or a domain name.
+     * The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
      */
     address?: pulumi.Input<string>;
     /**
@@ -117,8 +158,7 @@ export interface HostState {
  */
 export interface HostArgs {
     /**
-     * The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do
-     * not add :port here) or a domain name.
+     * The static address of the host resource as `<IP>` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
      */
     address?: pulumi.Input<string>;
     /**

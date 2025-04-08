@@ -9,6 +9,100 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The target alias resource allows you to configure a Boundary target alias.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "global scope",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     var foo = new Boundary.HostCatalogStatic("foo", new()
+    ///     {
+    ///         Name = "test",
+    ///         Description = "test catalog",
+    ///         ScopeId = project.Id,
+    ///     });
+    /// 
+    ///     var fooHostStatic = new Boundary.HostStatic("foo", new()
+    ///     {
+    ///         Name = "foo",
+    ///         HostCatalogId = foo.Id,
+    ///         Address = "10.0.0.1",
+    ///     });
+    /// 
+    ///     var bar = new Boundary.HostStatic("bar", new()
+    ///     {
+    ///         Name = "bar",
+    ///         HostCatalogId = foo.Id,
+    ///         Address = "127.0.0.1",
+    ///     });
+    /// 
+    ///     var fooHostSetStatic = new Boundary.HostSetStatic("foo", new()
+    ///     {
+    ///         Name = "foo",
+    ///         HostCatalogId = foo.Id,
+    ///         HostIds = new[]
+    ///         {
+    ///             fooHostStatic.Id,
+    ///             bar.Id,
+    ///         },
+    ///     });
+    /// 
+    ///     var fooTarget = new Boundary.Target("foo", new()
+    ///     {
+    ///         Name = "foo",
+    ///         Description = "Foo target",
+    ///         Type = "tcp",
+    ///         DefaultPort = 22,
+    ///         ScopeId = project.Id,
+    ///         HostSourceIds = new[]
+    ///         {
+    ///             fooHostSetStatic.Id,
+    ///         },
+    ///     });
+    /// 
+    ///     var exampleAliasTarget = new Boundary.AliasTarget("example_alias_target", new()
+    ///     {
+    ///         Name = "example_alias_target",
+    ///         Description = "Example alias to target foo using host boundary_host_static.bar",
+    ///         ScopeId = "global",
+    ///         Value = "example.bar.foo.boundary",
+    ///         DestinationId = fooTarget.Id,
+    ///         AuthorizeSessionHostId = bar.Id,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/aliasTarget:AliasTarget example_alias_target &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/aliasTarget:AliasTarget")]
     public partial class AliasTarget : global::Pulumi.CustomResource
     {

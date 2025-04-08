@@ -9,12 +9,97 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The host catalog resource allows you to configure a Boundary plugin-type host catalog. Host catalogs are always part of a project, so a project resource should be used inline or you should have the project ID in hand to successfully configure a host catalog.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using System.Text.Json;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = @global.Id,
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     // For more information about the aws plugin, please visit here:
+    ///     // https://github.com/hashicorp/boundary-plugin-host-aws
+    ///     //
+    ///     // For more information about aws users, please visit here:
+    ///     // https://learn.hashicorp.com/tutorials/boundary/aws-host-catalogs?in=boundary/oss-access-management#configure-terraform-and-iam-user-privileges
+    ///     var awsExample = new Boundary.HostCatalogPlugin("aws_example", new()
+    ///     {
+    ///         Name = "My aws catalog",
+    ///         Description = "My first host catalog!",
+    ///         ScopeId = project.Id,
+    ///         PluginName = "aws",
+    ///         AttributesJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["region"] = "us-east-1",
+    ///         }),
+    ///         SecretsJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["access_key_id"] = "aws_access_key_id_value",
+    ///             ["secret_access_key"] = "aws_secret_access_key_value",
+    ///         }),
+    ///     });
+    /// 
+    ///     // For more information about the azure plugin, please visit here:
+    ///     // https://github.com/hashicorp/boundary-plugin-host-azure
+    ///     //
+    ///     // For more information about azure ad applications, please visit here:
+    ///     // https://learn.hashicorp.com/tutorials/boundary/azure-host-catalogs#register-a-new-azure-ad-application-1
+    ///     var azureExample = new Boundary.HostCatalogPlugin("azure_example", new()
+    ///     {
+    ///         Name = "My azure catalog",
+    ///         Description = "My second host catalog!",
+    ///         ScopeId = project.Id,
+    ///         PluginName = "azure",
+    ///         AttributesJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["disable_credential_rotation"] = "true",
+    ///             ["tenant_id"] = "ARM_TENANT_ID",
+    ///             ["subscription_id"] = "ARM_SUBSCRIPTION_ID",
+    ///             ["client_id"] = "ARM_CLIENT_ID",
+    ///         }),
+    ///         SecretsJson = JsonSerializer.Serialize(new Dictionary&lt;string, object?&gt;
+    ///         {
+    ///             ["secret_value"] = "ARM_CLIENT_SECRET",
+    ///         }),
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/hostCatalogPlugin:HostCatalogPlugin foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/hostCatalogPlugin:HostCatalogPlugin")]
     public partial class HostCatalogPlugin : global::Pulumi.CustomResource
     {
         /// <summary>
-        /// The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-        /// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
+        /// The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
         /// </summary>
         [Output("attributesJson")]
         public Output<string?> AttributesJson { get; private set; } = null!;
@@ -32,8 +117,7 @@ namespace Pulumi.Boundary
         public Output<string> InternalForceUpdate { get; private set; } = null!;
 
         /// <summary>
-        /// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift
-        /// detection.
+        /// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift detection.
         /// </summary>
         [Output("internalHmacUsedForSecretsConfigHmac")]
         public Output<string> InternalHmacUsedForSecretsConfigHmac { get; private set; } = null!;
@@ -75,10 +159,7 @@ namespace Pulumi.Boundary
         public Output<string> SecretsHmac { get; private set; } = null!;
 
         /// <summary>
-        /// The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-        /// file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributes_json", removing
-        /// this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them
-        /// for storage.
+        /// The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributes_json", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
         /// </summary>
         [Output("secretsJson")]
         public Output<string?> SecretsJson { get; private set; } = null!;
@@ -140,8 +221,7 @@ namespace Pulumi.Boundary
     public sealed class HostCatalogPluginArgs : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-        /// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
+        /// The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
         /// </summary>
         [Input("attributesJson")]
         public Input<string>? AttributesJson { get; set; }
@@ -159,8 +239,7 @@ namespace Pulumi.Boundary
         public Input<string>? InternalForceUpdate { get; set; }
 
         /// <summary>
-        /// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift
-        /// detection.
+        /// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift detection.
         /// </summary>
         [Input("internalHmacUsedForSecretsConfigHmac")]
         public Input<string>? InternalHmacUsedForSecretsConfigHmac { get; set; }
@@ -205,10 +284,7 @@ namespace Pulumi.Boundary
         private Input<string>? _secretsJson;
 
         /// <summary>
-        /// The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-        /// file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributes_json", removing
-        /// this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them
-        /// for storage.
+        /// The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributes_json", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
         /// </summary>
         public Input<string>? SecretsJson
         {
@@ -235,8 +311,7 @@ namespace Pulumi.Boundary
     public sealed class HostCatalogPluginState : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-        /// file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
+        /// The attributes for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the host catalog.
         /// </summary>
         [Input("attributesJson")]
         public Input<string>? AttributesJson { get; set; }
@@ -254,8 +329,7 @@ namespace Pulumi.Boundary
         public Input<string>? InternalForceUpdate { get; set; }
 
         /// <summary>
-        /// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift
-        /// detection.
+        /// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift detection.
         /// </summary>
         [Input("internalHmacUsedForSecretsConfigHmac")]
         public Input<string>? InternalHmacUsedForSecretsConfigHmac { get; set; }
@@ -300,10 +374,7 @@ namespace Pulumi.Boundary
         private Input<string>? _secretsJson;
 
         /// <summary>
-        /// The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-        /// file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributes_json", removing
-        /// this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them
-        /// for storage.
+        /// The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributes_json", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
         /// </summary>
         public Input<string>? SecretsJson
         {

@@ -12,6 +12,114 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The credential library for Vault resource allows you to configure a Boundary credential library for Vault.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			project, err := boundary.NewScope(ctx, "project", &boundary.ScopeArgs{
+//				Name:                pulumi.String("project_one"),
+//				Description:         pulumi.String("My first scope!"),
+//				ScopeId:             org.ID(),
+//				AutoCreateAdminRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			foo, err := boundary.NewCredentialStoreVault(ctx, "foo", &boundary.CredentialStoreVaultArgs{
+//				Name:        pulumi.String("foo"),
+//				Description: pulumi.String("My first Vault credential store!"),
+//				Address:     pulumi.String("http://127.0.0.1:8200"),
+//				Token:       pulumi.String("s.0ufRo6XEGU2jOqnIr7OlFYP5"),
+//				ScopeId:     project.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewCredentialLibraryVault(ctx, "foo", &boundary.CredentialLibraryVaultArgs{
+//				Name:              pulumi.String("foo"),
+//				Description:       pulumi.String("My first Vault credential library!"),
+//				CredentialStoreId: foo.ID(),
+//				Path:              pulumi.String("my/secret/foo"),
+//				HttpMethod:        pulumi.String("GET"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewCredentialLibraryVault(ctx, "bar", &boundary.CredentialLibraryVaultArgs{
+//				Name:              pulumi.String("bar"),
+//				Description:       pulumi.String("My second Vault credential library!"),
+//				CredentialStoreId: foo.ID(),
+//				Path:              pulumi.String("my/secret/bar"),
+//				HttpMethod:        pulumi.String("POST"),
+//				HttpRequestBody:   pulumi.String("{\n  \"key\": \"Value\",\n}\n"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewCredentialLibraryVault(ctx, "baz", &boundary.CredentialLibraryVaultArgs{
+//				Name:              pulumi.String("baz"),
+//				Description:       pulumi.String("vault username password credential with mapping overrides"),
+//				CredentialStoreId: foo.ID(),
+//				Path:              pulumi.String("my/secret/baz"),
+//				HttpMethod:        pulumi.String("GET"),
+//				CredentialType:    pulumi.String("username_password"),
+//				CredentialMappingOverrides: pulumi.StringMap{
+//					"password_attribute": pulumi.String("alternative_password_label"),
+//					"username_attribute": pulumi.String("alternative_username_label"),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewCredentialLibraryVault(ctx, "quz", &boundary.CredentialLibraryVaultArgs{
+//				Name:              pulumi.String("quz"),
+//				Description:       pulumi.String("vault ssh private key credential with mapping overrides"),
+//				CredentialStoreId: foo.ID(),
+//				Path:              pulumi.String("my/secret/quz"),
+//				HttpMethod:        pulumi.String("GET"),
+//				CredentialType:    pulumi.String("ssh_private_key"),
+//				CredentialMappingOverrides: pulumi.StringMap{
+//					"private_key_attribute":            pulumi.String("alternative_key_label"),
+//					"private_key_passphrase_attribute": pulumi.String("alternative_passphrase_label"),
+//					"username_attribute":               pulumi.String("alternative_username_label"),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/credentialLibraryVault:CredentialLibraryVault foo <my-id>
+// ```
 type CredentialLibraryVault struct {
 	pulumi.CustomResourceState
 
@@ -25,8 +133,7 @@ type CredentialLibraryVault struct {
 	Description pulumi.StringPtrOutput `pulumi:"description"`
 	// The HTTP method the library uses when requesting credentials from Vault. Defaults to 'GET'
 	HttpMethod pulumi.StringPtrOutput `pulumi:"httpMethod"`
-	// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set
-	// to `POST`.
+	// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set to `POST`.
 	HttpRequestBody pulumi.StringPtrOutput `pulumi:"httpRequestBody"`
 	// The Vault credential library name. Defaults to the resource name.
 	Name pulumi.StringOutput `pulumi:"name"`
@@ -80,8 +187,7 @@ type credentialLibraryVaultState struct {
 	Description *string `pulumi:"description"`
 	// The HTTP method the library uses when requesting credentials from Vault. Defaults to 'GET'
 	HttpMethod *string `pulumi:"httpMethod"`
-	// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set
-	// to `POST`.
+	// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set to `POST`.
 	HttpRequestBody *string `pulumi:"httpRequestBody"`
 	// The Vault credential library name. Defaults to the resource name.
 	Name *string `pulumi:"name"`
@@ -100,8 +206,7 @@ type CredentialLibraryVaultState struct {
 	Description pulumi.StringPtrInput
 	// The HTTP method the library uses when requesting credentials from Vault. Defaults to 'GET'
 	HttpMethod pulumi.StringPtrInput
-	// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set
-	// to `POST`.
+	// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set to `POST`.
 	HttpRequestBody pulumi.StringPtrInput
 	// The Vault credential library name. Defaults to the resource name.
 	Name pulumi.StringPtrInput
@@ -124,8 +229,7 @@ type credentialLibraryVaultArgs struct {
 	Description *string `pulumi:"description"`
 	// The HTTP method the library uses when requesting credentials from Vault. Defaults to 'GET'
 	HttpMethod *string `pulumi:"httpMethod"`
-	// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set
-	// to `POST`.
+	// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set to `POST`.
 	HttpRequestBody *string `pulumi:"httpRequestBody"`
 	// The Vault credential library name. Defaults to the resource name.
 	Name *string `pulumi:"name"`
@@ -145,8 +249,7 @@ type CredentialLibraryVaultArgs struct {
 	Description pulumi.StringPtrInput
 	// The HTTP method the library uses when requesting credentials from Vault. Defaults to 'GET'
 	HttpMethod pulumi.StringPtrInput
-	// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set
-	// to `POST`.
+	// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set to `POST`.
 	HttpRequestBody pulumi.StringPtrInput
 	// The Vault credential library name. Defaults to the resource name.
 	Name pulumi.StringPtrInput
@@ -266,8 +369,7 @@ func (o CredentialLibraryVaultOutput) HttpMethod() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *CredentialLibraryVault) pulumi.StringPtrOutput { return v.HttpMethod }).(pulumi.StringPtrOutput)
 }
 
-// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set
-// to `POST`.
+// The body of the HTTP request the library sends to Vault when requesting credentials. Only valid if `httpMethod` is set to `POST`.
 func (o CredentialLibraryVaultOutput) HttpRequestBody() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *CredentialLibraryVault) pulumi.StringPtrOutput { return v.HttpRequestBody }).(pulumi.StringPtrOutput)
 }

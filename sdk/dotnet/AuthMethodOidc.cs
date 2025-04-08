@@ -9,6 +9,91 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The OIDC auth method resource allows you to configure a Boundary auth_method_oidc.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var vault = new Boundary.AuthMethodOidc("vault", new()
+    ///     {
+    ///         ApiUrlPrefix = "https://XO-XO-XO-XO-XOXOXO.boundary.hashicorp.cloud:9200",
+    ///         ClientId = "eieio",
+    ///         ClientSecret = "hvo_secret_XO",
+    ///         Description = "My Boundary OIDC Auth Method for Vault",
+    ///         Issuer = "https://XO-XO-XO-XO-XOXOXO.vault.hashicorp.cloud:8200/v1/identity/oidc/provider/my-provider",
+    ///         ScopeId = "global",
+    ///         SigningAlgorithms = new[]
+    ///         {
+    ///             "RS256",
+    ///         },
+    ///         Type = "oidc",
+    ///     });
+    /// 
+    ///     var oidcWithOnePrompt = new Boundary.AuthMethodOidc("oidc_with_one_prompt", new()
+    ///     {
+    ///         ApiUrlPrefix = "https://XO-XO-XO-XO-XOXOXO.boundary.hashicorp.cloud:9200",
+    ///         ClientId = "eieio",
+    ///         ClientSecret = "hvo_secret_XO",
+    ///         Description = "My Boundary OIDC Auth Method With Prompt",
+    ///         Issuer = "https://sts.windows.net/TENANT_ID/",
+    ///         ScopeId = "global",
+    ///         SigningAlgorithms = new[]
+    ///         {
+    ///             "RS256",
+    ///         },
+    ///         Prompts = new[]
+    ///         {
+    ///             "select_account",
+    ///         },
+    ///         Type = "oidc",
+    ///     });
+    /// 
+    ///     var oidcWithMultiplePrompts = new Boundary.AuthMethodOidc("oidc_with_multiple_prompts", new()
+    ///     {
+    ///         ApiUrlPrefix = "https://XO-XO-XO-XO-XOXOXO.boundary.hashicorp.cloud:9200",
+    ///         ClientId = "eieio",
+    ///         ClientSecret = "hvo_secret_XO",
+    ///         Description = "My Boundary OIDC Auth Method With Multiple Prompts",
+    ///         Issuer = "https://sts.windows.net/TENANT_ID/",
+    ///         ScopeId = "global",
+    ///         SigningAlgorithms = new[]
+    ///         {
+    ///             "RS256",
+    ///         },
+    ///         Prompts = new[]
+    ///         {
+    ///             "consent",
+    ///             "select_account",
+    ///         },
+    ///         Type = "oidc",
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/authMethodOidc:AuthMethodOidc foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/authMethodOidc:AuthMethodOidc")]
     public partial class AuthMethodOidc : global::Pulumi.CustomResource
     {
@@ -25,8 +110,7 @@ namespace Pulumi.Boundary
         public Output<ImmutableArray<string>> AllowedAudiences { get; private set; } = null!;
 
         /// <summary>
-        /// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-        /// can reach back to the controller.
+        /// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
         /// </summary>
         [Output("apiUrlPrefix")]
         public Output<string?> ApiUrlPrefix { get; private set; } = null!;
@@ -50,15 +134,13 @@ namespace Pulumi.Boundary
         public Output<string?> ClientId { get; private set; } = null!;
 
         /// <summary>
-        /// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-        /// value can be removed from configuration.
+        /// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
         /// </summary>
         [Output("clientSecret")]
         public Output<string?> ClientSecret { get; private set; } = null!;
 
         /// <summary>
-        /// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-        /// the value.
+        /// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
         /// </summary>
         [Output("clientSecretHmac")]
         public Output<string> ClientSecretHmac { get; private set; } = null!;
@@ -70,8 +152,7 @@ namespace Pulumi.Boundary
         public Output<string?> Description { get; private set; } = null!;
 
         /// <summary>
-        /// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-        /// information here. The validation is only performed at create or update time.
+        /// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
         /// </summary>
         [Output("disableDiscoveredConfigValidation")]
         public Output<bool?> DisableDiscoveredConfigValidation { get; private set; } = null!;
@@ -83,8 +164,7 @@ namespace Pulumi.Boundary
         public Output<ImmutableArray<string>> IdpCaCerts { get; private set; } = null!;
 
         /// <summary>
-        /// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-        /// a scope means the user will be automatically created when they login using an OIDC account.
+        /// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
         /// </summary>
         [Output("isPrimaryForScope")]
         public Output<bool?> IsPrimaryForScope { get; private set; } = null!;
@@ -105,9 +185,7 @@ namespace Pulumi.Boundary
         public Output<string> Name { get; private set; } = null!;
 
         /// <summary>
-        /// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-        /// selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-        /// and `select_account`.
+        /// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `select_account`.
         /// </summary>
         [Output("prompts")]
         public Output<ImmutableArray<string>> Prompts { get; private set; } = null!;
@@ -211,8 +289,7 @@ namespace Pulumi.Boundary
         }
 
         /// <summary>
-        /// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-        /// can reach back to the controller.
+        /// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
         /// </summary>
         [Input("apiUrlPrefix")]
         public Input<string>? ApiUrlPrefix { get; set; }
@@ -245,8 +322,7 @@ namespace Pulumi.Boundary
         private Input<string>? _clientSecret;
 
         /// <summary>
-        /// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-        /// value can be removed from configuration.
+        /// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
         /// </summary>
         public Input<string>? ClientSecret
         {
@@ -259,8 +335,7 @@ namespace Pulumi.Boundary
         }
 
         /// <summary>
-        /// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-        /// the value.
+        /// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
         /// </summary>
         [Input("clientSecretHmac")]
         public Input<string>? ClientSecretHmac { get; set; }
@@ -272,8 +347,7 @@ namespace Pulumi.Boundary
         public Input<string>? Description { get; set; }
 
         /// <summary>
-        /// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-        /// information here. The validation is only performed at create or update time.
+        /// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
         /// </summary>
         [Input("disableDiscoveredConfigValidation")]
         public Input<bool>? DisableDiscoveredConfigValidation { get; set; }
@@ -291,8 +365,7 @@ namespace Pulumi.Boundary
         }
 
         /// <summary>
-        /// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-        /// a scope means the user will be automatically created when they login using an OIDC account.
+        /// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
         /// </summary>
         [Input("isPrimaryForScope")]
         public Input<bool>? IsPrimaryForScope { get; set; }
@@ -316,9 +389,7 @@ namespace Pulumi.Boundary
         private InputList<string>? _prompts;
 
         /// <summary>
-        /// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-        /// selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-        /// and `select_account`.
+        /// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `select_account`.
         /// </summary>
         public InputList<string> Prompts
         {
@@ -389,8 +460,7 @@ namespace Pulumi.Boundary
         }
 
         /// <summary>
-        /// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-        /// can reach back to the controller.
+        /// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
         /// </summary>
         [Input("apiUrlPrefix")]
         public Input<string>? ApiUrlPrefix { get; set; }
@@ -423,8 +493,7 @@ namespace Pulumi.Boundary
         private Input<string>? _clientSecret;
 
         /// <summary>
-        /// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-        /// value can be removed from configuration.
+        /// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
         /// </summary>
         public Input<string>? ClientSecret
         {
@@ -437,8 +506,7 @@ namespace Pulumi.Boundary
         }
 
         /// <summary>
-        /// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-        /// the value.
+        /// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
         /// </summary>
         [Input("clientSecretHmac")]
         public Input<string>? ClientSecretHmac { get; set; }
@@ -450,8 +518,7 @@ namespace Pulumi.Boundary
         public Input<string>? Description { get; set; }
 
         /// <summary>
-        /// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-        /// information here. The validation is only performed at create or update time.
+        /// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
         /// </summary>
         [Input("disableDiscoveredConfigValidation")]
         public Input<bool>? DisableDiscoveredConfigValidation { get; set; }
@@ -469,8 +536,7 @@ namespace Pulumi.Boundary
         }
 
         /// <summary>
-        /// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-        /// a scope means the user will be automatically created when they login using an OIDC account.
+        /// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
         /// </summary>
         [Input("isPrimaryForScope")]
         public Input<bool>? IsPrimaryForScope { get; set; }
@@ -494,9 +560,7 @@ namespace Pulumi.Boundary
         private InputList<string>? _prompts;
 
         /// <summary>
-        /// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-        /// selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-        /// and `select_account`.
+        /// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `select_account`.
         /// </summary>
         public InputList<string> Prompts
         {

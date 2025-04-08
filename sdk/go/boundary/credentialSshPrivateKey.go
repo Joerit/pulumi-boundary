@@ -12,6 +12,13 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The SSH private key credential resource allows you to configure a credential using a username, private key and optional passphrase.
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/credentialSshPrivateKey:CredentialSshPrivateKey example_ssh_private_key <my-id>
+// ```
 type CredentialSshPrivateKey struct {
 	pulumi.CustomResourceState
 

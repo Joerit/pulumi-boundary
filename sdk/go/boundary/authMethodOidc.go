@@ -12,6 +12,95 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The OIDC auth method resource allows you to configure a Boundary auth_method_oidc.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewAuthMethodOidc(ctx, "vault", &boundary.AuthMethodOidcArgs{
+//				ApiUrlPrefix: pulumi.String("https://XO-XO-XO-XO-XOXOXO.boundary.hashicorp.cloud:9200"),
+//				ClientId:     pulumi.String("eieio"),
+//				ClientSecret: pulumi.String("hvo_secret_XO"),
+//				Description:  pulumi.String("My Boundary OIDC Auth Method for Vault"),
+//				Issuer:       pulumi.String("https://XO-XO-XO-XO-XOXOXO.vault.hashicorp.cloud:8200/v1/identity/oidc/provider/my-provider"),
+//				ScopeId:      pulumi.String("global"),
+//				SigningAlgorithms: pulumi.StringArray{
+//					pulumi.String("RS256"),
+//				},
+//				Type: pulumi.String("oidc"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewAuthMethodOidc(ctx, "oidc_with_one_prompt", &boundary.AuthMethodOidcArgs{
+//				ApiUrlPrefix: pulumi.String("https://XO-XO-XO-XO-XOXOXO.boundary.hashicorp.cloud:9200"),
+//				ClientId:     pulumi.String("eieio"),
+//				ClientSecret: pulumi.String("hvo_secret_XO"),
+//				Description:  pulumi.String("My Boundary OIDC Auth Method With Prompt"),
+//				Issuer:       pulumi.String("https://sts.windows.net/TENANT_ID/"),
+//				ScopeId:      pulumi.String("global"),
+//				SigningAlgorithms: pulumi.StringArray{
+//					pulumi.String("RS256"),
+//				},
+//				Prompts: pulumi.StringArray{
+//					pulumi.String("select_account"),
+//				},
+//				Type: pulumi.String("oidc"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewAuthMethodOidc(ctx, "oidc_with_multiple_prompts", &boundary.AuthMethodOidcArgs{
+//				ApiUrlPrefix: pulumi.String("https://XO-XO-XO-XO-XOXOXO.boundary.hashicorp.cloud:9200"),
+//				ClientId:     pulumi.String("eieio"),
+//				ClientSecret: pulumi.String("hvo_secret_XO"),
+//				Description:  pulumi.String("My Boundary OIDC Auth Method With Multiple Prompts"),
+//				Issuer:       pulumi.String("https://sts.windows.net/TENANT_ID/"),
+//				ScopeId:      pulumi.String("global"),
+//				SigningAlgorithms: pulumi.StringArray{
+//					pulumi.String("RS256"),
+//				},
+//				Prompts: pulumi.StringArray{
+//					pulumi.String("consent"),
+//					pulumi.String("select_account"),
+//				},
+//				Type: pulumi.String("oidc"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/authMethodOidc:AuthMethodOidc foo <my-id>
+// ```
 type AuthMethodOidc struct {
 	pulumi.CustomResourceState
 
@@ -19,8 +108,7 @@ type AuthMethodOidc struct {
 	AccountClaimMaps pulumi.StringArrayOutput `pulumi:"accountClaimMaps"`
 	// Audiences for which the provider responses will be allowed
 	AllowedAudiences pulumi.StringArrayOutput `pulumi:"allowedAudiences"`
-	// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-	// can reach back to the controller.
+	// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
 	ApiUrlPrefix pulumi.StringPtrOutput `pulumi:"apiUrlPrefix"`
 	// The URL that should be provided to the IdP for callbacks.
 	CallbackUrl pulumi.StringOutput `pulumi:"callbackUrl"`
@@ -28,30 +116,24 @@ type AuthMethodOidc struct {
 	ClaimsScopes pulumi.StringArrayOutput `pulumi:"claimsScopes"`
 	// The client ID assigned to this auth method from the provider.
 	ClientId pulumi.StringPtrOutput `pulumi:"clientId"`
-	// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-	// value can be removed from configuration.
+	// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
 	ClientSecret pulumi.StringPtrOutput `pulumi:"clientSecret"`
-	// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-	// the value.
+	// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	ClientSecretHmac pulumi.StringOutput `pulumi:"clientSecretHmac"`
 	// The auth method description.
 	Description pulumi.StringPtrOutput `pulumi:"description"`
-	// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-	// information here. The validation is only performed at create or update time.
+	// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
 	DisableDiscoveredConfigValidation pulumi.BoolPtrOutput `pulumi:"disableDiscoveredConfigValidation"`
 	// A list of CA certificates to trust when validating the IdP's token signatures.
 	IdpCaCerts pulumi.StringArrayOutput `pulumi:"idpCaCerts"`
-	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-	// a scope means the user will be automatically created when they login using an OIDC account.
+	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
 	IsPrimaryForScope pulumi.BoolPtrOutput `pulumi:"isPrimaryForScope"`
 	// The issuer corresponding to the provider, which must match the issuer field in generated tokens.
 	Issuer pulumi.StringPtrOutput `pulumi:"issuer"`
 	MaxAge pulumi.IntPtrOutput    `pulumi:"maxAge"`
 	// The auth method name. Defaults to the resource name.
 	Name pulumi.StringOutput `pulumi:"name"`
-	// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-	// selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-	// and `selectAccount`.
+	// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `selectAccount`.
 	Prompts pulumi.StringArrayOutput `pulumi:"prompts"`
 	// The scope ID.
 	ScopeId pulumi.StringOutput `pulumi:"scopeId"`
@@ -107,8 +189,7 @@ type authMethodOidcState struct {
 	AccountClaimMaps []string `pulumi:"accountClaimMaps"`
 	// Audiences for which the provider responses will be allowed
 	AllowedAudiences []string `pulumi:"allowedAudiences"`
-	// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-	// can reach back to the controller.
+	// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
 	ApiUrlPrefix *string `pulumi:"apiUrlPrefix"`
 	// The URL that should be provided to the IdP for callbacks.
 	CallbackUrl *string `pulumi:"callbackUrl"`
@@ -116,30 +197,24 @@ type authMethodOidcState struct {
 	ClaimsScopes []string `pulumi:"claimsScopes"`
 	// The client ID assigned to this auth method from the provider.
 	ClientId *string `pulumi:"clientId"`
-	// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-	// value can be removed from configuration.
+	// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
 	ClientSecret *string `pulumi:"clientSecret"`
-	// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-	// the value.
+	// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	ClientSecretHmac *string `pulumi:"clientSecretHmac"`
 	// The auth method description.
 	Description *string `pulumi:"description"`
-	// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-	// information here. The validation is only performed at create or update time.
+	// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
 	DisableDiscoveredConfigValidation *bool `pulumi:"disableDiscoveredConfigValidation"`
 	// A list of CA certificates to trust when validating the IdP's token signatures.
 	IdpCaCerts []string `pulumi:"idpCaCerts"`
-	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-	// a scope means the user will be automatically created when they login using an OIDC account.
+	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
 	IsPrimaryForScope *bool `pulumi:"isPrimaryForScope"`
 	// The issuer corresponding to the provider, which must match the issuer field in generated tokens.
 	Issuer *string `pulumi:"issuer"`
 	MaxAge *int    `pulumi:"maxAge"`
 	// The auth method name. Defaults to the resource name.
 	Name *string `pulumi:"name"`
-	// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-	// selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-	// and `selectAccount`.
+	// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `selectAccount`.
 	Prompts []string `pulumi:"prompts"`
 	// The scope ID.
 	ScopeId *string `pulumi:"scopeId"`
@@ -156,8 +231,7 @@ type AuthMethodOidcState struct {
 	AccountClaimMaps pulumi.StringArrayInput
 	// Audiences for which the provider responses will be allowed
 	AllowedAudiences pulumi.StringArrayInput
-	// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-	// can reach back to the controller.
+	// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
 	ApiUrlPrefix pulumi.StringPtrInput
 	// The URL that should be provided to the IdP for callbacks.
 	CallbackUrl pulumi.StringPtrInput
@@ -165,30 +239,24 @@ type AuthMethodOidcState struct {
 	ClaimsScopes pulumi.StringArrayInput
 	// The client ID assigned to this auth method from the provider.
 	ClientId pulumi.StringPtrInput
-	// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-	// value can be removed from configuration.
+	// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
 	ClientSecret pulumi.StringPtrInput
-	// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-	// the value.
+	// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	ClientSecretHmac pulumi.StringPtrInput
 	// The auth method description.
 	Description pulumi.StringPtrInput
-	// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-	// information here. The validation is only performed at create or update time.
+	// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
 	DisableDiscoveredConfigValidation pulumi.BoolPtrInput
 	// A list of CA certificates to trust when validating the IdP's token signatures.
 	IdpCaCerts pulumi.StringArrayInput
-	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-	// a scope means the user will be automatically created when they login using an OIDC account.
+	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
 	IsPrimaryForScope pulumi.BoolPtrInput
 	// The issuer corresponding to the provider, which must match the issuer field in generated tokens.
 	Issuer pulumi.StringPtrInput
 	MaxAge pulumi.IntPtrInput
 	// The auth method name. Defaults to the resource name.
 	Name pulumi.StringPtrInput
-	// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-	// selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-	// and `selectAccount`.
+	// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `selectAccount`.
 	Prompts pulumi.StringArrayInput
 	// The scope ID.
 	ScopeId pulumi.StringPtrInput
@@ -209,8 +277,7 @@ type authMethodOidcArgs struct {
 	AccountClaimMaps []string `pulumi:"accountClaimMaps"`
 	// Audiences for which the provider responses will be allowed
 	AllowedAudiences []string `pulumi:"allowedAudiences"`
-	// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-	// can reach back to the controller.
+	// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
 	ApiUrlPrefix *string `pulumi:"apiUrlPrefix"`
 	// The URL that should be provided to the IdP for callbacks.
 	CallbackUrl *string `pulumi:"callbackUrl"`
@@ -218,30 +285,24 @@ type authMethodOidcArgs struct {
 	ClaimsScopes []string `pulumi:"claimsScopes"`
 	// The client ID assigned to this auth method from the provider.
 	ClientId *string `pulumi:"clientId"`
-	// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-	// value can be removed from configuration.
+	// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
 	ClientSecret *string `pulumi:"clientSecret"`
-	// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-	// the value.
+	// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	ClientSecretHmac *string `pulumi:"clientSecretHmac"`
 	// The auth method description.
 	Description *string `pulumi:"description"`
-	// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-	// information here. The validation is only performed at create or update time.
+	// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
 	DisableDiscoveredConfigValidation *bool `pulumi:"disableDiscoveredConfigValidation"`
 	// A list of CA certificates to trust when validating the IdP's token signatures.
 	IdpCaCerts []string `pulumi:"idpCaCerts"`
-	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-	// a scope means the user will be automatically created when they login using an OIDC account.
+	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
 	IsPrimaryForScope *bool `pulumi:"isPrimaryForScope"`
 	// The issuer corresponding to the provider, which must match the issuer field in generated tokens.
 	Issuer *string `pulumi:"issuer"`
 	MaxAge *int    `pulumi:"maxAge"`
 	// The auth method name. Defaults to the resource name.
 	Name *string `pulumi:"name"`
-	// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-	// selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-	// and `selectAccount`.
+	// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `selectAccount`.
 	Prompts []string `pulumi:"prompts"`
 	// The scope ID.
 	ScopeId string `pulumi:"scopeId"`
@@ -259,8 +320,7 @@ type AuthMethodOidcArgs struct {
 	AccountClaimMaps pulumi.StringArrayInput
 	// Audiences for which the provider responses will be allowed
 	AllowedAudiences pulumi.StringArrayInput
-	// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-	// can reach back to the controller.
+	// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
 	ApiUrlPrefix pulumi.StringPtrInput
 	// The URL that should be provided to the IdP for callbacks.
 	CallbackUrl pulumi.StringPtrInput
@@ -268,30 +328,24 @@ type AuthMethodOidcArgs struct {
 	ClaimsScopes pulumi.StringArrayInput
 	// The client ID assigned to this auth method from the provider.
 	ClientId pulumi.StringPtrInput
-	// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-	// value can be removed from configuration.
+	// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
 	ClientSecret pulumi.StringPtrInput
-	// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-	// the value.
+	// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
 	ClientSecretHmac pulumi.StringPtrInput
 	// The auth method description.
 	Description pulumi.StringPtrInput
-	// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-	// information here. The validation is only performed at create or update time.
+	// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
 	DisableDiscoveredConfigValidation pulumi.BoolPtrInput
 	// A list of CA certificates to trust when validating the IdP's token signatures.
 	IdpCaCerts pulumi.StringArrayInput
-	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-	// a scope means the user will be automatically created when they login using an OIDC account.
+	// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
 	IsPrimaryForScope pulumi.BoolPtrInput
 	// The issuer corresponding to the provider, which must match the issuer field in generated tokens.
 	Issuer pulumi.StringPtrInput
 	MaxAge pulumi.IntPtrInput
 	// The auth method name. Defaults to the resource name.
 	Name pulumi.StringPtrInput
-	// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-	// selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-	// and `selectAccount`.
+	// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `selectAccount`.
 	Prompts pulumi.StringArrayInput
 	// The scope ID.
 	ScopeId pulumi.StringInput
@@ -400,8 +454,7 @@ func (o AuthMethodOidcOutput) AllowedAudiences() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *AuthMethodOidc) pulumi.StringArrayOutput { return v.AllowedAudiences }).(pulumi.StringArrayOutput)
 }
 
-// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider
-// can reach back to the controller.
+// The API prefix to use when generating callback URLs for the provider. Should be set to an address at which the provider can reach back to the controller.
 func (o AuthMethodOidcOutput) ApiUrlPrefix() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AuthMethodOidc) pulumi.StringPtrOutput { return v.ApiUrlPrefix }).(pulumi.StringPtrOutput)
 }
@@ -421,14 +474,12 @@ func (o AuthMethodOidcOutput) ClientId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AuthMethodOidc) pulumi.StringPtrOutput { return v.ClientId }).(pulumi.StringPtrOutput)
 }
 
-// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original
-// value can be removed from configuration.
+// The secret key assigned to this auth method from the provider. Once set, only the hash will be kept and the original value can be removed from configuration.
 func (o AuthMethodOidcOutput) ClientSecret() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AuthMethodOidc) pulumi.StringPtrOutput { return v.ClientSecret }).(pulumi.StringPtrOutput)
 }
 
-// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of
-// the value.
+// The HMAC of the client secret returned by the Boundary controller, which is used for comparison after initial setting of the value.
 func (o AuthMethodOidcOutput) ClientSecretHmac() pulumi.StringOutput {
 	return o.ApplyT(func(v *AuthMethodOidc) pulumi.StringOutput { return v.ClientSecretHmac }).(pulumi.StringOutput)
 }
@@ -438,8 +489,7 @@ func (o AuthMethodOidcOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AuthMethodOidc) pulumi.StringPtrOutput { return v.Description }).(pulumi.StringPtrOutput)
 }
 
-// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the
-// information here. The validation is only performed at create or update time.
+// Disables validation logic ensuring that the OIDC provider's information from its discovery endpoint matches the information here. The validation is only performed at create or update time.
 func (o AuthMethodOidcOutput) DisableDiscoveredConfigValidation() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *AuthMethodOidc) pulumi.BoolPtrOutput { return v.DisableDiscoveredConfigValidation }).(pulumi.BoolPtrOutput)
 }
@@ -449,8 +499,7 @@ func (o AuthMethodOidcOutput) IdpCaCerts() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *AuthMethodOidc) pulumi.StringArrayOutput { return v.IdpCaCerts }).(pulumi.StringArrayOutput)
 }
 
-// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for
-// a scope means the user will be automatically created when they login using an OIDC account.
+// When true, makes this auth method the primary auth method for the scope in which it resides. The primary auth method for a scope means the user will be automatically created when they login using an OIDC account.
 func (o AuthMethodOidcOutput) IsPrimaryForScope() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *AuthMethodOidc) pulumi.BoolPtrOutput { return v.IsPrimaryForScope }).(pulumi.BoolPtrOutput)
 }
@@ -469,9 +518,7 @@ func (o AuthMethodOidcOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *AuthMethodOidc) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
 
-// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account
-// selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent`
-// and `selectAccount`.
+// The prompts passed to the identity provider to determine whether to prompt the end-user for reauthentication, account selection or consent. Please note the values passed are case-sensitive. The valid values are: `none`, `login`, `consent` and `selectAccount`.
 func (o AuthMethodOidcOutput) Prompts() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *AuthMethodOidc) pulumi.StringArrayOutput { return v.Prompts }).(pulumi.StringArrayOutput)
 }

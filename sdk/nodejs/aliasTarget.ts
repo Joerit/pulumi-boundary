@@ -4,6 +4,75 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The target alias resource allows you to configure a Boundary target alias.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "global scope",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const foo = new boundary.HostCatalogStatic("foo", {
+ *     name: "test",
+ *     description: "test catalog",
+ *     scopeId: project.id,
+ * });
+ * const fooHostStatic = new boundary.HostStatic("foo", {
+ *     name: "foo",
+ *     hostCatalogId: foo.id,
+ *     address: "10.0.0.1",
+ * });
+ * const bar = new boundary.HostStatic("bar", {
+ *     name: "bar",
+ *     hostCatalogId: foo.id,
+ *     address: "127.0.0.1",
+ * });
+ * const fooHostSetStatic = new boundary.HostSetStatic("foo", {
+ *     name: "foo",
+ *     hostCatalogId: foo.id,
+ *     hostIds: [
+ *         fooHostStatic.id,
+ *         bar.id,
+ *     ],
+ * });
+ * const fooTarget = new boundary.Target("foo", {
+ *     name: "foo",
+ *     description: "Foo target",
+ *     type: "tcp",
+ *     defaultPort: 22,
+ *     scopeId: project.id,
+ *     hostSourceIds: [fooHostSetStatic.id],
+ * });
+ * const exampleAliasTarget = new boundary.AliasTarget("example_alias_target", {
+ *     name: "example_alias_target",
+ *     description: "Example alias to target foo using host boundary_host_static.bar",
+ *     scopeId: "global",
+ *     value: "example.bar.foo.boundary",
+ *     destinationId: fooTarget.id,
+ *     authorizeSessionHostId: bar.id,
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/aliasTarget:AliasTarget example_alias_target <my-id>
+ * ```
+ */
 export class AliasTarget extends pulumi.CustomResource {
     /**
      * Get an existing AliasTarget resource's state with the given name, ID, and optional extra

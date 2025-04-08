@@ -4,6 +4,78 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The credential library for Vault resource allows you to configure a Boundary credential library for Vault.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const foo = new boundary.CredentialStoreVault("foo", {
+ *     name: "foo",
+ *     description: "My first Vault credential store!",
+ *     address: "http://127.0.0.1:8200",
+ *     token: "s.0ufRo6XEGU2jOqnIr7OlFYP5",
+ *     scopeId: project.id,
+ * });
+ * const fooCredentialLibraryVaultSshCertificate = new boundary.CredentialLibraryVaultSshCertificate("foo", {
+ *     name: "foo",
+ *     description: "My first Vault SSH certificate credential library!",
+ *     credentialStoreId: foo.id,
+ *     path: "ssh/sign/foo",
+ *     username: "foo",
+ * });
+ * const bar = new boundary.CredentialLibraryVaultSshCertificate("bar", {
+ *     name: "bar",
+ *     description: "My second Vault SSH certificate credential library!",
+ *     credentialStoreId: foo.id,
+ *     path: "ssh/sign/foo",
+ *     username: "foo",
+ *     keyType: "ecdsa",
+ *     keyBits: 384,
+ *     extensions: {
+ *         "permit-pty": "",
+ *     },
+ * });
+ * const baz = new boundary.CredentialLibraryVaultSshCertificate("baz", {
+ *     name: "baz",
+ *     description: "vault ",
+ *     credentialStoreId: foo.id,
+ *     path: "ssh/issue/foo",
+ *     username: "foo",
+ *     keyType: "rsa",
+ *     keyBits: 4096,
+ *     extensions: {
+ *         "permit-pty": "",
+ *         "permit-X11-forwarding": "",
+ *     },
+ *     criticalOptions: {
+ *         "force-command": "/bin/some_script",
+ *     },
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/credentialLibraryVaultSshCertificate:CredentialLibraryVaultSshCertificate foo <my-id>
+ * ```
+ */
 export class CredentialLibraryVaultSshCertificate extends pulumi.CustomResource {
     /**
      * Get an existing CredentialLibraryVaultSshCertificate resource's state with the given name, ID, and optional extra

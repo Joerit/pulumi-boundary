@@ -4,6 +4,77 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The scope resource allows you to configure a Boundary scope.
+ *
+ * ## Example Usage
+ *
+ * Creating the global scope:
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const global = new boundary.Scope("global", {
+ *     globalScope: true,
+ *     scopeId: "global",
+ * });
+ * ```
+ *
+ * Creating an organization scope within global:
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: global.id,
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * ```
+ *
+ * Creating an project scope within an organization:
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * ```
+ *
+ * Creating an organization scope with a managed role for administration (auto create role set false):
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: global.id,
+ * });
+ * const orgAdmin = new boundary.Role("org_admin", {
+ *     scopeId: global.id,
+ *     grantScopeIds: [org.id],
+ *     grantStrings: ["ids=*;type=*;actions=*"],
+ *     principalIds: ["u_auth"],
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/scope:Scope foo <my-id>
+ * ```
+ */
 export class Scope extends pulumi.CustomResource {
     /**
      * Get an existing Scope resource's state with the given name, ID, and optional extra
@@ -39,8 +110,7 @@ export class Scope extends pulumi.CustomResource {
      */
     public readonly description!: pulumi.Output<string | undefined>;
     /**
-     * Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-     * to be imported and managed.
+     * Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
      */
     public readonly globalScope!: pulumi.Output<boolean | undefined>;
     /**
@@ -99,8 +169,7 @@ export interface ScopeState {
      */
     description?: pulumi.Input<string>;
     /**
-     * Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-     * to be imported and managed.
+     * Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
      */
     globalScope?: pulumi.Input<boolean>;
     /**
@@ -124,8 +193,7 @@ export interface ScopeArgs {
      */
     description?: pulumi.Input<string>;
     /**
-     * Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-     * to be imported and managed.
+     * Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
      */
     globalScope?: pulumi.Input<boolean>;
     /**

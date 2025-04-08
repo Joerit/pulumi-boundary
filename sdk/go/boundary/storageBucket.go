@@ -12,12 +12,98 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The storage bucket resource allows you to configure a Boundary storage bucket. A storage bucket can only belong to the Global scope or an Org scope. At this time, the only supported storage for storage buckets is AWS S3. This feature requires Boundary Enterprise or Boundary HCP.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"encoding/json"
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.Any(global.Id),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			tmpJSON0, err := json.Marshal(map[string]interface{}{
+//				"region": "us-east-1",
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json0 := string(tmpJSON0)
+//			tmpJSON1, err := json.Marshal(map[string]interface{}{
+//				"access_key_id":     "aws_access_key_id_value",
+//				"secret_access_key": "aws_secret_access_key_value",
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json1 := string(tmpJSON1)
+//			_, err = boundary.NewStorageBucket(ctx, "aws_static_credentials_example", &boundary.StorageBucketArgs{
+//				Name:           pulumi.String("My aws storage bucket with static credentials"),
+//				Description:    pulumi.String("My first storage bucket!"),
+//				ScopeId:        org.ID(),
+//				PluginName:     pulumi.String("aws"),
+//				BucketName:     pulumi.String("mybucket"),
+//				AttributesJson: pulumi.String(json0),
+//				SecretsJson:    pulumi.String(json1),
+//				WorkerFilter:   pulumi.String("\"pki\" in \"/tags/type\""),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			tmpJSON2, err := json.Marshal(map[string]interface{}{
+//				"region":                      "us-east-1",
+//				"role_arn":                    "arn:aws:iam::123456789012:role/S3Access",
+//				"disable_credential_rotation": "true",
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			json2 := string(tmpJSON2)
+//			_, err = boundary.NewStorageBucket(ctx, "aws_dynamic_credentials_example", &boundary.StorageBucketArgs{
+//				Name:           pulumi.String("My aws storage bucket with dynamic credentials"),
+//				Description:    pulumi.String("My first storage bucket!"),
+//				ScopeId:        org.ID(),
+//				PluginName:     pulumi.String("aws"),
+//				BucketName:     pulumi.String("mybucket"),
+//				AttributesJson: pulumi.String(json2),
+//				WorkerFilter:   pulumi.String("\"pki\" in \"/tags/type\""),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/storageBucket:StorageBucket foo <my-id>
+// ```
 type StorageBucket struct {
 	pulumi.CustomResourceState
 
-	// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket.
-	// Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a
-	// string "null" or remove the block to clear all attributes in the storage bucket.
+	// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket. Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the storage bucket.
 	AttributesJson pulumi.StringPtrOutput `pulumi:"attributesJson"`
 	// The name of the bucket within the external object store service.
 	BucketName pulumi.StringOutput `pulumi:"bucketName"`
@@ -27,8 +113,7 @@ type StorageBucket struct {
 	Description pulumi.StringPtrOutput `pulumi:"description"`
 	// Internal only. Used to force update so that we can always check the value of secrets.
 	InternalForceUpdate pulumi.StringOutput `pulumi:"internalForceUpdate"`
-	// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift
-	// detection.
+	// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift detection.
 	InternalHmacUsedForSecretsConfigHmac pulumi.StringOutput `pulumi:"internalHmacUsedForSecretsConfigHmac"`
 	// Internal only. HMAC of (serverSecretsHmac + config secrets). Used for proper secrets handling.
 	InternalSecretsConfigHmac pulumi.StringOutput `pulumi:"internalSecretsConfigHmac"`
@@ -42,13 +127,9 @@ type StorageBucket struct {
 	ScopeId pulumi.StringOutput `pulumi:"scopeId"`
 	// The HMAC'd secrets value returned from the server.
 	SecretsHmac pulumi.StringOutput `pulumi:"secretsHmac"`
-	// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-	// file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing
-	// this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing
-	// them for storage.
+	// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing them for storage.
 	SecretsJson pulumi.StringPtrOutput `pulumi:"secretsJson"`
-	// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in
-	// order to create a storage bucket.
+	// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in order to create a storage bucket.
 	WorkerFilter pulumi.StringOutput `pulumi:"workerFilter"`
 }
 
@@ -98,9 +179,7 @@ func GetStorageBucket(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering StorageBucket resources.
 type storageBucketState struct {
-	// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket.
-	// Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a
-	// string "null" or remove the block to clear all attributes in the storage bucket.
+	// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket. Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the storage bucket.
 	AttributesJson *string `pulumi:"attributesJson"`
 	// The name of the bucket within the external object store service.
 	BucketName *string `pulumi:"bucketName"`
@@ -110,8 +189,7 @@ type storageBucketState struct {
 	Description *string `pulumi:"description"`
 	// Internal only. Used to force update so that we can always check the value of secrets.
 	InternalForceUpdate *string `pulumi:"internalForceUpdate"`
-	// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift
-	// detection.
+	// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift detection.
 	InternalHmacUsedForSecretsConfigHmac *string `pulumi:"internalHmacUsedForSecretsConfigHmac"`
 	// Internal only. HMAC of (serverSecretsHmac + config secrets). Used for proper secrets handling.
 	InternalSecretsConfigHmac *string `pulumi:"internalSecretsConfigHmac"`
@@ -125,20 +203,14 @@ type storageBucketState struct {
 	ScopeId *string `pulumi:"scopeId"`
 	// The HMAC'd secrets value returned from the server.
 	SecretsHmac *string `pulumi:"secretsHmac"`
-	// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-	// file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing
-	// this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing
-	// them for storage.
+	// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing them for storage.
 	SecretsJson *string `pulumi:"secretsJson"`
-	// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in
-	// order to create a storage bucket.
+	// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in order to create a storage bucket.
 	WorkerFilter *string `pulumi:"workerFilter"`
 }
 
 type StorageBucketState struct {
-	// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket.
-	// Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a
-	// string "null" or remove the block to clear all attributes in the storage bucket.
+	// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket. Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the storage bucket.
 	AttributesJson pulumi.StringPtrInput
 	// The name of the bucket within the external object store service.
 	BucketName pulumi.StringPtrInput
@@ -148,8 +220,7 @@ type StorageBucketState struct {
 	Description pulumi.StringPtrInput
 	// Internal only. Used to force update so that we can always check the value of secrets.
 	InternalForceUpdate pulumi.StringPtrInput
-	// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift
-	// detection.
+	// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift detection.
 	InternalHmacUsedForSecretsConfigHmac pulumi.StringPtrInput
 	// Internal only. HMAC of (serverSecretsHmac + config secrets). Used for proper secrets handling.
 	InternalSecretsConfigHmac pulumi.StringPtrInput
@@ -163,13 +234,9 @@ type StorageBucketState struct {
 	ScopeId pulumi.StringPtrInput
 	// The HMAC'd secrets value returned from the server.
 	SecretsHmac pulumi.StringPtrInput
-	// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-	// file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing
-	// this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing
-	// them for storage.
+	// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing them for storage.
 	SecretsJson pulumi.StringPtrInput
-	// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in
-	// order to create a storage bucket.
+	// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in order to create a storage bucket.
 	WorkerFilter pulumi.StringPtrInput
 }
 
@@ -178,9 +245,7 @@ func (StorageBucketState) ElementType() reflect.Type {
 }
 
 type storageBucketArgs struct {
-	// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket.
-	// Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a
-	// string "null" or remove the block to clear all attributes in the storage bucket.
+	// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket. Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the storage bucket.
 	AttributesJson *string `pulumi:"attributesJson"`
 	// The name of the bucket within the external object store service.
 	BucketName string `pulumi:"bucketName"`
@@ -196,21 +261,15 @@ type storageBucketArgs struct {
 	PluginName *string `pulumi:"pluginName"`
 	// The scope for this storage bucket.
 	ScopeId string `pulumi:"scopeId"`
-	// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-	// file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing
-	// this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing
-	// them for storage.
+	// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing them for storage.
 	SecretsJson *string `pulumi:"secretsJson"`
-	// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in
-	// order to create a storage bucket.
+	// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in order to create a storage bucket.
 	WorkerFilter string `pulumi:"workerFilter"`
 }
 
 // The set of arguments for constructing a StorageBucket resource.
 type StorageBucketArgs struct {
-	// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket.
-	// Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a
-	// string "null" or remove the block to clear all attributes in the storage bucket.
+	// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket. Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the storage bucket.
 	AttributesJson pulumi.StringPtrInput
 	// The name of the bucket within the external object store service.
 	BucketName pulumi.StringInput
@@ -226,13 +285,9 @@ type StorageBucketArgs struct {
 	PluginName pulumi.StringPtrInput
 	// The scope for this storage bucket.
 	ScopeId pulumi.StringInput
-	// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-	// file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing
-	// this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing
-	// them for storage.
+	// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing them for storage.
 	SecretsJson pulumi.StringPtrInput
-	// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in
-	// order to create a storage bucket.
+	// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in order to create a storage bucket.
 	WorkerFilter pulumi.StringInput
 }
 
@@ -323,9 +378,7 @@ func (o StorageBucketOutput) ToStorageBucketOutputWithContext(ctx context.Contex
 	return o
 }
 
-// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket.
-// Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a
-// string "null" or remove the block to clear all attributes in the storage bucket.
+// The attributes for the storage bucket. The "region" attribute field is required when creating an AWS storage bucket. Values are either encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" or remove the block to clear all attributes in the storage bucket.
 func (o StorageBucketOutput) AttributesJson() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *StorageBucket) pulumi.StringPtrOutput { return v.AttributesJson }).(pulumi.StringPtrOutput)
 }
@@ -350,8 +403,7 @@ func (o StorageBucketOutput) InternalForceUpdate() pulumi.StringOutput {
 	return o.ApplyT(func(v *StorageBucket) pulumi.StringOutput { return v.InternalForceUpdate }).(pulumi.StringOutput)
 }
 
-// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift
-// detection.
+// Internal only. The Boundary-provided HMAC used to calculate the current value of the HMAC'd config. Used for drift detection.
 func (o StorageBucketOutput) InternalHmacUsedForSecretsConfigHmac() pulumi.StringOutput {
 	return o.ApplyT(func(v *StorageBucket) pulumi.StringOutput { return v.InternalHmacUsedForSecretsConfigHmac }).(pulumi.StringOutput)
 }
@@ -386,16 +438,12 @@ func (o StorageBucketOutput) SecretsHmac() pulumi.StringOutput {
 	return o.ApplyT(func(v *StorageBucket) pulumi.StringOutput { return v.SecretsHmac }).(pulumi.StringOutput)
 }
 
-// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a
-// file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing
-// this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing
-// them for storage.
+// The secrets for the storage bucket. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the storage bucket; this allows injecting secrets for one call, then removing them for storage.
 func (o StorageBucketOutput) SecretsJson() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *StorageBucket) pulumi.StringPtrOutput { return v.SecretsJson }).(pulumi.StringPtrOutput)
 }
 
-// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in
-// order to create a storage bucket.
+// Filters to the worker(s) that can handle requests for this storage bucket. The filter must match an existing worker in order to create a storage bucket.
 func (o StorageBucketOutput) WorkerFilter() pulumi.StringOutput {
 	return o.ApplyT(func(v *StorageBucket) pulumi.StringOutput { return v.WorkerFilter }).(pulumi.StringOutput)
 }

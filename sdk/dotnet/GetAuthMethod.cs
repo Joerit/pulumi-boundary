@@ -11,12 +11,21 @@ namespace Pulumi.Boundary
 {
     public static class GetAuthMethod
     {
+        /// <summary>
+        /// The boundary.AuthMethod data source allows you to find a Boundary auth method.
+        /// </summary>
         public static Task<GetAuthMethodResult> InvokeAsync(GetAuthMethodArgs args, InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.InvokeAsync<GetAuthMethodResult>("boundary:index/getAuthMethod:getAuthMethod", args ?? new GetAuthMethodArgs(), options.WithDefaults());
 
+        /// <summary>
+        /// The boundary.AuthMethod data source allows you to find a Boundary auth method.
+        /// </summary>
         public static Output<GetAuthMethodResult> Invoke(GetAuthMethodInvokeArgs args, InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.Invoke<GetAuthMethodResult>("boundary:index/getAuthMethod:getAuthMethod", args ?? new GetAuthMethodInvokeArgs(), options.WithDefaults());
 
+        /// <summary>
+        /// The boundary.AuthMethod data source allows you to find a Boundary auth method.
+        /// </summary>
         public static Output<GetAuthMethodResult> Invoke(GetAuthMethodInvokeArgs args, InvokeOutputOptions options)
             => global::Pulumi.Deployment.Instance.Invoke<GetAuthMethodResult>("boundary:index/getAuthMethod:getAuthMethod", args ?? new GetAuthMethodInvokeArgs(), options.WithDefaults());
     }
@@ -24,9 +33,15 @@ namespace Pulumi.Boundary
 
     public sealed class GetAuthMethodArgs : global::Pulumi.InvokeArgs
     {
+        /// <summary>
+        /// The name of the auth method to retrieve.
+        /// </summary>
         [Input("name", required: true)]
         public string Name { get; set; } = null!;
 
+        /// <summary>
+        /// The scope ID in which the resource is created. Defaults `global` if unset.
+        /// </summary>
         [Input("scopeId")]
         public string? ScopeId { get; set; }
 
@@ -38,9 +53,15 @@ namespace Pulumi.Boundary
 
     public sealed class GetAuthMethodInvokeArgs : global::Pulumi.InvokeArgs
     {
+        /// <summary>
+        /// The name of the auth method to retrieve.
+        /// </summary>
         [Input("name", required: true)]
         public Input<string> Name { get; set; } = null!;
 
+        /// <summary>
+        /// The scope ID in which the resource is created. Defaults `global` if unset.
+        /// </summary>
         [Input("scopeId")]
         public Input<string>? ScopeId { get; set; }
 
@@ -54,11 +75,26 @@ namespace Pulumi.Boundary
     [OutputType]
     public sealed class GetAuthMethodResult
     {
+        /// <summary>
+        /// The description of the retrieved auth method.
+        /// </summary>
         public readonly string Description;
+        /// <summary>
+        /// The ID of the retrieved auth method.
+        /// </summary>
         public readonly string Id;
+        /// <summary>
+        /// The name of the auth method to retrieve.
+        /// </summary>
         public readonly string Name;
+        /// <summary>
+        /// The scope ID in which the resource is created. Defaults `global` if unset.
+        /// </summary>
         public readonly string? ScopeId;
         public readonly ImmutableArray<Outputs.GetAuthMethodScopeResult> Scopes;
+        /// <summary>
+        /// The type of the auth method
+        /// </summary>
         public readonly string Type;
 
         [OutputConstructor]

@@ -12,6 +12,70 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The user resource allows you to configure a Boundary user.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			password, err := boundary.NewAuthMethod(ctx, "password", &boundary.AuthMethodArgs{
+//				ScopeId: org.ID(),
+//				Type:    pulumi.String("password"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			jeff, err := boundary.NewAccountPassword(ctx, "jeff", &boundary.AccountPasswordArgs{
+//				AuthMethodId: password.ID(),
+//				Type:         pulumi.String("password"),
+//				LoginName:    pulumi.String("jeff"),
+//				Password:     pulumi.String("$uper$ecure"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewUser(ctx, "jeff", &boundary.UserArgs{
+//				Name:        pulumi.String("jeff"),
+//				Description: pulumi.String("Jeff's user resource"),
+//				AccountIds: pulumi.StringArray{
+//					jeff.ID(),
+//				},
+//				ScopeId: org.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/user:User foo <my-id>
+// ```
 type User struct {
 	pulumi.CustomResourceState
 

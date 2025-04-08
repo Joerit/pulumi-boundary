@@ -213,12 +213,10 @@ utilities.lazyLoad(exports, ["Worker"], () => require("./worker"));
 
 // Export sub-modules:
 import * as config from "./config";
-import * as region from "./region";
 import * as types from "./types";
 
 export {
     config,
-    region,
     types,
 };
 

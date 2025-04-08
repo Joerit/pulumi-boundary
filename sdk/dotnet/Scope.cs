@@ -9,6 +9,116 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// The scope resource allows you to configure a Boundary scope.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// Creating the global scope:
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var @global = new Boundary.Scope("global", new()
+    ///     {
+    ///         GlobalScope = true,
+    ///         ScopeId = "global",
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// Creating an organization scope within global:
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = @global.Id,
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// Creating an project scope within an organization:
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// Creating an organization scope with a managed role for administration (auto create role set false):
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = @global.Id,
+    ///     });
+    /// 
+    ///     var orgAdmin = new Boundary.Role("org_admin", new()
+    ///     {
+    ///         ScopeId = @global.Id,
+    ///         GrantScopeIds = new[]
+    ///         {
+    ///             org.Id,
+    ///         },
+    ///         GrantStrings = new[]
+    ///         {
+    ///             "ids=*;type=*;actions=*",
+    ///         },
+    ///         PrincipalIds = new[]
+    ///         {
+    ///             "u_auth",
+    ///         },
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/scope:Scope foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/scope:Scope")]
     public partial class Scope : global::Pulumi.CustomResource
     {
@@ -25,8 +135,7 @@ namespace Pulumi.Boundary
         public Output<string?> Description { get; private set; } = null!;
 
         /// <summary>
-        /// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-        /// to be imported and managed.
+        /// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
         /// </summary>
         [Output("globalScope")]
         public Output<bool?> GlobalScope { get; private set; } = null!;
@@ -102,8 +211,7 @@ namespace Pulumi.Boundary
         public Input<string>? Description { get; set; }
 
         /// <summary>
-        /// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-        /// to be imported and managed.
+        /// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
         /// </summary>
         [Input("globalScope")]
         public Input<bool>? GlobalScope { get; set; }
@@ -141,8 +249,7 @@ namespace Pulumi.Boundary
         public Input<string>? Description { get; set; }
 
         /// <summary>
-        /// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it
-        /// to be imported and managed.
+        /// Indicates that the scope containing this value is the global scope, which triggers some specialized behavior to allow it to be imported and managed.
         /// </summary>
         [Input("globalScope")]
         public Input<bool>? GlobalScope { get; set; }

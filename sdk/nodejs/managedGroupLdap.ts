@@ -4,6 +4,49 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * The managed group resource allows you to configure a Boundary group.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const forumsysLdap = new boundary.AuthMethodLdap("forumsys_ldap", {
+ *     name: "forumsys public LDAP",
+ *     scopeId: "global",
+ *     urls: ["ldap://ldap.forumsys.com"],
+ *     userDn: "dc=example,dc=com",
+ *     userAttr: "uid",
+ *     groupDn: "dc=example,dc=com",
+ *     bindDn: "cn=read-only-admin,dc=example,dc=com",
+ *     bindPassword: "password",
+ *     state: "active-public",
+ *     enableGroups: true,
+ *     discoverDn: true,
+ * });
+ * const forumsysScientists = new boundary.ManagedGroupLdap("forumsys_scientists", {
+ *     name: "scientists",
+ *     description: "forumsys scientists managed group",
+ *     authMethodId: forumsysLdap.id,
+ *     groupNames: ["Scientists"],
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/managedGroupLdap:ManagedGroupLdap foo <my-id>
+ * ```
+ */
 export class ManagedGroupLdap extends pulumi.CustomResource {
     /**
      * Get an existing ManagedGroupLdap resource's state with the given name, ID, and optional extra

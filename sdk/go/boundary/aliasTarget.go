@@ -12,6 +12,111 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The target alias resource allows you to configure a Boundary target alias.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("global scope"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			project, err := boundary.NewScope(ctx, "project", &boundary.ScopeArgs{
+//				Name:                pulumi.String("project_one"),
+//				Description:         pulumi.String("My first scope!"),
+//				ScopeId:             org.ID(),
+//				AutoCreateAdminRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			foo, err := boundary.NewHostCatalogStatic(ctx, "foo", &boundary.HostCatalogStaticArgs{
+//				Name:        pulumi.String("test"),
+//				Description: pulumi.String("test catalog"),
+//				ScopeId:     project.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			fooHostStatic, err := boundary.NewHostStatic(ctx, "foo", &boundary.HostStaticArgs{
+//				Name:          pulumi.String("foo"),
+//				HostCatalogId: foo.ID(),
+//				Address:       pulumi.String("10.0.0.1"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			bar, err := boundary.NewHostStatic(ctx, "bar", &boundary.HostStaticArgs{
+//				Name:          pulumi.String("bar"),
+//				HostCatalogId: foo.ID(),
+//				Address:       pulumi.String("127.0.0.1"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			fooHostSetStatic, err := boundary.NewHostSetStatic(ctx, "foo", &boundary.HostSetStaticArgs{
+//				Name:          pulumi.String("foo"),
+//				HostCatalogId: foo.ID(),
+//				HostIds: pulumi.StringArray{
+//					fooHostStatic.ID(),
+//					bar.ID(),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			fooTarget, err := boundary.NewTarget(ctx, "foo", &boundary.TargetArgs{
+//				Name:        pulumi.String("foo"),
+//				Description: pulumi.String("Foo target"),
+//				Type:        pulumi.String("tcp"),
+//				DefaultPort: pulumi.Int(22),
+//				ScopeId:     project.ID(),
+//				HostSourceIds: pulumi.StringArray{
+//					fooHostSetStatic.ID(),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewAliasTarget(ctx, "example_alias_target", &boundary.AliasTargetArgs{
+//				Name:                   pulumi.String("example_alias_target"),
+//				Description:            pulumi.String("Example alias to target foo using host boundary_host_static.bar"),
+//				ScopeId:                pulumi.String("global"),
+//				Value:                  pulumi.String("example.bar.foo.boundary"),
+//				DestinationId:          fooTarget.ID(),
+//				AuthorizeSessionHostId: bar.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/aliasTarget:AliasTarget example_alias_target <my-id>
+// ```
 type AliasTarget struct {
 	pulumi.CustomResourceState
 

@@ -4,6 +4,62 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
+/**
+ * Deprecated: use `boundary.HostSetStatic` instead.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as boundary from "@pulumi/boundary";
+ *
+ * const org = new boundary.Scope("org", {
+ *     name: "organization_one",
+ *     description: "My first scope!",
+ *     scopeId: "global",
+ *     autoCreateAdminRole: true,
+ *     autoCreateDefaultRole: true,
+ * });
+ * const project = new boundary.Scope("project", {
+ *     name: "project_one",
+ *     description: "My first scope!",
+ *     scopeId: org.id,
+ *     autoCreateAdminRole: true,
+ * });
+ * const static = new boundary.HostCatalog("static", {
+ *     type: "static",
+ *     scopeId: project.id,
+ * });
+ * const first = new boundary.Host("first", {
+ *     type: "static",
+ *     name: "host_1",
+ *     description: "My first host!",
+ *     address: "10.0.0.1",
+ *     hostCatalogId: static.id,
+ * });
+ * const second = new boundary.Host("second", {
+ *     type: "static",
+ *     name: "host_2",
+ *     description: "My second host!",
+ *     address: "10.0.0.2",
+ *     hostCatalogId: static.id,
+ * });
+ * const web = new boundary.HostSet("web", {
+ *     hostCatalogId: static.id,
+ *     type: "static",
+ *     hostIds: [
+ *         first.id,
+ *         second.id,
+ *     ],
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * ```sh
+ * $ pulumi import boundary:index/hostSet:HostSet foo <my-id>
+ * ```
+ */
 export class HostSet extends pulumi.CustomResource {
     /**
      * Get an existing HostSet resource's state with the given name, ID, and optional extra

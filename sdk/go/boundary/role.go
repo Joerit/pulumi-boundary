@@ -12,13 +12,228 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The role resource allows you to configure a Boundary role.
+//
+// ## Example Usage
+//
+// Basic usage:
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewRole(ctx, "example", &boundary.RoleArgs{
+//				Name:        pulumi.String("My role"),
+//				Description: pulumi.String("My first role!"),
+//				ScopeId:     org.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// Usage with a user resource:
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			foo, err := boundary.NewUser(ctx, "foo", &boundary.UserArgs{
+//				Name:    pulumi.String("User 1"),
+//				ScopeId: org.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			bar, err := boundary.NewUser(ctx, "bar", &boundary.UserArgs{
+//				Name:    pulumi.String("User 2"),
+//				ScopeId: org.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewRole(ctx, "example", &boundary.RoleArgs{
+//				Name:        pulumi.String("My role"),
+//				Description: pulumi.String("My first role!"),
+//				PrincipalIds: pulumi.StringArray{
+//					foo.ID(),
+//					bar.ID(),
+//				},
+//				ScopeId: org.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// Usage with user and grants resource:
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			readonly, err := boundary.NewUser(ctx, "readonly", &boundary.UserArgs{
+//				Name:        pulumi.String("readonly"),
+//				Description: pulumi.String("A readonly user"),
+//				ScopeId:     org.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewRole(ctx, "readonly", &boundary.RoleArgs{
+//				Name:        pulumi.String("readonly"),
+//				Description: pulumi.String("A readonly role"),
+//				PrincipalIds: pulumi.StringArray{
+//					readonly.ID(),
+//				},
+//				GrantStrings: pulumi.StringArray{
+//					pulumi.String("ids=*;type=*;actions=read"),
+//				},
+//				ScopeId: org.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// Usage for a project-specific role:
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			org, err := boundary.NewScope(ctx, "org", &boundary.ScopeArgs{
+//				Name:                  pulumi.String("organization_one"),
+//				Description:           pulumi.String("My first scope!"),
+//				ScopeId:               pulumi.String("global"),
+//				AutoCreateAdminRole:   pulumi.Bool(true),
+//				AutoCreateDefaultRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			project, err := boundary.NewScope(ctx, "project", &boundary.ScopeArgs{
+//				Name:                pulumi.String("project_one"),
+//				Description:         pulumi.String("My first scope!"),
+//				ScopeId:             org.ID(),
+//				AutoCreateAdminRole: pulumi.Bool(true),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			readonly, err := boundary.NewUser(ctx, "readonly", &boundary.UserArgs{
+//				Name:        pulumi.String("readonly"),
+//				Description: pulumi.String("A readonly user"),
+//				ScopeId:     org.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = boundary.NewRole(ctx, "readonly", &boundary.RoleArgs{
+//				Name:        pulumi.String("readonly"),
+//				Description: pulumi.String("A readonly role"),
+//				PrincipalIds: pulumi.StringArray{
+//					readonly.ID(),
+//				},
+//				GrantStrings: pulumi.StringArray{
+//					pulumi.String("ids=*;type=*;actions=read"),
+//				},
+//				ScopeId: project.ID(),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/role:Role foo <my-id>
+// ```
 type Role struct {
 	pulumi.CustomResourceState
 
 	// The role description.
 	Description pulumi.StringPtrOutput `pulumi:"description"`
-	// A list of scopes for which the grants in this role should apply, which can include the special values "this",
-	// "children", or "descendants"
+	// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
 	GrantScopeIds pulumi.StringArrayOutput `pulumi:"grantScopeIds"`
 	// A list of stringified grants for the role.
 	GrantStrings pulumi.StringArrayOutput `pulumi:"grantStrings"`
@@ -65,8 +280,7 @@ func GetRole(ctx *pulumi.Context,
 type roleState struct {
 	// The role description.
 	Description *string `pulumi:"description"`
-	// A list of scopes for which the grants in this role should apply, which can include the special values "this",
-	// "children", or "descendants"
+	// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
 	GrantScopeIds []string `pulumi:"grantScopeIds"`
 	// A list of stringified grants for the role.
 	GrantStrings []string `pulumi:"grantStrings"`
@@ -81,8 +295,7 @@ type roleState struct {
 type RoleState struct {
 	// The role description.
 	Description pulumi.StringPtrInput
-	// A list of scopes for which the grants in this role should apply, which can include the special values "this",
-	// "children", or "descendants"
+	// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
 	GrantScopeIds pulumi.StringArrayInput
 	// A list of stringified grants for the role.
 	GrantStrings pulumi.StringArrayInput
@@ -101,8 +314,7 @@ func (RoleState) ElementType() reflect.Type {
 type roleArgs struct {
 	// The role description.
 	Description *string `pulumi:"description"`
-	// A list of scopes for which the grants in this role should apply, which can include the special values "this",
-	// "children", or "descendants"
+	// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
 	GrantScopeIds []string `pulumi:"grantScopeIds"`
 	// A list of stringified grants for the role.
 	GrantStrings []string `pulumi:"grantStrings"`
@@ -118,8 +330,7 @@ type roleArgs struct {
 type RoleArgs struct {
 	// The role description.
 	Description pulumi.StringPtrInput
-	// A list of scopes for which the grants in this role should apply, which can include the special values "this",
-	// "children", or "descendants"
+	// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
 	GrantScopeIds pulumi.StringArrayInput
 	// A list of stringified grants for the role.
 	GrantStrings pulumi.StringArrayInput
@@ -223,8 +434,7 @@ func (o RoleOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Role) pulumi.StringPtrOutput { return v.Description }).(pulumi.StringPtrOutput)
 }
 
-// A list of scopes for which the grants in this role should apply, which can include the special values "this",
-// "children", or "descendants"
+// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
 func (o RoleOutput) GrantScopeIds() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *Role) pulumi.StringArrayOutput { return v.GrantScopeIds }).(pulumi.StringArrayOutput)
 }

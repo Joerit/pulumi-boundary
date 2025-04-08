@@ -12,6 +12,13 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// The json credential resource allows you to congiure a credential using a json object.
+//
+// ## Import
+//
+// ```sh
+// $ pulumi import boundary:index/credentialJson:CredentialJson example_json <my-id>
+// ```
 type CredentialJson struct {
 	pulumi.CustomResourceState
 
@@ -21,8 +28,7 @@ type CredentialJson struct {
 	Description pulumi.StringPtrOutput `pulumi:"description"`
 	// The name of this json credential. Defaults to the resource name.
 	Name pulumi.StringOutput `pulumi:"name"`
-	// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-	// or a file
+	// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
 	Object pulumi.StringOutput `pulumi:"object"`
 	// The object hmac.
 	ObjectHmac pulumi.StringOutput `pulumi:"objectHmac"`
@@ -77,8 +83,7 @@ type credentialJsonState struct {
 	Description *string `pulumi:"description"`
 	// The name of this json credential. Defaults to the resource name.
 	Name *string `pulumi:"name"`
-	// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-	// or a file
+	// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
 	Object *string `pulumi:"object"`
 	// The object hmac.
 	ObjectHmac *string `pulumi:"objectHmac"`
@@ -91,8 +96,7 @@ type CredentialJsonState struct {
 	Description pulumi.StringPtrInput
 	// The name of this json credential. Defaults to the resource name.
 	Name pulumi.StringPtrInput
-	// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-	// or a file
+	// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
 	Object pulumi.StringPtrInput
 	// The object hmac.
 	ObjectHmac pulumi.StringPtrInput
@@ -109,8 +113,7 @@ type credentialJsonArgs struct {
 	Description *string `pulumi:"description"`
 	// The name of this json credential. Defaults to the resource name.
 	Name *string `pulumi:"name"`
-	// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-	// or a file
+	// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
 	Object string `pulumi:"object"`
 }
 
@@ -122,8 +125,7 @@ type CredentialJsonArgs struct {
 	Description pulumi.StringPtrInput
 	// The name of this json credential. Defaults to the resource name.
 	Name pulumi.StringPtrInput
-	// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-	// or a file
+	// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
 	Object pulumi.StringInput
 }
 
@@ -229,8 +231,7 @@ func (o CredentialJsonOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *CredentialJson) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
 
-// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string,
-// or a file
+// The object for the this json credential. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file
 func (o CredentialJsonOutput) Object() pulumi.StringOutput {
 	return o.ApplyT(func(v *CredentialJson) pulumi.StringOutput { return v.Object }).(pulumi.StringOutput)
 }

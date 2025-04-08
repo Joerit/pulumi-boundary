@@ -9,12 +9,67 @@ using Pulumi.Serialization;
 
 namespace Pulumi.Boundary
 {
+    /// <summary>
+    /// Deprecated: use `boundary.HostStatic` instead.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Boundary = Pulumi.Boundary;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var org = new Boundary.Scope("org", new()
+    ///     {
+    ///         Name = "organization_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = "global",
+    ///         AutoCreateAdminRole = true,
+    ///         AutoCreateDefaultRole = true,
+    ///     });
+    /// 
+    ///     var project = new Boundary.Scope("project", new()
+    ///     {
+    ///         Name = "project_one",
+    ///         Description = "My first scope!",
+    ///         ScopeId = org.Id,
+    ///         AutoCreateAdminRole = true,
+    ///     });
+    /// 
+    ///     var @static = new Boundary.HostCatalog("static", new()
+    ///     {
+    ///         Name = "My catalog",
+    ///         Description = "My first host catalog!",
+    ///         Type = "static",
+    ///         ScopeId = project.Id,
+    ///     });
+    /// 
+    ///     var example = new Boundary.Host("example", new()
+    ///     {
+    ///         Type = "static",
+    ///         Name = "example_host",
+    ///         Description = "My first host!",
+    ///         Address = "10.0.0.1",
+    ///         HostCatalogId = @static.Id,
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// ```sh
+    /// $ pulumi import boundary:index/host:Host foo &lt;my-id&gt;
+    /// ```
+    /// </summary>
     [BoundaryResourceType("boundary:index/host:Host")]
     public partial class Host : global::Pulumi.CustomResource
     {
         /// <summary>
-        /// The static address of the host resource as `&lt;IP&gt;` (note: port assignment occurs in the target resource definition, do
-        /// not add :port here) or a domain name.
+        /// The static address of the host resource as `&lt;IP&gt;` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
         /// </summary>
         [Output("address")]
         public Output<string?> Address { get; private set; } = null!;
@@ -87,8 +142,7 @@ namespace Pulumi.Boundary
     public sealed class HostArgs : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// The static address of the host resource as `&lt;IP&gt;` (note: port assignment occurs in the target resource definition, do
-        /// not add :port here) or a domain name.
+        /// The static address of the host resource as `&lt;IP&gt;` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
         /// </summary>
         [Input("address")]
         public Input<string>? Address { get; set; }
@@ -123,8 +177,7 @@ namespace Pulumi.Boundary
     public sealed class HostState : global::Pulumi.ResourceArgs
     {
         /// <summary>
-        /// The static address of the host resource as `&lt;IP&gt;` (note: port assignment occurs in the target resource definition, do
-        /// not add :port here) or a domain name.
+        /// The static address of the host resource as `&lt;IP&gt;` (note: port assignment occurs in the target resource definition, do not add :port here) or a domain name.
         /// </summary>
         [Input("address")]
         public Input<string>? Address { get; set; }

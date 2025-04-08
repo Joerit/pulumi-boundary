@@ -11,12 +11,21 @@ namespace Pulumi.Boundary
 {
     public static class GetUser
     {
+        /// <summary>
+        /// The user data source allows you to find a Boundary user.
+        /// </summary>
         public static Task<GetUserResult> InvokeAsync(GetUserArgs args, InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.InvokeAsync<GetUserResult>("boundary:index/getUser:getUser", args ?? new GetUserArgs(), options.WithDefaults());
 
+        /// <summary>
+        /// The user data source allows you to find a Boundary user.
+        /// </summary>
         public static Output<GetUserResult> Invoke(GetUserInvokeArgs args, InvokeOptions? options = null)
             => global::Pulumi.Deployment.Instance.Invoke<GetUserResult>("boundary:index/getUser:getUser", args ?? new GetUserInvokeArgs(), options.WithDefaults());
 
+        /// <summary>
+        /// The user data source allows you to find a Boundary user.
+        /// </summary>
         public static Output<GetUserResult> Invoke(GetUserInvokeArgs args, InvokeOutputOptions options)
             => global::Pulumi.Deployment.Instance.Invoke<GetUserResult>("boundary:index/getUser:getUser", args ?? new GetUserInvokeArgs(), options.WithDefaults());
     }
@@ -24,9 +33,15 @@ namespace Pulumi.Boundary
 
     public sealed class GetUserArgs : global::Pulumi.InvokeArgs
     {
+        /// <summary>
+        /// The username to search for.
+        /// </summary>
         [Input("name", required: true)]
         public string Name { get; set; } = null!;
 
+        /// <summary>
+        /// The scope ID in which the resource is created. Defaults `global` if unset.
+        /// </summary>
         [Input("scopeId")]
         public string? ScopeId { get; set; }
 
@@ -38,9 +53,15 @@ namespace Pulumi.Boundary
 
     public sealed class GetUserInvokeArgs : global::Pulumi.InvokeArgs
     {
+        /// <summary>
+        /// The username to search for.
+        /// </summary>
         [Input("name", required: true)]
         public Input<string> Name { get; set; } = null!;
 
+        /// <summary>
+        /// The scope ID in which the resource is created. Defaults `global` if unset.
+        /// </summary>
         [Input("scopeId")]
         public Input<string>? ScopeId { get; set; }
 
@@ -54,13 +75,37 @@ namespace Pulumi.Boundary
     [OutputType]
     public sealed class GetUserResult
     {
+        /// <summary>
+        /// Account ID's to associate with this user resource.
+        /// </summary>
         public readonly ImmutableArray<string> AccountIds;
+        /// <summary>
+        /// A list of actions that the worker is entitled to perform.
+        /// </summary>
         public readonly ImmutableArray<string> AuthorizedActions;
+        /// <summary>
+        /// The user description.
+        /// </summary>
         public readonly string Description;
+        /// <summary>
+        /// The ID of the user.
+        /// </summary>
         public readonly string Id;
+        /// <summary>
+        /// Login name for user.
+        /// </summary>
         public readonly string LoginName;
+        /// <summary>
+        /// The username to search for.
+        /// </summary>
         public readonly string Name;
+        /// <summary>
+        /// Primary account ID.
+        /// </summary>
         public readonly string PrimaryAccountId;
+        /// <summary>
+        /// The scope ID in which the resource is created. Defaults `global` if unset.
+        /// </summary>
         public readonly string? ScopeId;
         public readonly ImmutableArray<Outputs.GetUserScopeResult> Scopes;
 

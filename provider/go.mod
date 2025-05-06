@@ -7,7 +7,7 @@ toolchain go1.23.6
 replace github.com/hashicorp/terraform-plugin-sdk/v2 => github.com/pulumi/terraform-plugin-sdk/v2 v2.0.0-20250221232320-8d4cfd37a3cd
 
 require (
-	github.com/joerit/terraform-provider-boundary v0.0.0-20250407120232-605ac846e3ba
+	github.com/joerit/terraform-provider-boundary v1.1.14
 	github.com/pulumi/pulumi-terraform-bridge/v3 v3.105.0
 	github.com/pulumi/pulumi/pkg/v3 v3.156.0
 )
@@ -67,8 +67,8 @@ require (
 	github.com/googleapis/enterprise-certificate-proxy v0.3.2 // indirect
 	github.com/googleapis/gax-go/v2 v2.12.2 // indirect
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645 // indirect
-	github.com/hashicorp/boundary/api v0.0.53 // indirect
-	github.com/hashicorp/boundary/sdk v0.0.49 // indirect
+	github.com/hashicorp/boundary/api v0.0.46 // indirect
+	github.com/hashicorp/boundary/sdk v0.0.43 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/eventlogger v0.2.9 // indirect
 	github.com/hashicorp/eventlogger/filters/encrypt v0.1.8-0.20231208142215-efdb51ec090d // indirect

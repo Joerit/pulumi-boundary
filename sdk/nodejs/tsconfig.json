@@ -17,7 +17,6 @@
         "accountLdap.ts",
         "accountOidc.ts",
         "accountPassword.ts",
-        "aliasTarget.ts",
         "authMethod.ts",
         "authMethodLdap.ts",
         "authMethodOidc.ts",

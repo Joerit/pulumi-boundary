@@ -18,10 +18,6 @@
                 "current": "boundary:index/accountPassword:AccountPassword",
                 "majorVersion": 1
             },
-            "boundary_alias_target": {
-                "current": "boundary:index/aliasTarget:AliasTarget",
-                "majorVersion": 1
-            },
             "boundary_auth_method": {
                 "current": "boundary:index/authMethod:AuthMethod",
                 "majorVersion": 1

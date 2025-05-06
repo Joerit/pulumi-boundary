@@ -6,7 +6,7 @@
         "boundary",
         "category/cloud"
     ],
-    "homepage": "https://www.pulumi.com",
+    "homepage": "https://github.com/joerit/pulumi-boundary",
     "license": "Apache-2.0",
     "attribution": "This Pulumi package is based on the [`boundary` Terraform Provider](https://github.com/joerit/terraform-provider-boundary).",
     "repository": "https://github.com/joerit/pulumi-boundary",
@@ -706,114 +706,6 @@
                         "description": "The resource type.\n",
                         "deprecationMessage": "The value for this field will be infered since 'password' is the only possible value.",
                         "willReplaceOnChanges": true
-                    }
-                },
-                "type": "object"
-            }
-        },
-        "boundary:index/aliasTarget:AliasTarget": {
-            "description": "The target alias resource allows you to configure a Boundary target alias.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as boundary from \"@pulumi/boundary\";\n\nconst org = new boundary.Scope(\"org\", {\n    name: \"organization_one\",\n    description: \"global scope\",\n    scopeId: \"global\",\n    autoCreateAdminRole: true,\n    autoCreateDefaultRole: true,\n});\nconst project = new boundary.Scope(\"project\", {\n    name: \"project_one\",\n    description: \"My first scope!\",\n    scopeId: org.id,\n    autoCreateAdminRole: true,\n});\nconst foo = new boundary.HostCatalogStatic(\"foo\", {\n    name: \"test\",\n    description: \"test catalog\",\n    scopeId: project.id,\n});\nconst fooHostStatic = new boundary.HostStatic(\"foo\", {\n    name: \"foo\",\n    hostCatalogId: foo.id,\n    address: \"10.0.0.1\",\n});\nconst bar = new boundary.HostStatic(\"bar\", {\n    name: \"bar\",\n    hostCatalogId: foo.id,\n    address: \"127.0.0.1\",\n});\nconst fooHostSetStatic = new boundary.HostSetStatic(\"foo\", {\n    name: \"foo\",\n    hostCatalogId: foo.id,\n    hostIds: [\n        fooHostStatic.id,\n        bar.id,\n    ],\n});\nconst fooTarget = new boundary.Target(\"foo\", {\n    name: \"foo\",\n    description: \"Foo target\",\n    type: \"tcp\",\n    defaultPort: 22,\n    scopeId: project.id,\n    hostSourceIds: [fooHostSetStatic.id],\n});\nconst exampleAliasTarget = new boundary.AliasTarget(\"example_alias_target\", {\n    name: \"example_alias_target\",\n    description: \"Example alias to target foo using host boundary_host_static.bar\",\n    scopeId: \"global\",\n    value: \"example.bar.foo.boundary\",\n    destinationId: fooTarget.id,\n    authorizeSessionHostId: bar.id,\n});\n```\n```python\nimport pulumi\nimport pulumi_boundary as boundary\n\norg = boundary.Scope(\"org\",\n    name=\"organization_one\",\n    description=\"global scope\",\n    scope_id=\"global\",\n    auto_create_admin_role=True,\n    auto_create_default_role=True)\nproject = boundary.Scope(\"project\",\n    name=\"project_one\",\n    description=\"My first scope!\",\n    scope_id=org.id,\n    auto_create_admin_role=True)\nfoo = boundary.HostCatalogStatic(\"foo\",\n    name=\"test\",\n    description=\"test catalog\",\n    scope_id=project.id)\nfoo_host_static = boundary.HostStatic(\"foo\",\n    name=\"foo\",\n    host_catalog_id=foo.id,\n    address=\"10.0.0.1\")\nbar = boundary.HostStatic(\"bar\",\n    name=\"bar\",\n    host_catalog_id=foo.id,\n    address=\"127.0.0.1\")\nfoo_host_set_static = boundary.HostSetStatic(\"foo\",\n    name=\"foo\",\n    host_catalog_id=foo.id,\n    host_ids=[\n        foo_host_static.id,\n        bar.id,\n    ])\nfoo_target = boundary.Target(\"foo\",\n    name=\"foo\",\n    description=\"Foo target\",\n    type=\"tcp\",\n    default_port=22,\n    scope_id=project.id,\n    host_source_ids=[foo_host_set_static.id])\nexample_alias_target = boundary.AliasTarget(\"example_alias_target\",\n    name=\"example_alias_target\",\n    description=\"Example alias to target foo using host boundary_host_static.bar\",\n    scope_id=\"global\",\n    value=\"example.bar.foo.boundary\",\n    destination_id=foo_target.id,\n    authorize_session_host_id=bar.id)\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Boundary = Pulumi.Boundary;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var org = new Boundary.Scope(\"org\", new()\n    {\n        Name = \"organization_one\",\n        Description = \"global scope\",\n        ScopeId = \"global\",\n        AutoCreateAdminRole = true,\n        AutoCreateDefaultRole = true,\n    });\n\n    var project = new Boundary.Scope(\"project\", new()\n    {\n        Name = \"project_one\",\n        Description = \"My first scope!\",\n        ScopeId = org.Id,\n        AutoCreateAdminRole = true,\n    });\n\n    var foo = new Boundary.HostCatalogStatic(\"foo\", new()\n    {\n        Name = \"test\",\n        Description = \"test catalog\",\n        ScopeId = project.Id,\n    });\n\n    var fooHostStatic = new Boundary.HostStatic(\"foo\", new()\n    {\n        Name = \"foo\",\n        HostCatalogId = foo.Id,\n        Address = \"10.0.0.1\",\n    });\n\n    var bar = new Boundary.HostStatic(\"bar\", new()\n    {\n        Name = \"bar\",\n        HostCatalogId = foo.Id,\n        Address = \"127.0.0.1\",\n    });\n\n    var fooHostSetStatic = new Boundary.HostSetStatic(\"foo\", new()\n    {\n        Name = \"foo\",\n        HostCatalogId = foo.Id,\n        HostIds = new[]\n        {\n            fooHostStatic.Id,\n            bar.Id,\n        },\n    });\n\n    var fooTarget = new Boundary.Target(\"foo\", new()\n    {\n        Name = \"foo\",\n        Description = \"Foo target\",\n        Type = \"tcp\",\n        DefaultPort = 22,\n        ScopeId = project.Id,\n        HostSourceIds = new[]\n        {\n            fooHostSetStatic.Id,\n        },\n    });\n\n    var exampleAliasTarget = new Boundary.AliasTarget(\"example_alias_target\", new()\n    {\n        Name = \"example_alias_target\",\n        Description = \"Example alias to target foo using host boundary_host_static.bar\",\n        ScopeId = \"global\",\n        Value = \"example.bar.foo.boundary\",\n        DestinationId = fooTarget.Id,\n        AuthorizeSessionHostId = bar.Id,\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/joerit/pulumi-boundary/sdk/go/boundary\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\torg, err := boundary.NewScope(ctx, \"org\", \u0026boundary.ScopeArgs{\n\t\t\tName:                  pulumi.String(\"organization_one\"),\n\t\t\tDescription:           pulumi.String(\"global scope\"),\n\t\t\tScopeId:               pulumi.String(\"global\"),\n\t\t\tAutoCreateAdminRole:   pulumi.Bool(true),\n\t\t\tAutoCreateDefaultRole: pulumi.Bool(true),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\tproject, err := boundary.NewScope(ctx, \"project\", \u0026boundary.ScopeArgs{\n\t\t\tName:                pulumi.String(\"project_one\"),\n\t\t\tDescription:         pulumi.String(\"My first scope!\"),\n\t\t\tScopeId:             org.ID(),\n\t\t\tAutoCreateAdminRole: pulumi.Bool(true),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\tfoo, err := boundary.NewHostCatalogStatic(ctx, \"foo\", \u0026boundary.HostCatalogStaticArgs{\n\t\t\tName:        pulumi.String(\"test\"),\n\t\t\tDescription: pulumi.String(\"test catalog\"),\n\t\t\tScopeId:     project.ID(),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\tfooHostStatic, err := boundary.NewHostStatic(ctx, \"foo\", \u0026boundary.HostStaticArgs{\n\t\t\tName:          pulumi.String(\"foo\"),\n\t\t\tHostCatalogId: foo.ID(),\n\t\t\tAddress:       pulumi.String(\"10.0.0.1\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\tbar, err := boundary.NewHostStatic(ctx, \"bar\", \u0026boundary.HostStaticArgs{\n\t\t\tName:          pulumi.String(\"bar\"),\n\t\t\tHostCatalogId: foo.ID(),\n\t\t\tAddress:       pulumi.String(\"127.0.0.1\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\tfooHostSetStatic, err := boundary.NewHostSetStatic(ctx, \"foo\", \u0026boundary.HostSetStaticArgs{\n\t\t\tName:          pulumi.String(\"foo\"),\n\t\t\tHostCatalogId: foo.ID(),\n\t\t\tHostIds: pulumi.StringArray{\n\t\t\t\tfooHostStatic.ID(),\n\t\t\t\tbar.ID(),\n\t\t\t},\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\tfooTarget, err := boundary.NewTarget(ctx, \"foo\", \u0026boundary.TargetArgs{\n\t\t\tName:        pulumi.String(\"foo\"),\n\t\t\tDescription: pulumi.String(\"Foo target\"),\n\t\t\tType:        pulumi.String(\"tcp\"),\n\t\t\tDefaultPort: pulumi.Int(22),\n\t\t\tScopeId:     project.ID(),\n\t\t\tHostSourceIds: pulumi.StringArray{\n\t\t\t\tfooHostSetStatic.ID(),\n\t\t\t},\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err = boundary.NewAliasTarget(ctx, \"example_alias_target\", \u0026boundary.AliasTargetArgs{\n\t\t\tName:                   pulumi.String(\"example_alias_target\"),\n\t\t\tDescription:            pulumi.String(\"Example alias to target foo using host boundary_host_static.bar\"),\n\t\t\tScopeId:                pulumi.String(\"global\"),\n\t\t\tValue:                  pulumi.String(\"example.bar.foo.boundary\"),\n\t\t\tDestinationId:          fooTarget.ID(),\n\t\t\tAuthorizeSessionHostId: bar.ID(),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.boundary.Scope;\nimport com.pulumi.boundary.ScopeArgs;\nimport com.pulumi.boundary.HostCatalogStatic;\nimport com.pulumi.boundary.HostCatalogStaticArgs;\nimport com.pulumi.boundary.HostStatic;\nimport com.pulumi.boundary.HostStaticArgs;\nimport com.pulumi.boundary.HostSetStatic;\nimport com.pulumi.boundary.HostSetStaticArgs;\nimport com.pulumi.boundary.Target;\nimport com.pulumi.boundary.TargetArgs;\nimport com.pulumi.boundary.AliasTarget;\nimport com.pulumi.boundary.AliasTargetArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var org = new Scope(\"org\", ScopeArgs.builder()\n            .name(\"organization_one\")\n            .description(\"global scope\")\n            .scopeId(\"global\")\n            .autoCreateAdminRole(true)\n            .autoCreateDefaultRole(true)\n            .build());\n\n        var project = new Scope(\"project\", ScopeArgs.builder()\n            .name(\"project_one\")\n            .description(\"My first scope!\")\n            .scopeId(org.id())\n            .autoCreateAdminRole(true)\n            .build());\n\n        var foo = new HostCatalogStatic(\"foo\", HostCatalogStaticArgs.builder()\n            .name(\"test\")\n            .description(\"test catalog\")\n            .scopeId(project.id())\n            .build());\n\n        var fooHostStatic = new HostStatic(\"fooHostStatic\", HostStaticArgs.builder()\n            .name(\"foo\")\n            .hostCatalogId(foo.id())\n            .address(\"10.0.0.1\")\n            .build());\n\n        var bar = new HostStatic(\"bar\", HostStaticArgs.builder()\n            .name(\"bar\")\n            .hostCatalogId(foo.id())\n            .address(\"127.0.0.1\")\n            .build());\n\n        var fooHostSetStatic = new HostSetStatic(\"fooHostSetStatic\", HostSetStaticArgs.builder()\n            .name(\"foo\")\n            .hostCatalogId(foo.id())\n            .hostIds(            \n                fooHostStatic.id(),\n                bar.id())\n            .build());\n\n        var fooTarget = new Target(\"fooTarget\", TargetArgs.builder()\n            .name(\"foo\")\n            .description(\"Foo target\")\n            .type(\"tcp\")\n            .defaultPort(\"22\")\n            .scopeId(project.id())\n            .hostSourceIds(fooHostSetStatic.id())\n            .build());\n\n        var exampleAliasTarget = new AliasTarget(\"exampleAliasTarget\", AliasTargetArgs.builder()\n            .name(\"example_alias_target\")\n            .description(\"Example alias to target foo using host boundary_host_static.bar\")\n            .scopeId(\"global\")\n            .value(\"example.bar.foo.boundary\")\n            .destinationId(fooTarget.id())\n            .authorizeSessionHostId(bar.id())\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  org:\n    type: boundary:Scope\n    properties:\n      name: organization_one\n      description: global scope\n      scopeId: global\n      autoCreateAdminRole: true\n      autoCreateDefaultRole: true\n  project:\n    type: boundary:Scope\n    properties:\n      name: project_one\n      description: My first scope!\n      scopeId: ${org.id}\n      autoCreateAdminRole: true\n  foo:\n    type: boundary:HostCatalogStatic\n    properties:\n      name: test\n      description: test catalog\n      scopeId: ${project.id}\n  fooHostStatic:\n    type: boundary:HostStatic\n    name: foo\n    properties:\n      name: foo\n      hostCatalogId: ${foo.id}\n      address: 10.0.0.1\n  bar:\n    type: boundary:HostStatic\n    properties:\n      name: bar\n      hostCatalogId: ${foo.id}\n      address: 127.0.0.1\n  fooHostSetStatic:\n    type: boundary:HostSetStatic\n    name: foo\n    properties:\n      name: foo\n      hostCatalogId: ${foo.id}\n      hostIds:\n        - ${fooHostStatic.id}\n        - ${bar.id}\n  fooTarget:\n    type: boundary:Target\n    name: foo\n    properties:\n      name: foo\n      description: Foo target\n      type: tcp\n      defaultPort: '22'\n      scopeId: ${project.id}\n      hostSourceIds:\n        - ${fooHostSetStatic.id}\n  exampleAliasTarget:\n    type: boundary:AliasTarget\n    name: example_alias_target\n    properties:\n      name: example_alias_target\n      description: Example alias to target foo using host boundary_host_static.bar\n      scopeId: global\n      value: example.bar.foo.boundary\n      destinationId: ${fooTarget.id}\n      authorizeSessionHostId: ${bar.id}\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n## Import\n\n```sh\n$ pulumi import boundary:index/aliasTarget:AliasTarget example_alias_target \u003cmy-id\u003e\n```\n\n",
-            "properties": {
-                "authorizeSessionHostId": {
-                    "type": "string",
-                    "description": "The host id to pass to Boundary when performing an authorize session action.\n"
-                },
-                "description": {
-                    "type": "string",
-                    "description": "The alias description.\n"
-                },
-                "destinationId": {
-                    "type": "string",
-                    "description": "The destination of the alias.\n"
-                },
-                "name": {
-                    "type": "string",
-                    "description": "The alias name. Defaults to the resource name.\n"
-                },
-                "scopeId": {
-                    "type": "string",
-                    "description": "The scope ID.\n"
-                },
-                "type": {
-                    "type": "string",
-                    "description": "The type of alias; hardcoded.\n"
-                },
-                "value": {
-                    "type": "string",
-                    "description": "The value of the alias.\n"
-                }
-            },
-            "required": [
-                "name",
-                "scopeId",
-                "value"
-            ],
-            "inputProperties": {
-                "authorizeSessionHostId": {
-                    "type": "string",
-                    "description": "The host id to pass to Boundary when performing an authorize session action.\n"
-                },
-                "description": {
-                    "type": "string",
-                    "description": "The alias description.\n"
-                },
-                "destinationId": {
-                    "type": "string",
-                    "description": "The destination of the alias.\n"
-                },
-                "name": {
-                    "type": "string",
-                    "description": "The alias name. Defaults to the resource name.\n"
-                },
-                "scopeId": {
-                    "type": "string",
-                    "description": "The scope ID.\n",
-                    "willReplaceOnChanges": true
-                },
-                "type": {
-                    "type": "string",
-                    "description": "The type of alias; hardcoded.\n"
-                },
-                "value": {
-                    "type": "string",
-                    "description": "The value of the alias.\n"
-                }
-            },
-            "requiredInputs": [
-                "scopeId",
-                "value"
-            ],
-            "stateInputs": {
-                "description": "Input properties used for looking up and filtering AliasTarget resources.\n",
-                "properties": {
-                    "authorizeSessionHostId": {
-                        "type": "string",
-                        "description": "The host id to pass to Boundary when performing an authorize session action.\n"
-                    },
-                    "description": {
-                        "type": "string",
-                        "description": "The alias description.\n"
-                    },
-                    "destinationId": {
-                        "type": "string",
-                        "description": "The destination of the alias.\n"
-                    },
-                    "name": {
-                        "type": "string",
-                        "description": "The alias name. Defaults to the resource name.\n"
-                    },
-                    "scopeId": {
-                        "type": "string",
-                        "description": "The scope ID.\n",
-                        "willReplaceOnChanges": true
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "The type of alias; hardcoded.\n"
-                    },
-                    "value": {
-                        "type": "string",
-                        "description": "The value of the alias.\n"
                     }
                 },
                 "type": "object"
@@ -2920,10 +2812,6 @@
                     "type": "string",
                     "description": "The secrets for the host catalog. Either values encoded with the \"jsonencode\" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string \"null\" to clear any existing values. NOTE: Unlike \"attributes_json\", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.\n",
                     "secret": true
-                },
-                "workerFilter": {
-                    "type": "string",
-                    "description": "HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.\n"
                 }
             },
             "required": [
@@ -2984,10 +2872,6 @@
                     "type": "string",
                     "description": "The secrets for the host catalog. Either values encoded with the \"jsonencode\" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string \"null\" to clear any existing values. NOTE: Unlike \"attributes_json\", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.\n",
                     "secret": true
-                },
-                "workerFilter": {
-                    "type": "string",
-                    "description": "HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.\n"
                 }
             },
             "requiredInputs": [
@@ -3043,10 +2927,6 @@
                         "type": "string",
                         "description": "The secrets for the host catalog. Either values encoded with the \"jsonencode\" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string \"null\" to clear any existing values. NOTE: Unlike \"attributes_json\", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.\n",
                         "secret": true
-                    },
-                    "workerFilter": {
-                        "type": "string",
-                        "description": "HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.\n"
                     }
                 },
                 "type": "object"
@@ -3758,6 +3638,11 @@
                     "type": "string",
                     "description": "The role description.\n"
                 },
+                "grantScopeId": {
+                    "type": "string",
+                    "description": "For Boundary 0.15+, use `grant_scope_ids` instead. The scope for which the grants in the role should apply.\n",
+                    "deprecationMessage": "In Boundary 0.15+, please use `grant_scope_ids` instead. This field will be removed in a future release."
+                },
                 "grantScopeIds": {
                     "type": "array",
                     "items": {
@@ -3789,6 +3674,7 @@
                 }
             },
             "required": [
+                "grantScopeId",
                 "grantScopeIds",
                 "name",
                 "scopeId"
@@ -3797,6 +3683,11 @@
                 "description": {
                     "type": "string",
                     "description": "The role description.\n"
+                },
+                "grantScopeId": {
+                    "type": "string",
+                    "description": "For Boundary 0.15+, use `grant_scope_ids` instead. The scope for which the grants in the role should apply.\n",
+                    "deprecationMessage": "In Boundary 0.15+, please use `grant_scope_ids` instead. This field will be removed in a future release."
                 },
                 "grantScopeIds": {
                     "type": "array",
@@ -3838,6 +3729,11 @@
                     "description": {
                         "type": "string",
                         "description": "The role description.\n"
+                    },
+                    "grantScopeId": {
+                        "type": "string",
+                        "description": "For Boundary 0.15+, use `grant_scope_ids` instead. The scope for which the grants in the role should apply.\n",
+                        "deprecationMessage": "In Boundary 0.15+, please use `grant_scope_ids` instead. This field will be removed in a future release."
                     },
                     "grantScopeIds": {
                         "type": "array",
@@ -4529,7 +4425,7 @@
             }
         },
         "boundary:index/worker:Worker": {
-            "description": "The resource allows you to create a self-managed worker object.\n\n## Example Usage\n\n### Controller-led worker\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as boundary from \"@pulumi/boundary\";\n\nconst controllerLed = new boundary.Worker(\"controller_led\", {\n    scopeId: \"global\",\n    name: \"controller-led-worker-1\",\n    description: \"self managed worker with controller led auth\",\n});\n```\n```python\nimport pulumi\nimport pulumi_boundary as boundary\n\ncontroller_led = boundary.Worker(\"controller_led\",\n    scope_id=\"global\",\n    name=\"controller-led-worker-1\",\n    description=\"self managed worker with controller led auth\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Boundary = Pulumi.Boundary;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var controllerLed = new Boundary.Worker(\"controller_led\", new()\n    {\n        ScopeId = \"global\",\n        Name = \"controller-led-worker-1\",\n        Description = \"self managed worker with controller led auth\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/joerit/pulumi-boundary/sdk/go/boundary\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := boundary.NewWorker(ctx, \"controller_led\", \u0026boundary.WorkerArgs{\n\t\t\tScopeId:     pulumi.String(\"global\"),\n\t\t\tName:        pulumi.String(\"controller-led-worker-1\"),\n\t\t\tDescription: pulumi.String(\"self managed worker with controller led auth\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.boundary.Worker;\nimport com.pulumi.boundary.WorkerArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var controllerLed = new Worker(\"controllerLed\", WorkerArgs.builder()\n            .scopeId(\"global\")\n            .name(\"controller-led-worker-1\")\n            .description(\"self managed worker with controller led auth\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  controllerLed:\n    type: boundary:Worker\n    name: controller_led\n    properties:\n      scopeId: global\n      name: controller-led-worker-1\n      description: self managed worker with controller led auth\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n### Worker-led worker\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as boundary from \"@pulumi/boundary\";\n\nconst workerLed = new boundary.Worker(\"worker_led\", {\n    scopeId: \"global\",\n    name: \"worker-led-worker-1\",\n    description: \"self managed worker with worker led auth\",\n    workerGeneratedAuthToken: workerGeneratedAuthToken,\n});\n```\n```python\nimport pulumi\nimport pulumi_boundary as boundary\n\nworker_led = boundary.Worker(\"worker_led\",\n    scope_id=\"global\",\n    name=\"worker-led-worker-1\",\n    description=\"self managed worker with worker led auth\",\n    worker_generated_auth_token=worker_generated_auth_token)\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Boundary = Pulumi.Boundary;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var workerLed = new Boundary.Worker(\"worker_led\", new()\n    {\n        ScopeId = \"global\",\n        Name = \"worker-led-worker-1\",\n        Description = \"self managed worker with worker led auth\",\n        WorkerGeneratedAuthToken = workerGeneratedAuthToken,\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/joerit/pulumi-boundary/sdk/go/boundary\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := boundary.NewWorker(ctx, \"worker_led\", \u0026boundary.WorkerArgs{\n\t\t\tScopeId:                  pulumi.String(\"global\"),\n\t\t\tName:                     pulumi.String(\"worker-led-worker-1\"),\n\t\t\tDescription:              pulumi.String(\"self managed worker with worker led auth\"),\n\t\t\tWorkerGeneratedAuthToken: pulumi.Any(workerGeneratedAuthToken),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.boundary.Worker;\nimport com.pulumi.boundary.WorkerArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var workerLed = new Worker(\"workerLed\", WorkerArgs.builder()\n            .scopeId(\"global\")\n            .name(\"worker-led-worker-1\")\n            .description(\"self managed worker with worker led auth\")\n            .workerGeneratedAuthToken(workerGeneratedAuthToken)\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  workerLed:\n    type: boundary:Worker\n    name: worker_led\n    properties:\n      scopeId: global\n      name: worker-led-worker-1\n      description: self managed worker with worker led auth\n      workerGeneratedAuthToken: ${workerGeneratedAuthToken}\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n## Import\n\n```sh\n$ pulumi import boundary:index/worker:Worker foo \u003cmy-id\u003e\n```\n\n",
+            "description": "The resource allows you to create a self-managed worker object.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as boundary from \"@pulumi/boundary\";\n\nconst controllerLed = new boundary.Worker(\"controller_led\", {\n    scopeId: \"global\",\n    name: \"worker 1\",\n    description: \"self managed worker with controller led auth\",\n});\nconst workerLed = new boundary.Worker(\"worker_led\", {\n    scopeId: \"global\",\n    name: \"worker 2\",\n    description: \"self managed worker with worker led auth\",\n    workerGeneratedAuthToken: workerGeneratedAuthToken,\n});\n```\n```python\nimport pulumi\nimport pulumi_boundary as boundary\n\ncontroller_led = boundary.Worker(\"controller_led\",\n    scope_id=\"global\",\n    name=\"worker 1\",\n    description=\"self managed worker with controller led auth\")\nworker_led = boundary.Worker(\"worker_led\",\n    scope_id=\"global\",\n    name=\"worker 2\",\n    description=\"self managed worker with worker led auth\",\n    worker_generated_auth_token=worker_generated_auth_token)\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Boundary = Pulumi.Boundary;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var controllerLed = new Boundary.Worker(\"controller_led\", new()\n    {\n        ScopeId = \"global\",\n        Name = \"worker 1\",\n        Description = \"self managed worker with controller led auth\",\n    });\n\n    var workerLed = new Boundary.Worker(\"worker_led\", new()\n    {\n        ScopeId = \"global\",\n        Name = \"worker 2\",\n        Description = \"self managed worker with worker led auth\",\n        WorkerGeneratedAuthToken = workerGeneratedAuthToken,\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/joerit/pulumi-boundary/sdk/go/boundary\"\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := boundary.NewWorker(ctx, \"controller_led\", \u0026boundary.WorkerArgs{\n\t\t\tScopeId:     pulumi.String(\"global\"),\n\t\t\tName:        pulumi.String(\"worker 1\"),\n\t\t\tDescription: pulumi.String(\"self managed worker with controller led auth\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\t_, err = boundary.NewWorker(ctx, \"worker_led\", \u0026boundary.WorkerArgs{\n\t\t\tScopeId:                  pulumi.String(\"global\"),\n\t\t\tName:                     pulumi.String(\"worker 2\"),\n\t\t\tDescription:              pulumi.String(\"self managed worker with worker led auth\"),\n\t\t\tWorkerGeneratedAuthToken: pulumi.Any(workerGeneratedAuthToken),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.boundary.Worker;\nimport com.pulumi.boundary.WorkerArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var controllerLed = new Worker(\"controllerLed\", WorkerArgs.builder()\n            .scopeId(\"global\")\n            .name(\"worker 1\")\n            .description(\"self managed worker with controller led auth\")\n            .build());\n\n        var workerLed = new Worker(\"workerLed\", WorkerArgs.builder()\n            .scopeId(\"global\")\n            .name(\"worker 2\")\n            .description(\"self managed worker with worker led auth\")\n            .workerGeneratedAuthToken(workerGeneratedAuthToken)\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  controllerLed:\n    type: boundary:Worker\n    name: controller_led\n    properties:\n      scopeId: global\n      name: worker 1\n      description: self managed worker with controller led auth\n  workerLed:\n    type: boundary:Worker\n    name: worker_led\n    properties:\n      scopeId: global\n      name: worker 2\n      description: self managed worker with worker led auth\n      workerGeneratedAuthToken: ${workerGeneratedAuthToken}\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n## Import\n\n```sh\n$ pulumi import boundary:index/worker:Worker foo \u003cmy-id\u003e\n```\n\n",
             "properties": {
                 "address": {
                     "type": "string",

@@ -164,12 +164,6 @@ namespace Pulumi.Boundary
         [Output("secretsJson")]
         public Output<string?> SecretsJson { get; private set; } = null!;
 
-        /// <summary>
-        /// HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-        /// </summary>
-        [Output("workerFilter")]
-        public Output<string?> WorkerFilter { get; private set; } = null!;
-
 
         /// <summary>
         /// Create a HostCatalogPlugin resource with the given unique name, arguments, and options.
@@ -296,12 +290,6 @@ namespace Pulumi.Boundary
             }
         }
 
-        /// <summary>
-        /// HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-        /// </summary>
-        [Input("workerFilter")]
-        public Input<string>? WorkerFilter { get; set; }
-
         public HostCatalogPluginArgs()
         {
         }
@@ -385,12 +373,6 @@ namespace Pulumi.Boundary
                 _secretsJson = Output.Tuple<Input<string>?, int>(value, emptySecret).Apply(t => t.Item1);
             }
         }
-
-        /// <summary>
-        /// HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-        /// </summary>
-        [Input("workerFilter")]
-        public Input<string>? WorkerFilter { get; set; }
 
         public HostCatalogPluginState()
         {

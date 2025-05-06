@@ -9,28 +9,18 @@ import * as utilities from "./utilities";
  *
  * ## Example Usage
  *
- * ### Controller-led worker
- *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
  * import * as boundary from "@pulumi/boundary";
  *
  * const controllerLed = new boundary.Worker("controller_led", {
  *     scopeId: "global",
- *     name: "controller-led-worker-1",
+ *     name: "worker 1",
  *     description: "self managed worker with controller led auth",
  * });
- * ```
- *
- * ### Worker-led worker
- *
- * ```typescript
- * import * as pulumi from "@pulumi/pulumi";
- * import * as boundary from "@pulumi/boundary";
- *
  * const workerLed = new boundary.Worker("worker_led", {
  *     scopeId: "global",
- *     name: "worker-led-worker-1",
+ *     name: "worker 2",
  *     description: "self managed worker with worker led auth",
  *     workerGeneratedAuthToken: workerGeneratedAuthToken,
  * });

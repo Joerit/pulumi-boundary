@@ -6,7 +6,7 @@
         "boundary",
         "category/cloud"
     ],
-    "homepage": "https://www.pulumi.com",
+    "homepage": "https://github.com/joerit/pulumi-boundary",
     "repository": "https://github.com/joerit/pulumi-boundary",
     "license": "Apache-2.0",
     "scripts": {

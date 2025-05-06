@@ -201,6 +201,12 @@ namespace Pulumi.Boundary
         public Output<string?> Description { get; private set; } = null!;
 
         /// <summary>
+        /// For Boundary 0.15+, use `grant_scope_ids` instead. The scope for which the grants in the role should apply.
+        /// </summary>
+        [Output("grantScopeId")]
+        public Output<string> GrantScopeId { get; private set; } = null!;
+
+        /// <summary>
         /// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
         /// </summary>
         [Output("grantScopeIds")]
@@ -282,6 +288,12 @@ namespace Pulumi.Boundary
         [Input("description")]
         public Input<string>? Description { get; set; }
 
+        /// <summary>
+        /// For Boundary 0.15+, use `grant_scope_ids` instead. The scope for which the grants in the role should apply.
+        /// </summary>
+        [Input("grantScopeId")]
+        public Input<string>? GrantScopeId { get; set; }
+
         [Input("grantScopeIds")]
         private InputList<string>? _grantScopeIds;
 
@@ -343,6 +355,12 @@ namespace Pulumi.Boundary
         /// </summary>
         [Input("description")]
         public Input<string>? Description { get; set; }
+
+        /// <summary>
+        /// For Boundary 0.15+, use `grant_scope_ids` instead. The scope for which the grants in the role should apply.
+        /// </summary>
+        [Input("grantScopeId")]
+        public Input<string>? GrantScopeId { get; set; }
 
         [Input("grantScopeIds")]
         private InputList<string>? _grantScopeIds;

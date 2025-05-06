@@ -25,11 +25,6 @@ export type AccountPassword = import("./accountPassword").AccountPassword;
 export const AccountPassword: typeof import("./accountPassword").AccountPassword = null as any;
 utilities.lazyLoad(exports, ["AccountPassword"], () => require("./accountPassword"));
 
-export { AliasTargetArgs, AliasTargetState } from "./aliasTarget";
-export type AliasTarget = import("./aliasTarget").AliasTarget;
-export const AliasTarget: typeof import("./aliasTarget").AliasTarget = null as any;
-utilities.lazyLoad(exports, ["AliasTarget"], () => require("./aliasTarget"));
-
 export { AuthMethodArgs, AuthMethodState } from "./authMethod";
 export type AuthMethod = import("./authMethod").AuthMethod;
 export const AuthMethod: typeof import("./authMethod").AuthMethod = null as any;
@@ -232,8 +227,6 @@ const _module = {
                 return new AccountOidc(name, <any>undefined, { urn })
             case "boundary:index/accountPassword:AccountPassword":
                 return new AccountPassword(name, <any>undefined, { urn })
-            case "boundary:index/aliasTarget:AliasTarget":
-                return new AliasTarget(name, <any>undefined, { urn })
             case "boundary:index/authMethod:AuthMethod":
                 return new AuthMethod(name, <any>undefined, { urn })
             case "boundary:index/authMethodLdap:AuthMethodLdap":
@@ -303,7 +296,6 @@ pulumi.runtime.registerResourceModule("boundary", "index/account", _module)
 pulumi.runtime.registerResourceModule("boundary", "index/accountLdap", _module)
 pulumi.runtime.registerResourceModule("boundary", "index/accountOidc", _module)
 pulumi.runtime.registerResourceModule("boundary", "index/accountPassword", _module)
-pulumi.runtime.registerResourceModule("boundary", "index/aliasTarget", _module)
 pulumi.runtime.registerResourceModule("boundary", "index/authMethod", _module)
 pulumi.runtime.registerResourceModule("boundary", "index/authMethodLdap", _module)
 pulumi.runtime.registerResourceModule("boundary", "index/authMethodOidc", _module)

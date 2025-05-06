@@ -160,6 +160,12 @@ export class Role extends pulumi.CustomResource {
      */
     public readonly description!: pulumi.Output<string | undefined>;
     /**
+     * For Boundary 0.15+, use `grantScopeIds` instead. The scope for which the grants in the role should apply.
+     *
+     * @deprecated In Boundary 0.15+, please use `grantScopeIds` instead. This field will be removed in a future release.
+     */
+    public readonly grantScopeId!: pulumi.Output<string>;
+    /**
      * A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
      */
     public readonly grantScopeIds!: pulumi.Output<string[]>;
@@ -194,6 +200,7 @@ export class Role extends pulumi.CustomResource {
         if (opts.id) {
             const state = argsOrState as RoleState | undefined;
             resourceInputs["description"] = state ? state.description : undefined;
+            resourceInputs["grantScopeId"] = state ? state.grantScopeId : undefined;
             resourceInputs["grantScopeIds"] = state ? state.grantScopeIds : undefined;
             resourceInputs["grantStrings"] = state ? state.grantStrings : undefined;
             resourceInputs["name"] = state ? state.name : undefined;
@@ -205,6 +212,7 @@ export class Role extends pulumi.CustomResource {
                 throw new Error("Missing required property 'scopeId'");
             }
             resourceInputs["description"] = args ? args.description : undefined;
+            resourceInputs["grantScopeId"] = args ? args.grantScopeId : undefined;
             resourceInputs["grantScopeIds"] = args ? args.grantScopeIds : undefined;
             resourceInputs["grantStrings"] = args ? args.grantStrings : undefined;
             resourceInputs["name"] = args ? args.name : undefined;
@@ -224,6 +232,12 @@ export interface RoleState {
      * The role description.
      */
     description?: pulumi.Input<string>;
+    /**
+     * For Boundary 0.15+, use `grantScopeIds` instead. The scope for which the grants in the role should apply.
+     *
+     * @deprecated In Boundary 0.15+, please use `grantScopeIds` instead. This field will be removed in a future release.
+     */
+    grantScopeId?: pulumi.Input<string>;
     /**
      * A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
      */
@@ -254,6 +268,12 @@ export interface RoleArgs {
      * The role description.
      */
     description?: pulumi.Input<string>;
+    /**
+     * For Boundary 0.15+, use `grantScopeIds` instead. The scope for which the grants in the role should apply.
+     *
+     * @deprecated In Boundary 0.15+, please use `grantScopeIds` instead. This field will be removed in a future release.
+     */
+    grantScopeId?: pulumi.Input<string>;
     /**
      * A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
      */

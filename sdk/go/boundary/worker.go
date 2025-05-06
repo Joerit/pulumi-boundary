@@ -15,8 +15,6 @@ import (
 //
 // ## Example Usage
 //
-// ### Controller-led worker
-//
 // ```go
 // package main
 //
@@ -31,35 +29,15 @@ import (
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := boundary.NewWorker(ctx, "controller_led", &boundary.WorkerArgs{
 //				ScopeId:     pulumi.String("global"),
-//				Name:        pulumi.String("controller-led-worker-1"),
+//				Name:        pulumi.String("worker 1"),
 //				Description: pulumi.String("self managed worker with controller led auth"),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			return nil
-//		})
-//	}
-//
-// ```
-//
-// ### Worker-led worker
-//
-// ```go
-// package main
-//
-// import (
-//
-//	"github.com/joerit/pulumi-boundary/sdk/go/boundary"
-//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-//
-// )
-//
-//	func main() {
-//		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := boundary.NewWorker(ctx, "worker_led", &boundary.WorkerArgs{
+//			_, err = boundary.NewWorker(ctx, "worker_led", &boundary.WorkerArgs{
 //				ScopeId:                  pulumi.String("global"),
-//				Name:                     pulumi.String("worker-led-worker-1"),
+//				Name:                     pulumi.String("worker 2"),
 //				Description:              pulumi.String("self managed worker with worker led auth"),
 //				WorkerGeneratedAuthToken: pulumi.Any(workerGeneratedAuthToken),
 //			})

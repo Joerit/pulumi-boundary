@@ -233,6 +233,10 @@ type Role struct {
 
 	// The role description.
 	Description pulumi.StringPtrOutput `pulumi:"description"`
+	// For Boundary 0.15+, use `grantScopeIds` instead. The scope for which the grants in the role should apply.
+	//
+	// Deprecated: In Boundary 0.15+, please use `grantScopeIds` instead. This field will be removed in a future release.
+	GrantScopeId pulumi.StringOutput `pulumi:"grantScopeId"`
 	// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
 	GrantScopeIds pulumi.StringArrayOutput `pulumi:"grantScopeIds"`
 	// A list of stringified grants for the role.
@@ -280,6 +284,10 @@ func GetRole(ctx *pulumi.Context,
 type roleState struct {
 	// The role description.
 	Description *string `pulumi:"description"`
+	// For Boundary 0.15+, use `grantScopeIds` instead. The scope for which the grants in the role should apply.
+	//
+	// Deprecated: In Boundary 0.15+, please use `grantScopeIds` instead. This field will be removed in a future release.
+	GrantScopeId *string `pulumi:"grantScopeId"`
 	// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
 	GrantScopeIds []string `pulumi:"grantScopeIds"`
 	// A list of stringified grants for the role.
@@ -295,6 +303,10 @@ type roleState struct {
 type RoleState struct {
 	// The role description.
 	Description pulumi.StringPtrInput
+	// For Boundary 0.15+, use `grantScopeIds` instead. The scope for which the grants in the role should apply.
+	//
+	// Deprecated: In Boundary 0.15+, please use `grantScopeIds` instead. This field will be removed in a future release.
+	GrantScopeId pulumi.StringPtrInput
 	// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
 	GrantScopeIds pulumi.StringArrayInput
 	// A list of stringified grants for the role.
@@ -314,6 +326,10 @@ func (RoleState) ElementType() reflect.Type {
 type roleArgs struct {
 	// The role description.
 	Description *string `pulumi:"description"`
+	// For Boundary 0.15+, use `grantScopeIds` instead. The scope for which the grants in the role should apply.
+	//
+	// Deprecated: In Boundary 0.15+, please use `grantScopeIds` instead. This field will be removed in a future release.
+	GrantScopeId *string `pulumi:"grantScopeId"`
 	// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
 	GrantScopeIds []string `pulumi:"grantScopeIds"`
 	// A list of stringified grants for the role.
@@ -330,6 +346,10 @@ type roleArgs struct {
 type RoleArgs struct {
 	// The role description.
 	Description pulumi.StringPtrInput
+	// For Boundary 0.15+, use `grantScopeIds` instead. The scope for which the grants in the role should apply.
+	//
+	// Deprecated: In Boundary 0.15+, please use `grantScopeIds` instead. This field will be removed in a future release.
+	GrantScopeId pulumi.StringPtrInput
 	// A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"
 	GrantScopeIds pulumi.StringArrayInput
 	// A list of stringified grants for the role.
@@ -432,6 +452,13 @@ func (o RoleOutput) ToRoleOutputWithContext(ctx context.Context) RoleOutput {
 // The role description.
 func (o RoleOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Role) pulumi.StringPtrOutput { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// For Boundary 0.15+, use `grantScopeIds` instead. The scope for which the grants in the role should apply.
+//
+// Deprecated: In Boundary 0.15+, please use `grantScopeIds` instead. This field will be removed in a future release.
+func (o RoleOutput) GrantScopeId() pulumi.StringOutput {
+	return o.ApplyT(func(v *Role) pulumi.StringOutput { return v.GrantScopeId }).(pulumi.StringOutput)
 }
 
 // A list of scopes for which the grants in this role should apply, which can include the special values "this", "children", or "descendants"

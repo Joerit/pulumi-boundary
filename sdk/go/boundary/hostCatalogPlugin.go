@@ -149,8 +149,6 @@ type HostCatalogPlugin struct {
 	SecretsHmac pulumi.StringOutput `pulumi:"secretsHmac"`
 	// The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
 	SecretsJson pulumi.StringPtrOutput `pulumi:"secretsJson"`
-	// HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-	WorkerFilter pulumi.StringPtrOutput `pulumi:"workerFilter"`
 }
 
 // NewHostCatalogPlugin registers a new resource with the given unique name, arguments, and options.
@@ -215,8 +213,6 @@ type hostCatalogPluginState struct {
 	SecretsHmac *string `pulumi:"secretsHmac"`
 	// The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
 	SecretsJson *string `pulumi:"secretsJson"`
-	// HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-	WorkerFilter *string `pulumi:"workerFilter"`
 }
 
 type HostCatalogPluginState struct {
@@ -242,8 +238,6 @@ type HostCatalogPluginState struct {
 	SecretsHmac pulumi.StringPtrInput
 	// The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
 	SecretsJson pulumi.StringPtrInput
-	// HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-	WorkerFilter pulumi.StringPtrInput
 }
 
 func (HostCatalogPluginState) ElementType() reflect.Type {
@@ -273,8 +267,6 @@ type hostCatalogPluginArgs struct {
 	SecretsHmac *string `pulumi:"secretsHmac"`
 	// The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
 	SecretsJson *string `pulumi:"secretsJson"`
-	// HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-	WorkerFilter *string `pulumi:"workerFilter"`
 }
 
 // The set of arguments for constructing a HostCatalogPlugin resource.
@@ -301,8 +293,6 @@ type HostCatalogPluginArgs struct {
 	SecretsHmac pulumi.StringPtrInput
 	// The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
 	SecretsJson pulumi.StringPtrInput
-	// HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-	WorkerFilter pulumi.StringPtrInput
 }
 
 func (HostCatalogPluginArgs) ElementType() reflect.Type {
@@ -445,11 +435,6 @@ func (o HostCatalogPluginOutput) SecretsHmac() pulumi.StringOutput {
 // The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
 func (o HostCatalogPluginOutput) SecretsJson() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *HostCatalogPlugin) pulumi.StringPtrOutput { return v.SecretsJson }).(pulumi.StringPtrOutput)
-}
-
-// HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-func (o HostCatalogPluginOutput) WorkerFilter() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *HostCatalogPlugin) pulumi.StringPtrOutput { return v.WorkerFilter }).(pulumi.StringPtrOutput)
 }
 
 type HostCatalogPluginArrayOutput struct{ *pulumi.OutputState }

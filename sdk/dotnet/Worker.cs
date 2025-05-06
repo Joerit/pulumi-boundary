@@ -14,8 +14,6 @@ namespace Pulumi.Boundary
     /// 
     /// ## Example Usage
     /// 
-    /// ### Controller-led worker
-    /// 
     /// ```csharp
     /// using System.Collections.Generic;
     /// using System.Linq;
@@ -27,27 +25,14 @@ namespace Pulumi.Boundary
     ///     var controllerLed = new Boundary.Worker("controller_led", new()
     ///     {
     ///         ScopeId = "global",
-    ///         Name = "controller-led-worker-1",
+    ///         Name = "worker 1",
     ///         Description = "self managed worker with controller led auth",
     ///     });
     /// 
-    /// });
-    /// ```
-    /// 
-    /// ### Worker-led worker
-    /// 
-    /// ```csharp
-    /// using System.Collections.Generic;
-    /// using System.Linq;
-    /// using Pulumi;
-    /// using Boundary = Pulumi.Boundary;
-    /// 
-    /// return await Deployment.RunAsync(() =&gt; 
-    /// {
     ///     var workerLed = new Boundary.Worker("worker_led", new()
     ///     {
     ///         ScopeId = "global",
-    ///         Name = "worker-led-worker-1",
+    ///         Name = "worker 2",
     ///         Description = "self managed worker with worker led auth",
     ///         WorkerGeneratedAuthToken = workerGeneratedAuthToken,
     ///     });

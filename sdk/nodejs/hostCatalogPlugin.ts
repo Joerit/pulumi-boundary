@@ -144,10 +144,6 @@ export class HostCatalogPlugin extends pulumi.CustomResource {
      * The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
      */
     public readonly secretsJson!: pulumi.Output<string | undefined>;
-    /**
-     * HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-     */
-    public readonly workerFilter!: pulumi.Output<string | undefined>;
 
     /**
      * Create a HostCatalogPlugin resource with the given unique name, arguments, and options.
@@ -173,7 +169,6 @@ export class HostCatalogPlugin extends pulumi.CustomResource {
             resourceInputs["scopeId"] = state ? state.scopeId : undefined;
             resourceInputs["secretsHmac"] = state ? state.secretsHmac : undefined;
             resourceInputs["secretsJson"] = state ? state.secretsJson : undefined;
-            resourceInputs["workerFilter"] = state ? state.workerFilter : undefined;
         } else {
             const args = argsOrState as HostCatalogPluginArgs | undefined;
             if ((!args || args.scopeId === undefined) && !opts.urn) {
@@ -190,7 +185,6 @@ export class HostCatalogPlugin extends pulumi.CustomResource {
             resourceInputs["scopeId"] = args ? args.scopeId : undefined;
             resourceInputs["secretsHmac"] = args ? args.secretsHmac : undefined;
             resourceInputs["secretsJson"] = args?.secretsJson ? pulumi.secret(args.secretsJson) : undefined;
-            resourceInputs["workerFilter"] = args ? args.workerFilter : undefined;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         const secretOpts = { additionalSecretOutputs: ["secretsJson"] };
@@ -247,10 +241,6 @@ export interface HostCatalogPluginState {
      * The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
      */
     secretsJson?: pulumi.Input<string>;
-    /**
-     * HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-     */
-    workerFilter?: pulumi.Input<string>;
 }
 
 /**
@@ -301,8 +291,4 @@ export interface HostCatalogPluginArgs {
      * The secrets for the host catalog. Either values encoded with the "jsonencode" function, pre-escaped JSON string, or a file:// or env:// path. Set to a string "null" to clear any existing values. NOTE: Unlike "attributesJson", removing this block will NOT clear secrets from the host catalog; this allows injecting secrets for one call, then removing them for storage.
      */
     secretsJson?: pulumi.Input<string>;
-    /**
-     * HCP Only. A filter used to control which PKI workers can handle dynamic host catalog requests.
-     */
-    workerFilter?: pulumi.Input<string>;
 }

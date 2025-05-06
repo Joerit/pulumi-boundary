@@ -29,8 +29,6 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &AccountOidc{}
 	case "boundary:index/accountPassword:AccountPassword":
 		r = &AccountPassword{}
-	case "boundary:index/aliasTarget:AliasTarget":
-		r = &AliasTarget{}
 	case "boundary:index/authMethod:AuthMethod":
 		r = &AuthMethod{}
 	case "boundary:index/authMethodLdap:AuthMethodLdap":
@@ -140,11 +138,6 @@ func init() {
 	pulumi.RegisterResourceModule(
 		"boundary",
 		"index/accountPassword",
-		&module{version},
-	)
-	pulumi.RegisterResourceModule(
-		"boundary",
-		"index/aliasTarget",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(

@@ -60,8 +60,7 @@
             },
             "authMethodPassword": {
                 "type": "string",
-                "description": "The auth method password for password-style or ldap-style auth methods\n",
-				"secret": true
+                "description": "The auth method password for password-style or ldap-style auth methods\n"
             },
             "passwordAuthMethodLoginName": {
                 "type": "string",
@@ -71,8 +70,7 @@
             "passwordAuthMethodPassword": {
                 "type": "string",
                 "description": "The auth method password for password-style auth methods\n",
-                "deprecationMessage": "Use auth_method_password instead",
-				"secrett": true
+                "deprecationMessage": "Use auth_method_password instead"
             },
             "pluginExecutionDir": {
                 "type": "string",
@@ -246,8 +244,7 @@
             },
             "authMethodPassword": {
                 "type": "string",
-                "description": "The auth method password for password-style or ldap-style auth methods\n",
-				"secret": true
+                "description": "The auth method password for password-style or ldap-style auth methods\n"
             },
             "passwordAuthMethodLoginName": {
                 "type": "string",
@@ -257,8 +254,7 @@
             "passwordAuthMethodPassword": {
                 "type": "string",
                 "description": "The auth method password for password-style auth methods\n",
-                "deprecationMessage": "Use auth_method_password instead",
-				"secret": true
+                "deprecationMessage": "Use auth_method_password instead"
             },
             "pluginExecutionDir": {
                 "type": "string",
@@ -299,8 +295,7 @@
             },
             "authMethodPassword": {
                 "type": "string",
-                "description": "The auth method password for password-style or ldap-style auth methods\n",
-				"secret": true
+                "description": "The auth method password for password-style or ldap-style auth methods\n"
             },
             "passwordAuthMethodLoginName": {
                 "type": "string",
@@ -310,8 +305,7 @@
             "passwordAuthMethodPassword": {
                 "type": "string",
                 "description": "The auth method password for password-style auth methods\n",
-                "deprecationMessage": "Use auth_method_password instead",
-				"secret": true
+                "deprecationMessage": "Use auth_method_password instead"
             },
             "pluginExecutionDir": {
                 "type": "string",

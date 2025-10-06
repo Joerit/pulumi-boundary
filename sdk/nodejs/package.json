@@ -1,6 +1,6 @@
 {
     "name": "@pulumi/boundary",
-    "version": "1.0.0-alpha.0+dev",
+    "version": "1.0.1",
     "description": "A Pulumi package for creating and managing boundary resources.",
     "keywords": [
         "boundary",
@@ -22,6 +22,6 @@
     "pulumi": {
         "resource": true,
         "name": "boundary",
-        "version": "1.0.0-alpha.0+dev"
+        "version": "1.0.1"
     }
 }

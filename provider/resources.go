@@ -41,6 +41,11 @@ const (
 //go:embed cmd/pulumi-resource-boundary/bridge-metadata.json
 var metadata []byte
 
+// turns anything into a pointer. need this to get primitive pointers
+func ptr[T any](in T) *T {
+	return &in
+}
+
 // Provider returns additional overlaid schema and metadata associated with the provider.
 func Provider() tfbridge.ProviderInfo {
 	// Create a Pulumi provider mapping
@@ -137,13 +142,14 @@ func Provider() tfbridge.ProviderInfo {
 		// match the TF provider module's require directive, not any replace directives.
 		GitHubOrg:    "joerit",
 		MetadataInfo: tfbridge.NewProviderMetadata(metadata),
-		Config: map[string]*tfbridge.SchemaInfo{
-			// Add any required configuration here, or remove the example below if
-			// no additional points are required.
-			"region": {
-				Type: "boundary:region/region:Region",
-			},
-		},
+		//Config: map[string]*tfbridge.SchemaInfo{
+		//	// Add any required configuration here, or remove the example below if
+		//	// no additional points are required.
+		//	"authMethodPassword": {
+		//		Type: "string",
+		//		Secret: ptr(true),
+		//	},
+		//},
 		// If extra types are needed for configuration, they can be added here.
 		ExtraTypes: map[string]schema.ComplexTypeSpec{
 			/*

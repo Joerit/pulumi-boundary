@@ -101,6 +101,11 @@ namespace Pulumi.Boundary
             var defaultOptions = new CustomResourceOptions
             {
                 Version = Utilities.Version,
+                AdditionalSecretOutputs =
+                {
+                    "authMethodPassword",
+                    "passwordAuthMethodPassword",
+                },
             };
             var merged = CustomResourceOptions.Merge(defaultOptions, options);
             // Override the ID if one was specified for consistency with other language SDKs.
@@ -130,11 +135,21 @@ namespace Pulumi.Boundary
         [Input("authMethodLoginName")]
         public Input<string>? AuthMethodLoginName { get; set; }
 
+        [Input("authMethodPassword")]
+        private Input<string>? _authMethodPassword;
+
         /// <summary>
         /// The auth method password for password-style or ldap-style auth methods
         /// </summary>
-        [Input("authMethodPassword")]
-        public Input<string>? AuthMethodPassword { get; set; }
+        public Input<string>? AuthMethodPassword
+        {
+            get => _authMethodPassword;
+            set
+            {
+                var emptySecret = Output.CreateSecret(0);
+                _authMethodPassword = Output.Tuple<Input<string>?, int>(value, emptySecret).Apply(t => t.Item1);
+            }
+        }
 
         /// <summary>
         /// The auth method login name for password-style auth methods
@@ -142,11 +157,22 @@ namespace Pulumi.Boundary
         [Input("passwordAuthMethodLoginName")]
         public Input<string>? PasswordAuthMethodLoginName { get; set; }
 
+        [Input("passwordAuthMethodPassword")]
+        private Input<string>? _passwordAuthMethodPassword;
+
         /// <summary>
         /// The auth method password for password-style auth methods
         /// </summary>
-        [Input("passwordAuthMethodPassword")]
-        public Input<string>? PasswordAuthMethodPassword { get; set; }
+        [Obsolete(@"Use auth_method_password instead")]
+        public Input<string>? PasswordAuthMethodPassword
+        {
+            get => _passwordAuthMethodPassword;
+            set
+            {
+                var emptySecret = Output.CreateSecret(0);
+                _passwordAuthMethodPassword = Output.Tuple<Input<string>?, int>(value, emptySecret).Apply(t => t.Item1);
+            }
+        }
 
         /// <summary>
         /// Specifies a directory that the Boundary provider can use to write and execute its built-in plugins.

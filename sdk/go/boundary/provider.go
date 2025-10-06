@@ -60,6 +60,17 @@ func NewProvider(ctx *pulumi.Context,
 	if args.Addr == nil {
 		return nil, errors.New("invalid value for required argument 'Addr'")
 	}
+	if args.AuthMethodPassword != nil {
+		args.AuthMethodPassword = pulumi.ToSecret(args.AuthMethodPassword).(pulumi.StringPtrInput)
+	}
+	if args.PasswordAuthMethodPassword != nil {
+		args.PasswordAuthMethodPassword = pulumi.ToSecret(args.PasswordAuthMethodPassword).(pulumi.StringPtrInput)
+	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"authMethodPassword",
+		"passwordAuthMethodPassword",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Provider
 	err := ctx.RegisterResource("pulumi:providers:boundary", name, args, &resource, opts...)

@@ -311,14 +311,16 @@ class Provider(pulumi.ProviderResource):
             __props__.__dict__["addr"] = addr
             __props__.__dict__["auth_method_id"] = auth_method_id
             __props__.__dict__["auth_method_login_name"] = auth_method_login_name
-            __props__.__dict__["auth_method_password"] = auth_method_password
+            __props__.__dict__["auth_method_password"] = None if auth_method_password is None else pulumi.Output.secret(auth_method_password)
             __props__.__dict__["password_auth_method_login_name"] = password_auth_method_login_name
-            __props__.__dict__["password_auth_method_password"] = password_auth_method_password
+            __props__.__dict__["password_auth_method_password"] = None if password_auth_method_password is None else pulumi.Output.secret(password_auth_method_password)
             __props__.__dict__["plugin_execution_dir"] = plugin_execution_dir
             __props__.__dict__["recovery_kms_hcl"] = recovery_kms_hcl
             __props__.__dict__["scope_id"] = scope_id
             __props__.__dict__["tls_insecure"] = pulumi.Output.from_input(tls_insecure).apply(pulumi.runtime.to_json) if tls_insecure is not None else None
             __props__.__dict__["token"] = token
+        secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["authMethodPassword", "passwordAuthMethodPassword"])
+        opts = pulumi.ResourceOptions.merge(opts, secret_opts)
         super(Provider, __self__).__init__(
             'boundary',
             resource_name,

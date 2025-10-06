@@ -92,9 +92,9 @@ export class Provider extends pulumi.ProviderResource {
             resourceInputs["addr"] = args ? args.addr : undefined;
             resourceInputs["authMethodId"] = args ? args.authMethodId : undefined;
             resourceInputs["authMethodLoginName"] = args ? args.authMethodLoginName : undefined;
-            resourceInputs["authMethodPassword"] = args ? args.authMethodPassword : undefined;
+            resourceInputs["authMethodPassword"] = args?.authMethodPassword ? pulumi.secret(args.authMethodPassword) : undefined;
             resourceInputs["passwordAuthMethodLoginName"] = args ? args.passwordAuthMethodLoginName : undefined;
-            resourceInputs["passwordAuthMethodPassword"] = args ? args.passwordAuthMethodPassword : undefined;
+            resourceInputs["passwordAuthMethodPassword"] = args?.passwordAuthMethodPassword ? pulumi.secret(args.passwordAuthMethodPassword) : undefined;
             resourceInputs["pluginExecutionDir"] = args ? args.pluginExecutionDir : undefined;
             resourceInputs["recoveryKmsHcl"] = args ? args.recoveryKmsHcl : undefined;
             resourceInputs["scopeId"] = args ? args.scopeId : undefined;
@@ -102,6 +102,8 @@ export class Provider extends pulumi.ProviderResource {
             resourceInputs["token"] = args ? args.token : undefined;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
+        const secretOpts = { additionalSecretOutputs: ["authMethodPassword", "passwordAuthMethodPassword"] };
+        opts = pulumi.mergeOptions(opts, secretOpts);
         super(Provider.__pulumiType, name, resourceInputs, opts);
     }
 }
